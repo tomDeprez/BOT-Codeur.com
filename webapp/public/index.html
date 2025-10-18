@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codeur.com Bot - Configuration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Configuration du Bot pour Codeur.com</h1>
+        
+        <div class="alert alert-warning" role="alert">
+            <strong>Attention :</strong> L'automatisation peut enfreindre les conditions d'utilisation de Codeur.com. Utilisez ce bot de manière responsable.
+        </div>
+
+        <form id="config-form">
+            <h2 class="mt-5">Paramètres de Connexion</h2>
+            <div class="mb-3">
+                <label for="session-cookie" class="form-label">Cookie de session (__codeur_session_production)</label>
+                <textarea class="form-control" id="session-cookie" rows="4" required placeholder="Collez ici la valeur de votre cookie de session..."></textarea>
+                <div class="form-text">Ce cookie sera utilisé pour authentifier le bot. Il est plus sécurisé que de stocker un mot de passe.</div>
+            </div>
+
+            <h2 class="mt-5">Logique des Prompts</h2>
+            <div class="mb-3">
+                <label for="offer-prompt" class="form-label">Prompt pour répondre aux <strong>appels d'offre</strong></label>
+                <textarea class="form-control" id="offer-prompt" rows="6" placeholder="Exemple : Bonjour, je suis très intéressé par votre projet. Voici les détails de ma proposition basée sur votre demande : {project_details}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="message-prompt" class="form-label">Prompt pour répondre aux <strong>messages clients</strong></label>
+                <textarea class="form-control" id="message-prompt" rows="6" placeholder="Exemple : Bonjour, merci pour votre message. Concernant votre demande : {message_content}, voici ma réponse..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sauvegarder la Configuration</button>
+        </form>
+
+        <h2 class="mt-5">Statut du Bot</h2>
+        <div id="bot-status" class="alert alert-info">En attente...</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('config-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const statusDiv = document.getElementById('bot-status');
+            statusDiv.textContent = 'Sauvegarde en cours...';
+            statusDiv.className = 'alert alert-info';
+
+            const data = {
+                sessionCookie: document.getElementById('session-cookie').value,
+                offerPrompt: document.getElementById('offer-prompt').value,
+                messagePrompt: document.getElementById('message-prompt').value
+            };
+
+            fetch('/api/config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message) {
+                    statusDiv.textContent = result.message;
+                    statusDiv.className = 'alert alert-success';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                statusDiv.textContent = 'Erreur lors de la sauvegarde. Vérifiez la console.';
+                statusDiv.className = 'alert alert-danger';
+            });
+        });
+    </script>
+</body>
+</html>
