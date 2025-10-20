@@ -1,0 +1,6 @@
+.vscode/launch.json
+/webapp/node_modules/*
+/webapp/.env
+webapp/config.json
+webapp/prompts.json
+webapp/auth.json

@@ -14,20 +14,30 @@
 
 Ce projet est un bot conçu pour automatiser les interactions sur la plateforme `codeur.com`. Il a pour but de vous faire gagner du temps en répondant automatiquement aux appels d'offres et aux messages des clients grâce à une intelligence artificielle locale (Ollama).
 
-Le bot est entièrement configurable via une interface web simple et intuitive.
+Le bot est entièrement configurable et contrôlable via une interface web moderne et intuitive.
 
 ## ✨ Features
 
-- **Interface de Configuration Web :** Une page web pour configurer facilement le bot.
-- **Gestion Sécurisée :** Utilise un cookie de session pour s'authentifier sur `codeur.com`.
-- **IA Locale :** S'intègre avec Ollama pour générer des réponses intelligentes et personnalisées.
-- **Automatisation :** Peut lire les messages et les appels d'offres (en cours de développement).
-- **Containerisation :** Le projet est entièrement dockerisé pour une installation et un déploiement faciles.
+- **Interface de Configuration Web :** Une page web au design moderne pour configurer le bot.
+- **Analyse des Données :**
+  - Extraction des conversations depuis la messagerie.
+  - Extraction des projets et de leurs détails (titre, budget, statut...).
+  - Gestion d'état pour ne traiter chaque projet qu'une seule fois.
+- **Contrôle Manuel :**
+  - Démarrez le bot quand vous le souhaitez grâce à un bouton sur l'interface.
+  - Videz le cache des projets pour forcer une nouvelle analyse complète.
+- **Visualisation des Résultats :** Les données extraites sont affichées directement sur la page.
+- **Configuration Modulaire :** Fichiers `auth.json` et `prompts.json` pour une gestion claire.
+- **IA Personnalisable (4 Prompts) :** Définissez la personnalité, la logique d'analyse, le format des devis et le style de réponse du bot.
+- **Tests Unitaires :** Une suite de tests avec Jest pour garantir la stabilité et éviter les régressions.
+- **Containerisation :** Le projet est entièrement dockerisé pour un déploiement facile.
 
 ## 🛠️ Tech Stack
 
 - **Backend :** Node.js, Express
-- **Frontend :** HTML, Bootstrap
+- **Frontend :** HTML, Bootstrap, Bootstrap Icons
+- **Parsing HTML :** Cheerio
+- **Tests :** Jest, Supertest
 - **IA :** Ollama
 - **Containerisation :** Docker, Docker Compose
 
@@ -37,57 +47,42 @@ Avant de commencer, assurez-vous d'avoir installé [Docker](https://www.docker.c
 
 ## ⚡ Installation & Démarrage Rapide
 
-1.  **Clonez le projet :**
-    ```bash
-    git clone https://github.com/votre-repo/bot-codeur.com.git
-    cd bot-codeur.com
-    ```
-
-2.  **Lancez les services avec Docker Compose :**
-    ```bash
-    docker-compose up -d --build
-    ```
-    Cette commande va construire l'image de l'application web et démarrer les deux services : `webapp_service` et `ollama_service`.
-
+1.  **Clonez le projet.**
+2.  **Lancez les services :** `docker-compose up -d --build`.
 3.  **C'est prêt !** 🎉
 
 ## ⚙️ Utilisation
 
-1.  **Accédez à l'interface de configuration :**
-    Ouvrez votre navigateur et allez à l'adresse `http://localhost:3000`.
+1.  **Accédez à l'interface :** `http://localhost:3000`.
+2.  **Configurez le bot :** Remplissez le cookie, les prompts, et sauvegardez.
+3.  **Lancez le Bot :** Cliquez sur **"Démarrer le Bot"** pour lancer l'analyse. Les résultats s'afficheront sur la page.
 
-2.  **Configurez le bot :**
-    - **Cookie de session :** Récupérez votre cookie de session `codeur.com` et collez-le dans le champ approprié.
-    - **Prompts :** Personnalisez les prompts qui seront utilisés par l'IA pour générer les réponses.
-    - **Sauvegardez** la configuration.
+## 🧪 Tests
 
-3.  **Laissez la magie opérer :**
-    Le bot utilisera cette configuration pour se connecter à `codeur.com` et commencer à travailler pour vous.
+Pour garantir la qualité du code, des tests ont été mis en place. Pour les lancer, placez-vous dans le dossier `webapp` et exécutez la commande :
+
+```bash
+npm test
+```
 
 ## 📈 Statut du Projet
 
-Le projet est en cours de développement. Voici l'état d'avancement :
-
 - [x] **Phase 1 : Infrastructure et Configuration (Terminée)**
-  - [x] Infrastructure Docker fonctionnelle.
-  - [x] Interface de configuration web.
-  - [x] Sauvegarde de la configuration.
-  - [x] Test de connexion à `codeur.com`.
+  - [x] Infrastructure Docker, UI V1, Config V1.
+  - [x] Amélioration UI (V2) et refactorisation de la config (V3).
 
-- [ ] **Phase 2 : Analyse et Extraction des Données**
-  - [ ] Analyser le HTML des pages de messages et d'appels d'offre.
-  - [ ] Ajouter une librairie de parsing HTML (comme `cheerio`).
+- [x] **Phase 2 : Analyse des Données et Tests (Terminée)**
+  - [x] Ajout de `cheerio` pour le parsing HTML.
+  - [x] Extraction des conversations et des URLs de projets.
+  - [x] Déclenchement manuel et affichage des résultats sur l'UI.
+  - [x] **Mise en place de l'environnement de test avec Jest et Supertest.**
+  - [x] **Rédaction de tests pour la sauvegarde de la configuration.**
 
 - [ ] **Phase 3 : Intégration avec Ollama**
   - [ ] Envoyer les données extraites à l'API d'Ollama.
-  - [ ] Générer des réponses basées sur les prompts.
 
 - [ ] **Phase 4 : Action du Bot (Réponse)**
   - [ ] Implémenter l'envoi de réponses sur `codeur.com`.
-
-- [ ] **Phase 5 : Finalisation**
-  - [ ] Mettre en place une boucle pour une exécution automatique.
-  - [ ] Améliorer l'interface web avec un statut détaillé du bot.
 
 ---
 

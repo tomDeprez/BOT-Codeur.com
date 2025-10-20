@@ -1,79 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Codeur.com Bot - Configuration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background-color: #212529; }
+        .container { max-width: 900px; }
+        .card-header h2 { margin-bottom: 0; font-size: 1.5rem; }
+        .form-text { font-size: 0.875em; }
+        #connection-status { display: none; margin-left: 10px; }
+        .unread-conversation { border-left: 3px solid var(--bs-warning); }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Configuration du Bot pour Codeur.com</h1>
-        
+    <div class="container mt-5 mb-5">
+        <header class="text-center mb-5">
+            <h1><i class="bi bi-robot"></i> Bot-Codeur.com</h1>
+            <p class="lead">Panneau de configuration et de surveillance</p>
+        </header>
+
         <div class="alert alert-warning" role="alert">
-            <strong>Attention :</strong> L'automatisation peut enfreindre les conditions d'utilisation de Codeur.com. Utilisez ce bot de manière responsable.
+            <i class="bi bi-exclamation-triangle-fill"></i> <strong>Attention :</strong> L'automatisation peut enfreindre les conditions d'utilisation de Codeur.com. Utilisez ce bot de manière responsable.
         </div>
 
         <form id="config-form">
-            <h2 class="mt-5">Paramètres de Connexion</h2>
-            <div class="mb-3">
-                <label for="session-cookie" class="form-label">Cookie de session (__codeur_session_production)</label>
-                <textarea class="form-control" id="session-cookie" rows="4" required placeholder="Collez ici la valeur de votre cookie de session..."></textarea>
-                <div class="form-text">Ce cookie sera utilisé pour authentifier le bot. Il est plus sécurisé que de stocker un mot de passe.</div>
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center">
+                    <i class="bi bi-key-fill me-2"></i>
+                    <h2 class="h5 mb-0">Paramètres de Connexion</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="session-cookie" class="form-label">Cookie de session (__codeur_session_production)</label>
+                        <div class="input-group">
+                            <textarea class="form-control" id="session-cookie" rows="3" required placeholder="Collez ici la valeur de votre cookie de session..."></textarea>
+                            <button class="btn btn-outline-secondary" type="button" id="check-connection-btn">
+                                <i class="bi bi-patch-check"></i> Vérifier
+                            </button>
+                        </div>
+                        <div id="connection-status" class="mt-2"></div>
+                        <div class="form-text">Ce cookie est utilisé pour authentifier le bot en toute sécurité.</div>
+                    </div>
+                </div>
             </div>
 
-            <h2 class="mt-5">Logique des Prompts</h2>
-            <div class="mb-3">
-                <label for="offer-prompt" class="form-label">Prompt pour répondre aux <strong>appels d'offre</strong></label>
-                <textarea class="form-control" id="offer-prompt" rows="6" placeholder="Exemple : Bonjour, je suis très intéressé par votre projet. Voici les détails de ma proposition basée sur votre demande : {project_details}"></textarea>
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center">
+                    <i class="bi bi-chat-left-text-fill me-2"></i>
+                    <h2 class="h5 mb-0">Logique des Prompts de l'IA</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="prompt-personality" class="form-label">1. Personnalité du Bot</label>
+                        <textarea class="form-control" id="prompt-personality" rows="4" placeholder="Décrivez ici qui est le bot..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prompt-analysis" class="form-label">2. Logique d'Analyse de Projet</label>
+                        <textarea class="form-control" id="prompt-analysis" rows="4" placeholder="Expliquez comment l'IA doit analyser un projet..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prompt-quotation" class="form-label">3. Logique de Devis (Format JSON)</label>
+                        <textarea class="form-control" id="prompt-quotation" rows="4" placeholder="Indiquez comment l'IA doit formater sa réponse de devis..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prompt-message" class="form-label">4. Logique de Réponse aux Messages</label>
+                        <textarea class="form-control" id="prompt-message" rows="4" placeholder="Définissez comment le bot doit répondre à un message..."></textarea>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="message-prompt" class="form-label">Prompt pour répondre aux <strong>messages clients</strong></label>
-                <textarea class="form-control" id="message-prompt" rows="6" placeholder="Exemple : Bonjour, merci pour votre message. Concernant votre demande : {message_content}, voici ma réponse..."></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Sauvegarder la Configuration</button>
+            
+            <button type="submit" id="save-config-btn" class="btn btn-primary w-100 py-2 mb-4">
+                <i class="bi bi-save-fill"></i> Sauvegarder la Configuration
+            </button>
         </form>
 
-        <h2 class="mt-5">Statut du Bot</h2>
-        <div id="bot-status" class="alert alert-info">En attente...</div>
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-play-circle-fill me-2"></i>
+                <h2 class="h5 mb-0">Actions</h2>
+            </div>
+            <div class="card-body d-flex gap-2">
+                <button type="button" id="run-bot-btn" class="btn btn-success w-100">
+                    <i class="bi bi-caret-right-fill"></i> Démarrer le Bot
+                </button>
+                <button type="button" id="clear-cache-btn" class="btn btn-danger w-100">
+                    <i class="bi bi-trash-fill"></i> Vider le cache des projets
+                </button>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-activity me-2"></i>
+                <h2 class="h5 mb-0">Statut & Résultats</h2>
+            </div>
+            <div class="card-body">
+                <div id="bot-status" class="alert alert-secondary">En attente...</div>
+                <div id="bot-results-container" class="mt-3" style="display: none;">
+                    <h5>Conversations</h5>
+                    <ul id="conversations-list" class="list-group"></ul>
+                    <h5 class="mt-4">Projets Trouvés</h5>
+                    <ul id="projects-list" class="list-group"></ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('config-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // --- DOM Elements ---
+        const configForm = document.getElementById('config-form');
+        const checkConnectionBtn = document.getElementById('check-connection-btn');
+        const sessionCookieInput = document.getElementById('session-cookie');
+        const connectionStatusDiv = document.getElementById('connection-status');
+        const saveConfigBtn = document.getElementById('save-config-btn');
+        const runBotBtn = document.getElementById('run-bot-btn');
+        const botStatusDiv = document.getElementById('bot-status');
+        const resultsContainer = document.getElementById('bot-results-container');
+        const conversationsList = document.getElementById('conversations-list');
+        const projectsList = document.getElementById('projects-list');
+        const clearCacheBtn = document.getElementById('clear-cache-btn');
 
-            const statusDiv = document.getElementById('bot-status');
-            statusDiv.textContent = 'Sauvegarde en cours...';
-            statusDiv.className = 'alert alert-info';
+        // --- Clear Cache ---
+        clearCacheBtn.addEventListener('click', () => {
+            if (confirm('Êtes-vous sûr de vouloir supprimer l\'historique des projets ? Cette action est irréversible.')) {
+                botStatusDiv.className = 'alert alert-info';
+                botStatusDiv.textContent = 'Suppression du cache en cours...';
 
-            const data = {
-                sessionCookie: document.getElementById('session-cookie').value,
-                offerPrompt: document.getElementById('offer-prompt').value,
-                messagePrompt: document.getElementById('message-prompt').value
-            };
-
-            fetch('/api/config', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.message) {
-                    statusDiv.textContent = result.message;
-                    statusDiv.className = 'alert alert-success';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                statusDiv.textContent = 'Erreur lors de la sauvegarde. Vérifiez la console.';
-                statusDiv.className = 'alert alert-danger';
-            });
+                fetch('/api/clear-projects', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(result => {
+                        botStatusDiv.className = 'alert alert-success';
+                        botStatusDiv.textContent = result.message;
+                    })
+                    .catch(error => {
+                        console.error('Error clearing cache:', error);
+                        botStatusDiv.className = 'alert alert-danger';
+                        botStatusDiv.textContent = 'Erreur lors de la suppression du cache.';
+                    });
+            }
         });
+
+        // --- Load Config on Page Start ---
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/config')
+                .then(response => response.json())
+                .then(config => {
+                    if (config.sessionCookie) sessionCookieInput.value = config.sessionCookie;
+                    if (config.promptPersonality) document.getElementById('prompt-personality').value = config.promptPersonality;
+                    if (config.promptAnalysis) document.getElementById('prompt-analysis').value = config.promptAnalysis;
+                    if (config.promptQuotation) document.getElementById('prompt-quotation').value = config.promptQuotation;
+                    if (config.promptMessage) document.getElementById('prompt-message').value = config.promptMessage;
+                })
+                .catch(error => console.error('Could not load configuration:', error));
+        });
+
+        // --- Check Connection ---
+        checkConnectionBtn.addEventListener('click', () => {
+            const cookie = sessionCookieInput.value;
+            if (!cookie) { alert('Veuillez d\'abord entrer un cookie de session.'); return; }
+            connectionStatusDiv.style.display = 'block';
+            connectionStatusDiv.className = 'alert alert-info';
+            connectionStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Vérification en cours...';
+            fetch('/api/check-connection', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionCookie: cookie }) })
+                .then(response => response.json())
+                .then(result => {
+                    connectionStatusDiv.className = result.success ? 'alert alert-success' : 'alert alert-danger';
+                    connectionStatusDiv.innerHTML = `<i class="bi ${result.success ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i> ${result.message}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    connectionStatusDiv.className = 'alert alert-danger';
+                    connectionStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur.';
+                });
+        });
+
+        // --- Save Configuration ---
+        configForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const originalButtonHTML = saveConfigBtn.innerHTML;
+            saveConfigBtn.disabled = true;
+            saveConfigBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sauvegarde en cours...';
+            const data = {
+                sessionCookie: sessionCookieInput.value,
+                promptPersonality: document.getElementById('prompt-personality').value,
+                promptAnalysis: document.getElementById('prompt-analysis').value,
+                promptQuotation: document.getElementById('prompt-quotation').value,
+                promptMessage: document.getElementById('prompt-message').value
+            };
+            fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        saveConfigBtn.classList.remove('btn-primary');
+                        saveConfigBtn.classList.add('btn-success');
+                        saveConfigBtn.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${result.message}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    saveConfigBtn.classList.remove('btn-primary');
+                    saveConfigBtn.classList.add('btn-danger');
+                    saveConfigBtn.innerHTML = 'Erreur lors de la sauvegarde';
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        saveConfigBtn.disabled = false;
+                        saveConfigBtn.classList.remove('btn-success', 'btn-danger');
+                        saveConfigBtn.classList.add('btn-primary');
+                        saveConfigBtn.innerHTML = originalButtonHTML;
+                    }, 3000);
+                });
+        });
+
+        // --- Run Bot ---
+        runBotBtn.addEventListener('click', () => {
+            botStatusDiv.className = 'alert alert-info';
+            botStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Exécution du bot en cours...';
+            resultsContainer.style.display = 'none';
+            conversationsList.innerHTML = '';
+            projectsList.innerHTML = '';
+            fetch('/api/run-bot', { method: 'POST' })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const convoCount = result.data.conversations.length;
+                        const projectCount = result.data.projects.length;
+                        botStatusDiv.className = 'alert alert-success';
+                        botStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> Bot terminé. ${convoCount} conversation(s) et ${projectCount} projet(s) trouvés.`;
+                        console.log(JSON.stringify(result.data, null, 2)); // DEBUGGING LINE
+                        if (convoCount > 0 || projectCount > 0) displayResults(result.data);
+                    } else {
+                        botStatusDiv.className = 'alert alert-danger';
+                        botStatusDiv.innerHTML = `<i class="bi bi-x-circle-fill"></i> Erreur: ${result.message}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error running bot:', error);
+                    botStatusDiv.className = 'alert alert-danger';
+                    botStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur.';
+                });
+        });
+
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'visité':
+                    return '<span class="badge bg-info">Visité</span>';
+                case 'posté':
+                    return '<span class="badge bg-success">Posté</span>';
+                case 'pas visité':
+                default:
+                    return '<span class="badge bg-secondary">Pas visité</span>';
+            }
+        }
+
+        function displayResults(data) {
+            resultsContainer.style.display = 'block';
+
+            // Display conversations
+            if (data.conversations && data.conversations.length > 0) {
+                data.conversations.forEach(convo => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-start';
+                    if (convo.isUnread) li.classList.add('unread-conversation');
+                    li.innerHTML = `<div class="ms-2 me-auto"><div class="fw-bold">${convo.userName}</div>${convo.messageSnippet}</div>${convo.isUnread ? '<span class="badge bg-warning rounded-pill">Non lu</span>' : ''}`;
+                    conversationsList.appendChild(li);
+                });
+            } else { conversationsList.innerHTML = '<li class="list-group-item">Aucune conversation trouvée.</li>'; }
+
+            // Display projects
+            if (data.projects && data.projects.length > 0) {
+                data.projects.forEach(project => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-start';
+                    li.innerHTML = `
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="${project.url}" target="_blank">${project.title || 'Projet sans titre'}</a></div>
+                            <span>Budget: ${project.budget || 'N/A'}</span>
+                        </div>
+                        ${getStatusBadge(project.status)}
+                    `;
+                    projectsList.appendChild(li);
+                });
+            } else { projectsList.innerHTML = '<li class="list-group-item">Aucun projet trouvé.</li>'; }
+        }
     </script>
 </body>
 </html>
