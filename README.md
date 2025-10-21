@@ -1,7 +1,7 @@
 # 🤖 BOT-Codeur.com
 
 <p align="center">
-  <img src="https://via.placeholder.com/400x200.png?text=BOT-Codeur.com" alt="Bot-Codeur.com Logo" width="400"/>
+  <img src="bot.png" alt="Bot-Codeur.com Logo" width="400"/>
 </p>
 
 <p align="center">
