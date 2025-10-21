@@ -10,6 +10,8 @@ const port = 3000;
 const AUTH_FILE = path.join(__dirname, 'auth.json');
 const PROMPTS_FILE = path.join(__dirname, 'prompts.json');
 const PROJECTS_FILE = path.join(__dirname, 'projects.json');
+const OLLAMA_CONFIG_FILE = path.join(__dirname, 'ollama-config.json');
+const OLLAMA_API_BASE_URL = 'http://localhost:11434';
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
@@ -18,15 +20,17 @@ app.use(bodyParser.json());
 // API endpoint to get current configuration
 app.get('/api/config', async (req, res) => {
     try {
-        const [authData, promptsData] = await Promise.all([
+        const [authData, promptsData, ollamaConfigData] = await Promise.all([
             fs.readFile(AUTH_FILE, 'utf8').catch(() => 'null'),
-            fs.readFile(PROMPTS_FILE, 'utf8').catch(() => 'null')
+            fs.readFile(PROMPTS_FILE, 'utf8').catch(() => 'null'),
+            fs.readFile(OLLAMA_CONFIG_FILE, 'utf8').catch(() => 'null')
         ]);
 
         const authConfig = JSON.parse(authData) || {};
         const promptsConfig = JSON.parse(promptsData) || {};
+        const ollamaConfig = JSON.parse(ollamaConfigData) || {};
 
-        res.json({ ...authConfig, ...promptsConfig });
+        res.json({ ...authConfig, ...promptsConfig, ...ollamaConfig });
     } catch (err) {
         console.error('Error reading config:', err);
         res.status(500).json({ message: 'Erreur lors de la lecture de la configuration.' });
@@ -66,21 +70,56 @@ app.post('/api/check-connection', async (req, res) => {
 
 // API endpoint to save configuration
 app.post('/api/config', async (req, res) => {
-    const { sessionCookie, promptPersonality, promptAnalysis, promptQuotation, promptMessage } = req.body;
-
-    const authConfig = { sessionCookie };
-    const promptsConfig = { promptPersonality, promptAnalysis, promptQuotation, promptMessage };
+    const { sessionCookie, promptPersonality, promptAnalysis, promptQuotation, promptMessage, ollamaModel } = req.body;
 
     try {
+        // Read existing configs
+        const [authData, promptsData, ollamaConfigData] = await Promise.all([
+            fs.readFile(AUTH_FILE, 'utf8').catch(() => '{}'),
+            fs.readFile(PROMPTS_FILE, 'utf8').catch(() => '{}'),
+            fs.readFile(OLLAMA_CONFIG_FILE, 'utf8').catch(() => '{}')
+        ]);
+
+        const authConfig = JSON.parse(authData);
+        const promptsConfig = JSON.parse(promptsData);
+        const ollamaConfig = JSON.parse(ollamaConfigData);
+
+        // Merge new values
+        if (sessionCookie) authConfig.sessionCookie = sessionCookie;
+        if (promptPersonality) promptsConfig.promptPersonality = promptPersonality;
+        if (promptAnalysis) promptsConfig.promptAnalysis = promptAnalysis;
+        if (promptQuotation) promptsConfig.promptQuotation = promptQuotation;
+        if (promptMessage) promptsConfig.promptMessage = promptMessage;
+        if (ollamaModel) ollamaConfig.ollamaModel = ollamaModel;
+
+        // Write updated configs
         await Promise.all([
             fs.writeFile(AUTH_FILE, JSON.stringify(authConfig, null, 2)),
-            fs.writeFile(PROMPTS_FILE, JSON.stringify(promptsConfig, null, 2))
+            fs.writeFile(PROMPTS_FILE, JSON.stringify(promptsConfig, null, 2)),
+            fs.writeFile(OLLAMA_CONFIG_FILE, JSON.stringify(ollamaConfig, null, 2))
         ]);
+
         console.log('Configuration saved successfully.');
         res.json({ message: 'Configuration sauvegardée avec succès !' });
     } catch (err) {
         console.error('Error saving config:', err);
         res.status(500).json({ message: 'Erreur lors de la sauvegarde de la configuration.' });
+    }
+});
+
+// API endpoint to get Ollama models
+app.get('/api/ollama-models', async (req, res) => {
+    try {
+        const response = await fetch(`${OLLAMA_API_BASE_URL}/api/tags`);
+        if (!response.ok) {
+            throw new Error(`Ollama API request failed: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const models = data.models.map(model => model.name);
+        res.json({ success: true, models });
+    } catch (error) {
+        console.error('Error fetching Ollama models:', error);
+        res.status(500).json({ success: false, message: 'Erreur lors de la récupération des modèles Ollama.' });
     }
 });
 

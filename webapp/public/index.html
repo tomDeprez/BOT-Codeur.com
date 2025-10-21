@@ -77,6 +77,31 @@
             </button>
         </form>
 
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-cpu-fill me-2"></i>
+                <h2 class="h5 mb-0">Configuration Ollama</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="ollama-model-select" class="form-label">Modèle Ollama</label>
+                    <div class="input-group">
+                        <select class="form-select" id="ollama-model-select">
+                            <option value="">-- Sélectionner un modèle --</option>
+                        </select>
+                        <button class="btn btn-outline-secondary" type="button" id="fetch-ollama-models-btn">
+                            <i class="bi bi-arrow-clockwise"></i> Actualiser
+                        </button>
+                    </div>
+                    <div id="ollama-model-status" class="mt-2"></div>
+                    <div class="form-text">Sélectionnez le modèle Ollama à utiliser pour l'analyse des projets.</div>
+                </div>
+                <button type="button" id="save-ollama-config-btn" class="btn btn-primary w-100 py-2">
+                    <i class="bi bi-save-fill"></i> Sauvegarder la Configuration Ollama
+                </button>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <i class="bi bi-play-circle-fill me-2"></i>
@@ -123,6 +148,12 @@
         const projectsList = document.getElementById('projects-list');
         const clearCacheBtn = document.getElementById('clear-cache-btn');
 
+        // Ollama elements
+        const ollamaModelSelect = document.getElementById('ollama-model-select');
+        const fetchOllamaModelsBtn = document.getElementById('fetch-ollama-models-btn');
+        const saveOllamaConfigBtn = document.getElementById('save-ollama-config-btn');
+        const ollamaModelStatusDiv = document.getElementById('ollama-model-status');
+
         // --- Clear Cache ---
         clearCacheBtn.addEventListener('click', () => {
             if (confirm('Êtes-vous sûr de vouloir supprimer l\'historique des projets ? Cette action est irréversible.')) {
@@ -153,6 +184,13 @@
                     if (config.promptAnalysis) document.getElementById('prompt-analysis').value = config.promptAnalysis;
                     if (config.promptQuotation) document.getElementById('prompt-quotation').value = config.promptQuotation;
                     if (config.promptMessage) document.getElementById('prompt-message').value = config.promptMessage;
+                    if (config.ollamaModel) {
+                        const option = document.createElement('option');
+                        option.value = config.ollamaModel;
+                        option.textContent = config.ollamaModel;
+                        ollamaModelSelect.appendChild(option);
+                        ollamaModelSelect.value = config.ollamaModel;
+                    }
                 })
                 .catch(error => console.error('Could not load configuration:', error));
         });
@@ -188,7 +226,8 @@
                 promptPersonality: document.getElementById('prompt-personality').value,
                 promptAnalysis: document.getElementById('prompt-analysis').value,
                 promptQuotation: document.getElementById('prompt-quotation').value,
-                promptMessage: document.getElementById('prompt-message').value
+                promptMessage: document.getElementById('prompt-message').value,
+                ollamaModel: ollamaModelSelect.value
             };
             fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
                 .then(response => response.json())
@@ -212,6 +251,73 @@
                         saveConfigBtn.classList.add('btn-primary');
                         saveConfigBtn.innerHTML = originalButtonHTML;
                     }, 3000);
+                });
+        });
+
+        // --- Fetch Ollama Models ---
+        fetchOllamaModelsBtn.addEventListener('click', () => {
+            ollamaModelStatusDiv.style.display = 'block';
+            ollamaModelStatusDiv.className = 'alert alert-info';
+            ollamaModelStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Récupération des modèles...';
+            fetch('/api/ollama-models')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        ollamaModelSelect.innerHTML = '<option value="">-- Sélectionner un modèle --</option>'; // Clear existing options
+                        result.models.forEach(model => {
+                            const option = document.createElement('option');
+                            option.value = model;
+                            option.textContent = model;
+                            ollamaModelSelect.appendChild(option);
+                        });
+                        // Try to re-select the previously configured model if it exists
+                        fetch('/api/config')
+                            .then(response => response.json())
+                            .then(config => {
+                                if (config.ollamaModel) {
+                                    ollamaModelSelect.value = config.ollamaModel;
+                                }
+                            });
+                        ollamaModelStatusDiv.className = 'alert alert-success';
+                        ollamaModelStatusDiv.innerHTML = '<i class="bi bi-check-circle-fill"></i> Modèles récupérés avec succès.';
+                    } else {
+                        ollamaModelStatusDiv.className = 'alert alert-danger';
+                        ollamaModelStatusDiv.innerHTML = `<i class="bi bi-x-circle-fill"></i> Erreur: ${result.message}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching Ollama models:', error);
+                    ollamaModelStatusDiv.className = 'alert alert-danger';
+                    ollamaModelStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur Ollama.';
+                });
+        });
+
+        // --- Save Ollama Config ---
+        saveOllamaConfigBtn.addEventListener('click', () => {
+            const selectedModel = ollamaModelSelect.value;
+            if (!selectedModel) {
+                alert('Veuillez sélectionner un modèle Ollama.');
+                return;
+            }
+            ollamaModelStatusDiv.style.display = 'block';
+            ollamaModelStatusDiv.className = 'alert alert-info';
+            ollamaModelStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Sauvegarde du modèle Ollama...';
+            fetch('/api/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ollamaModel: selectedModel })
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        ollamaModelStatusDiv.className = 'alert alert-success';
+                        ollamaModelStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${result.message}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving Ollama config:', error);
+                    ollamaModelStatusDiv.className = 'alert alert-danger';
+                    ollamaModelStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur lors de la sauvegarde du modèle Ollama.';
                 });
         });
 
@@ -248,6 +354,12 @@
             switch (status) {
                 case 'visité':
                     return '<span class="badge bg-info">Visité</span>';
+                case 'analysé - pertinent':
+                    return '<span class="badge bg-success">Analysé - Pertinent</span>';
+                case 'analysé - non pertinent':
+                    return '<span class="badge bg-secondary">Analysé - Non Pertinent</span>';
+                case 'analyse échouée':
+                    return '<span class="badge bg-danger">Analyse Échouée</span>';
                 case 'posté':
                     return '<span class="badge bg-success">Posté</span>';
                 case 'pas visité':

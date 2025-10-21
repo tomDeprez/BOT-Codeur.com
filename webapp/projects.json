@@ -1,429 +1,446 @@
 [
   {
-    "url": "https://www.codeur.com/projects/467893-coudeur",
-    "status": "visité",
-    "title": "Coudeur",
-    "description": "Bonjour,\n\nJe développe actuellement une marque de vêtements avec une identité forte et une vision à long terme.\n\nDans ce cadre, je recherche des partenaires sérieux dans le domaine du textile :\n– Couturiers / ateliers de confection\n– Graphistes / designers\n– Styliste ou modéliste indépendant\n\nLe but est de créer une marque solide, originale et qualitative, avec une vraie attention portée aux détails.\n\nSi vous êtes intéressé(e) par une collaboration professionnelle, n’hésitez pas à me contacter en message privé pour en discuter.\n\nCordialement,",
-    "budget": "500 € à 1 000 €",
+    "url": "https://www.codeur.com/projects/467940-clickhouse-database",
+    "status": "analysé - non pertinent",
+    "title": "Clickhouse database",
+    "description": "Nous développons un indexeur blockchain pour l'écosystème DeFi. Notre infrastructure traite des millions d'événements blockchain chaque jour et les rend accessibles via des APIs pour nos clients.\nActuellement, nous utilisons ClickHouse mais notre architecture a besoin d'être repensée. Les volumes augmentent rapidement et nous rencontrons des problèmes de performance sur certaines requêtes complexes.\nNous cherchons un expert base de données capable d'auditer notre infrastructure actuelle, proposer et implémenter un redesign du schéma de données, et optimiser nos requêtes les plus critiques.\nVous travaillerez sur le partitionnement des données, les stratégies d'indexation, l'optimisation du pipeline d'ingestion, et l'amélioration globale des performances de la base.\nMission en remote, durée estimée 2-3 mois avec possibilité de prolongation. Quelques calls de synchro par semaine avec l'équipe technique. Démarrage dès que possible.",
+    "budget": "Plus de 800 €/jour",
     "skills": [
-      "Graphiste spécialisé en création de logo",
-      "Graphiste spécialisé en charte graphique"
+      "Expert BDD",
+      "Spécialiste gestion des données",
+      "Développeur blockchain",
+      "Développeur big data"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467892-optimisation-conversion-pour-site-shopify",
-    "status": "visité",
-    "title": "Optimisation Conversion pour Site Shopify",
-    "description": "Bonjour à toutes et à tous,\n\nJe suis à la recherche d'un(e) expert(e) Shopify pour m'accompagner dans l'optimisation de ma boutique en ligne et l'amélioration de son taux de conversion.\n\nLe contexte :\n\nMon site, est actuellement en ligne et génère ses premières ventes. Je l'ai construit moi-même sur Shopify avec le thème Focal.\n\nAujourd'hui, je souhaite passer à une étape supérieure pour professionnaliser le site et le rendre plus performant. Mon catalogue de produits est assez ciblé, il est donc essentiel que l'expérience client soit la plus fluide et convaincante possible pour maximiser les ventes.\n\nLa mission et ma flexibilité :\n\nMa priorité absolue est le résultat. Bien que le site utilise actuellement le thème Focal, je ne suis absolument pas fermé à l'idée d'en changer.\n\nLes chantiers prioritaires sont les suivants :\n\nOptimisation radicale des pages produits : Les rendre plus vendeuses, plus claires et mieux structurées pour augmenter le taux d'ajout au panier.\n\nMise en place de \"bundles\" / offres groupées : Intégrer la meilleure solution (app ou développement) pour proposer des lots de produits et augmenter le panier moyen.\n\nIntégration d'un suivi de commande client : Mettre en place un système simple et professionnel pour rassurer le client après son achat.\n\nProfil recherché :\n\nUn(e) spécialiste de Shopify qui maîtrise parfaitement l'écosystème et les meilleures pratiques de conversion.\n\nVous avez une vision stratégique : vous n'êtes pas un simple exécutant, mais un véritable partenaire capable de conseiller la meilleure approche (garder et optimiser Focal, ou migrer vers un autre thème).\n\nVous savez recommander et intégrer les bonnes applications ou solutions techniques pour répondre à un besoin.\n\nLa connaissance du thème Focal est un plus, mais n'est pas un prérequis.\n\nPour votre proposition :\n\nAfin d'évaluer au mieux votre profil, merci de m'éclairer sur les points suivants :\n\nDes exemples de boutiques Shopify sur lesquelles vous avez travaillé (en précisant votre rôle).\n\nVotre premier avis stratégique : En jetant un œil rapide à mon site, pensez-vous qu'il serait plus judicieux d'optimiser le thème Focal actuel ou de migrer vers un nouveau thème ? (Quelques lignes pour justifier suffisent).\n\nUne première estimation de votre tarif ou du temps nécessaire pour cette mission.\n\nJe suis très enthousiaste à l'idée de faire évoluer ce projet avec la bonne personne.\n\nAu plaisir de lire vos propositions !",
+    "url": "https://www.codeur.com/projects/467939-installer-cj-dropshipping",
+    "status": "analysé - non pertinent",
+    "title": "Installer cj dropshipping",
+    "description": "Bonjour a tous,\n\nSur le site de mon client, je dois faire un lien droop sur un WordPress\nvoici le fournisseur cjdropshipping\n\nJ 'ai un tuto",
     "budget": "Moins de 500 €",
     "skills": [
-      "Développeur e-commerce",
-      "Consultant marketing",
-      "Développeur Shopify"
+      "Développeur WordPress",
+      "Expert dropshipping"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467890-refonte-page-produit-shopify-orientee-conversion",
-    "status": "visité",
-    "title": "Refonte page produit Shopify orientée conversion",
-    "description": "Je cherche un freelance Shopify pour refondre la page produit principale de ma boutique PickYourSong.\nObjectif : améliorer le taux de conversion des visiteurs issus de campagnes Meta Ads (UGC).\n\nLe travail inclut :\n\t•\tRefonte UX / structure claire et fluide\n\t•\tIntégration d’un questionnaire étape par étape (avec fil d’Ariane et pop-up -10%)\n\t•\tAjout de contenus émotionnels (vidéos, témoignages, storytelling)\n\t•\tOptimisation mobile + checkout + SEO (balises H1/H2)",
+    "url": "https://www.codeur.com/projects/467937-pouvoir-m-assister-pendant-une-reunion-d-environ-2h",
+    "status": "analysé - non pertinent",
+    "title": "Pouvoir m assister pendant une réunion d'environ 2h",
+    "description": "Bonjour,\n\nce serait pour m' assister lors d' un entretient le 27 octobre 2025.\n\nune conversation d' environ 2h.\n\nce serait à Beaune",
     "budget": "Moins de 500 €",
     "skills": [
-      "Développeur e-commerce",
-      "UI/UX designer",
-      "Développeur Shopify",
-      "Web designer"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467894-evolution-conversion-site-shopify",
-    "status": "visité",
-    "title": "Évolution & Conversion Site Shopify",
-    "description": "Bonjour à toutes et à tous,\n\nJe suis à la recherche d'un(e) expert(e) Shopify pour m'accompagner dans l'optimisation de ma boutique en ligne et l'amélioration de son taux de conversion.\n\nLe contexte :\n\nMon site, est actuellement en ligne et génère ses premières ventes. Je l'ai construit moi-même sur Shopify avec le thème Focal.\n\nAujourd'hui, je souhaite passer à une étape supérieure pour professionnaliser le site et le rendre plus performant. Mon catalogue de produits est assez ciblé, il est donc essentiel que l'expérience client soit la plus fluide et convaincante possible pour maximiser les ventes.\n\nLa mission et ma flexibilité :\n\nMa priorité absolue est le résultat. Bien que le site utilise actuellement le thème Focal, je ne suis absolument pas fermé à l'idée d'en changer.\n\nLes chantiers prioritaires sont les suivants :\n\nOptimisation radicale des pages produits : Les rendre plus vendeuses, plus claires et mieux structurées pour augmenter le taux d'ajout au panier.\n\nMise en place de \"bundles\" / offres groupées : Intégrer la meilleure solution (app ou développement) pour proposer des lots de produits et augmenter le panier moyen.\n\nIntégration d'un suivi de commande client : Mettre en place un système simple et professionnel pour rassurer le client après son achat.\n\nProfil recherché :\n\nUn(e) spécialiste de Shopify qui maîtrise parfaitement l'écosystème et les meilleures pratiques de conversion.\n\nVous avez une vision stratégique : vous n'êtes pas un simple exécutant, mais un véritable partenaire capable de conseiller la meilleure approche (garder et optimiser Focal, ou migrer vers un autre thème).\n\nVous savez recommander et intégrer les bonnes applications ou solutions techniques pour répondre à un besoin.\n\nLa connaissance du thème Focal est un plus, mais n'est pas un prérequis.\n\nPour votre proposition :\n\nAfin d'évaluer au mieux votre profil, merci de m'éclairer sur les points suivants :\n\nDes exemples de boutiques Shopify sur lesquelles vous avez travaillé (en précisant votre rôle).\n\nVotre premier avis stratégique : En jetant un œil rapide à mon site, pensez-vous qu'il serait plus judicieux d'optimiser le thème Focal actuel ou de migrer vers un nouveau thème ? (Quelques lignes pour justifier suffisent).\n\nUne première estimation de votre tarif ou du temps nécessaire pour cette mission.\n\nJe suis très enthousiaste à l'idée de faire évoluer ce projet avec la bonne personne.\n\nAu plaisir de lire vos propositions !",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Développeur spécifique",
-      "Développeur e-commerce",
-      "Développeur Shopify"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467891-creation-d-application",
-    "status": "visité",
-    "title": "Développement d'application mobile de jeux pour Android et iOS",
-    "description": "Le projet concerne le développement d'une application mobile de jeux destinée à être compatible avec les systèmes d'exploitation Android et iOS. L'application doit présenter une interface personnalisée, en accord avec la charte graphique déjà existante, afin de garantir une expérience utilisateur optimale et unique. Pour assurer la rentabilité de l'application, celle-ci sera gratuite pour les utilisateurs, mais inclura des publicités. \n\nL'application nécessitera un système de connexion sécurisé, permettant aux utilisateurs de s'inscrire et de se connecter à l'aide de leur adresse email et d'un mot de passe. Bien que la version pour smartwatch ne soit pas requise, l'application devra intégrer des fonctionnalités avancées telles que l'utilisation de l'appareil photo et la géolocalisation, afin d'enrichir l'expérience de jeu.\n\nEn plus du développement initial, il est nécessaire de prévoir une maintenance continue et la gestion de l'hébergement de l'application pour assurer son bon fonctionnement et sa pérennité.\n\nProjet rédigé automatiquement à partir d'un formulaire interactif où le client a demandé à recevoir des devis.",
-    "budget": "Demande de devis",
-    "skills": [
-      "Développeur mobile",
-      "Développeur iOS",
-      "Développeur Android",
-      "Développeur de jeux vidéo",
-      "Spécialiste maintenance informatique"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467887-modifications-boutique-prestashop",
-    "status": "visité",
-    "title": "Modifications boutique PrestaShop",
-    "description": "Suite projet non finalisé cherche une personne experte en Prestahop pour finaliser une boutique marketplace.\nbonne connaissance Elementor\npaiement Stripe\nsolution marketplace",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Développeur e-commerce",
-      "Développeur Prestashop",
-      "Consultant marketplace"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467884-developpement-de-jeu-video-app-mobile-jeu-de-carte-avec-ia-integrer",
-    "status": "visité",
-    "title": "Développement de jeu vidéo app mobile . Jeu de carte avec IA intégrer",
-    "description": "Bonjour , \n\nJe suis mediateur numérique , dans le cadre de mon travail j’essaie de trouver des applications qui permette une meilleur utilisation des ecrans. \nJ’ai créer une association dans laquelle nous explorons les outils deja existant et nous en créons de nouveau.\n\nLe projet pour lequel je vous solicite , est la creation d’un jeu vidéo type jeu de carte a jouer (Magic , Hearthstone etc ...) dans lequel les cartes serons creer in-game par les joueurs eux même.\n\nL’interet de cette appli , au delà du mode joueur contre joueur , sera donc la création , l’inventivité , et surtout une utilisation \"intelligente\" de l’IA .\n\nEn effet le concept même de mon jeu est de proposer une application qui entraine les joueurs a utiliser correctement une IA : c’est moi qui reflechis et qui créer , et l’IA est un outils au service de ma créativité et non l’inverse .\nPour ce faire le but est tres simple , la creation des carte se fait via un editeur equiper d’une IA générative d’image .\nLes joueurs devrons creer plusieurs deck , avec un theme pour chaque deck , et des creature / sort en lien avec l’univers qu'ils auront creer . \nL’IA sera la pour donner forme a la description qu’il auront indiqués dans le prompt .\n\nEvidement si dans ce que je dit il y a des évidentes contrainte techniques , je suis pret a discuter des éventuelles adaptation.",
-    "budget": "1 000 € à 10 000 €",
-    "skills": [
-      "Développeur spécifique",
-      "Développeur mobile",
-      "Développeur de jeux vidéo",
-      "Développeur IA"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467876-recherche-developpeur",
-    "status": "visité",
-    "title": "Recherche développeur",
-    "description": "Je cherche un dev intégrateur d'une maquette figma vers prestashop",
-    "budget": "200 à 500 €/jour",
-    "skills": [
-      "Développeur e-commerce",
-      "Développeur Prestashop",
-      "Intégrateur HTML"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467883-recherche-un-developpeur",
-    "status": "visité",
-    "title": "Recherche un développeur",
-    "description": "Nous recherchons un freelance pour faire un logiciel de dispatch style waynium en MVP",
-    "budget": "10 000 € et plus",
-    "skills": [
-      "Développeur spécifique"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467881-application-bancaire",
-    "status": "visité",
-    "title": "Application bancaire",
-    "description": "Bonjour,\n\nJe represente un fond d'investissement Suisse, peu connu mais trés respecté, établi en 1877. Nous souhaiterions nous entretenir avec vous d'une collaboration en vue du dévelopement de l'application bancaire de demain.\n\nVous n'êtes sans doute pas sans savoir que nous nous dirigeons vers une disparition de l'argent liquide. Nous tenons de source sure que les nations unies vont établir d'ici peu un nouveau systeme bancaire, faisans tabula rasa des inexactitudes et érements du passé.\n\nLe developpement d'une application reférence est un premier pas vers ce nouvel ordre mondial.",
-    "budget": "10 000 € et plus",
-    "skills": [
-      "Développeur spécifique",
-      "Intégrateur de systèmes de paiement en ligne",
-      "Développeur mobile",
-      "Développeur full-stack"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467879-une-application-android-permet-de-faire-echange-des-echanges-message",
-    "status": "visité",
-    "title": "Une application android permet de faire échange des échanges message",
-    "description": "Je cherche un freelance pour une création d’une application androïde pour faire des échanges de messages et photos voire même un video ou appeler le correspondant. Cette application ne depend  d’une connexion internet ma mis juste sous réseau local wifi.",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Développeur mobile",
-      "Développeur Android"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467878-plateforme-digitale-b2b",
-    "status": "visité",
-    "title": "PLATEFORME DIGITALE B2B",
-    "description": "Je recherche un coach capable de m’accompagner pas à pas dans la création de mon entreprise. Il devra être en mesure de me conseiller efficacement à chaque étape du processus et posséder des compétences générales couvrant l’ensemble des aspects liés à la création d’entreprise.",
-    "budget": "500 € à 1 000 €",
-    "skills": [
-      "Formateur"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467877-recherche-developpeur-shopify-pour-me-creer-un-menu",
-    "status": "visité",
-    "title": "Recherche développeur Shopify pour me créer un menu",
-    "description": "Je recherche un développeur qui puisse me creer un menu principal avec toutes les différentes collections de produits sur le thème xclusive dans Shopify",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Développeur spécifique",
-      "Développeur e-commerce",
-      "Développeur Shopify"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467886-mailling-via-phplist",
-    "status": "visité",
-    "title": "Mailling via PhpList",
-    "description": "Salut les « codeurs » et « codeuses »\n\nJe recherche a faire un « truc » pour envoyer des mails « mailling » en utilisant l’open source « PhpList » voir ici :\nEmail Marketing Powered by Open Source | phpList.com\nFree Newsletter Software: phpList.org | Open Source newsletter software | phpList.org\nDownload phpList | Open Source newsletter software | phpList.org\n\nC’est un programme qui tourne comme un site web avec un php/Mysql, je ne veux pas d’autre système que PhpList, pour de très nombreuses raisons, notamment la gestion des bounces.\n\nSauf si vous avez une autre solution plus évolués mais j’en doute.\n\nEt il est bien sur hyper important de configurer le SPF, DKIM et DMARCK\n\nJe dispose de plusieurs hébergement :\n\t5 en mutualises chez ovh\n\t2 en VPS chez Ovh, je peux en prendre un autre en plus\n\nMais aussi\n\tUn nas synologie DS216se\n\tUn nas synologie DS223\n\nUn serveur « un ordi DELL latitude D530 » monté en serveur\n\nJ’ai un box orange pro, mais semaine prochaine je serais chez free PRO.\n\nLa finalité c’est d’envoyer des campagnes de mailings vers une cible B To B, 365/365 et 7/7.\nMais aussi si votre première installation fonctionne correctement, il faudra la dupliquer sur 4 autre « serveur !! » pour en avoir un pour chacun de mes sites et avoir une adresse mail d’expédition news@monsite1.com, news@monsite2.com, news@monsite3.com, news@monsite 4.com\n\nPour info, un ami information à essayé de faire l’installation, mais il y a des bugs.\nLes essais sont fait sur VPS, puis NAS, puis serveur, rien ne marche.\nNota la version VPS fonctionne, mais ne prend pas en compte les SPF, DKIM, DMARC\n\nDe préférence je souhaite travailler avec quelqu’un qui soit de mon secteur car j’ai d’autre projet en cours département 13, ville de Gardanne\n\nVous savez le projet, j’espère avoir correctement décrit mon projet",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Sysadmin",
-      "Intégrateur de script",
-      "Spécialiste Emailing"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467885-projet-confidentiel",
-    "status": "visité",
-    "title": "Recherche développeur mobile",
-    "description": "je voudrais créer une application qui met en realtion des utilisateurs d' une application déjà existante et des sociétés externes.",
-    "budget": "1 000 € à 10 000 €",
-    "skills": [
-      "Développeur mobile",
-      "Développeur iOS",
-      "Développeur Android"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467880-ouvrir-un-compte-ovh",
-    "status": "visité",
-    "title": "Ouvrir un compte OVH",
-    "description": "Bonsoir, \nJe suis actuellement a l'etranger j'ai besoin d'une personne pour m'assister a l'ouverture d'un compte VOIP OVHCLOUD. Je fournis tous les elements necessaires (information personneles,carte de credit,...) Je remunere pour cela 100 euro.",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Spécialiste cloud computing",
       "Assistant virtuel"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467875-devt-mvp-application-mobile-gymy-reservation-de-pods-de-fitness",
-    "status": "visité",
-    "title": "Dévt MVP Application mobile “Gymy” – Réservation de pods de fitness",
-    "description": "Nous lançons Gymy, un concept innovant de pods de fitness autonomes (locaux de 30 m² à Paris) réservables à l’heure via une application mobile.\nL’application doit permettre aux utilisateurs de réserver, payer et accéder au pod via QR code / Bluetooth, sans personnel sur place.\n\nNous cherchons un développeur ou une petite équipe (freelance/agency) pour réaliser le MVP complet, exploitable commercialement dès la livraison (1 à 4 pods connectés).\n---\n\n🧩 Objectifs du MVP\n\nApplication mobile Flutter (iOS + Android)\n\nBack-end et back-office d’administration (gestion pods, réservations, paiements)\n\nIntégration Stripe (paiement + webhooks)\n\nAccès pod via QR code + Bluetooth (serrure connectée Nuki / Tapkey / Salto KS)\n\nNotifications push + analytics\n\nTableau de bord d’occupation et gestion des abonnements\n---\n\n⚙️ Fonctionnalités principales\n\nCôté utilisateur (mobile)\n\nCréation de compte / connexion (email + Google/Apple)\n\nCalendrier de réservation temps réel\n\nPaiement sécurisé (Stripe, Apple Pay, Google Pay)\n\nDéverrouillage du pod (QR + Bluetooth)\n\nHistorique / annulation / notifications push\n\nUI design : thème jaune et noir, style premium (inspiré Apple Fitness+)\n\nCôté administrateur (web)\n\nDashboard : pods, réservations, paiements\n\nTarification / abonnements / codes promo\n\nTaux d’occupation / CA / export CSV\n\nGestion utilisateurs et incidents\n\nInterface sobre, responsive, intuitive\n---\n\n🏗️ Techno souhaitées\n\nFront mobile : Flutter (iOS + Android)\n\nBack-end : Node.js (NestJS ou Express) ou Python (FastAPI)\n\nBase de données : PostgreSQL\n\nHébergement : Render, Railway ou AWS\n\nNotifications : Firebase Cloud Messaging\n\nPaiement : Stripe API\n\nAccès serrure : API Tapkey ou Nuki\n\nCI/CD : GitHub Actions\n\nSécurité : JWT, OAuth, RGPD\n---\n\n💶 Budget & délais\n\nBudget forfaitaire : 28 000 € à 35 000 € HT\n\nDélai cible : 10 à 12 semaines\n\nPaiement par jalons :\n\n1. UI/UX + maquettes (20 %)\n\n2. Back-end + app Alpha (30 %)\n\n3. Version Beta (Stripe + serrure) (30 %)\n\n4. Livraison finale (20 %)\n\nTMA (maintenance 6 mois) possible ensuite.---\n\n🧾 Livrables attendus\n\nApp iOS (TestFlight) & Android (Play Internal)\n\nBack-office web fonctionnel\n\nCode source complet (GitHub + documentation)\n\nSwagger/OpenAPI endpoints\n\nScripts de déploiement & instructions d’installation\n\nTests unitaires + QA checklist---\n\n🧠 Profil recherché\n\nExpérience Flutter + Stripe API\n\nConnaissance Bluetooth / QR / IoT locks\n\nExpérience sur projet SaaS / réservation / marketplace\n\nRigueur sur RGPD, logs et sécurité\n\nAnglais technique OK, communication fluide",
-    "budget": "10 000 € et plus",
-    "skills": [
-      "Intégrateur de systèmes de paiement en ligne",
-      "Développeur mobile",
-      "Développeur back-end",
-      "Développeur API",
-      "Spécialiste Stripe"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467874-developpement-mvp-application-mobile-gymy-reservation-de-pods-de-f",
-    "status": "visité",
-    "title": "Développement MVP Application mobile “Gymy” – Réservation de pods de f",
-    "description": "Nous lançons Gymy, un concept innovant de pods de fitness autonomes (locaux de 30 m² à Paris) réservables à l’heure via une application mobile.\nL’application doit permettre aux utilisateurs de réserver, payer et accéder au pod via QR code / Bluetooth, sans personnel sur place.\n\nNous cherchons un développeur ou une petite équipe (freelance/agency) pour réaliser le MVP complet, exploitable commercialement dès la livraison (1 à 4 pods connectés).\n\n---\n\n🧩 Objectifs du MVP\n\nApplication mobile Flutter (iOS + Android)\n\nBack-end et back-office d’administration (gestion pods, réservations, paiements)\n\nIntégration Stripe (paiement + webhooks)\n\nAccès pod via QR code + Bluetooth (serrure connectée Nuki / Tapkey / Salto KS)\n\nNotifications push + analytics\n\nTableau de bord d’occupation et gestion des abonnements\n\n---\n\n⚙️ Fonctionnalités principales\n\nCôté utilisateur (mobile)\n\nCréation de compte / connexion (email + Google/Apple)\n\nCalendrier de réservation temps réel\n\nPaiement sécurisé (Stripe, Apple Pay, Google Pay)\n\nDéverrouillage du pod (QR + Bluetooth)\n\nHistorique / annulation / notifications push\n\nUI design : thème jaune et noir, style premium (inspiré Apple Fitness+)\n\nCôté administrateur (web)\n\nDashboard : pods, réservations, paiements\n\nTarification / abonnements / codes promo\n\nTaux d’occupation / CA / export CSV\n\nGestion utilisateurs et incidents\n\nInterface sobre, responsive, intuitive\n\n---\n\n🏗️ Techno souhaitées\n\nFront mobile : Flutter (iOS + Android)\n\nBack-end : Node.js (NestJS ou Express) ou Python (FastAPI)\n\nBase de données : PostgreSQL\n\nHébergement : Render, Railway ou AWS\n\nNotifications : Firebase Cloud Messaging\n\nPaiement : Stripe API\n\nAccès serrure : API Tapkey ou Nuki\n\nCI/CD : GitHub Actions\n\nSécurité : JWT, OAuth, RGPD\n\n---\n\n💶 Budget & délais\n\nBudget forfaitaire : 28 000 € à 35 000 € HT\n\nDélai cible : 10 à 12 semaines\n\nPaiement par jalons :\n\n1. UI/UX + maquettes (20 %)\n\n2. Back-end + app Alpha (30 %)\n\n3. Version Beta (Stripe + serrure) (30 %)\n\n4. Livraison finale (20 %)\n\nTMA (maintenance 6 mois) possible ensuite.\n\n---\n\n🧾 Livrables attendus\n\nApp iOS (TestFlight) & Android (Play Internal)\n\nBack-office web fonctionnel\n\nCode source complet (GitHub + documentation)\n\nSwagger/OpenAPI endpoints\n\nScripts de déploiement & instructions d’installation\n\nTests unitaires + QA checklist\n\n---\n\n🧠 Profil recherché\n\nExpérience Flutter + Stripe API\n\nConnaissance Bluetooth / QR / IoT locks\n\nExpérience sur projet SaaS / réservation / marketplace\n\nRigueur sur RGPD, logs et sécurité\n\nAnglais technique OK, communication fluide\n\n---\n\n📩 Questions à inclure (sélection technique)\n\nMerci de répondre en quelques lignes à ces questions :\n\n1. Comment éviter le double-booking sur un créneau ?\n\n2. Quelle stratégie pour gérer les paiements Stripe et les webhooks idempotents ?\n\n3. Quelle approche technique pour gérer l’ouverture du pod hors connexion (offline) ?\n\n4. Quels outils utilisez-vous pour les logs, le monitoring et la sécurité ?\n\n5. Pouvez-vous fournir un exemple d’app Flutter avec paiement et hardware connecté ?",
-    "budget": "10 000 € et plus",
-    "skills": [
-      "Développeur mobile",
-      "Développeur Node.js",
-      "Consultant SaaS",
-      "Développeur API",
-      "Spécialiste Stripe"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467872-developpement-d-un-logiciel",
-    "status": "visité",
-    "title": "Développement logiciel gestion d'entreprise pour Windows sécurisé",
-    "description": "Le projet consiste à développer un logiciel de gestion d'entreprise destiné au système d'exploitation Windows. Ce logiciel sera créé à partir d'un outil open-source, ce qui implique une adaptation et une personnalisation en fonction des besoins spécifiques de l'entreprise. Les fonctionnalités essentielles à intégrer incluent un système d'authentification afin de garantir l'accès sécurisé des utilisateurs, ainsi qu'un outil d'analyse pour permettre l'évaluation et l'interprétation des données de gestion.\n\nLa sécurité du logiciel est d'une importance capitale, ce qui nécessite une attention particulière lors du développement pour protéger les données sensibles de l'entreprise. En ce qui concerne l'ergonomie et le design, tout est à concevoir, car il n'existe actuellement aucune base préalable. Cela implique de s'assurer que l'interface utilisateur soit intuitive et facile à utiliser pour améliorer l'expérience utilisateur.\n\nUne documentation complète devra être rédigée pour accompagner le logiciel, afin de fournir des instructions claires et détaillées sur son utilisation et ses fonctionnalités. De plus, une maintenance régulière devra être assurée pour garantir le bon fonctionnement du logiciel et résoudre tout problème éventuel qui pourrait survenir après son déploiement.\n\nEnfin, une formation devra être organisée pour une personne afin de s'assurer que cette dernière soit bien préparée à utiliser le logiciel de manière efficace. Cette formation devra couvrir tous les aspects pratiques du logiciel et offrir des conseils sur la manière d'exploiter pleinement ses fonctionnalités.\n\nProjet rédigé automatiquement à partir d'un formulaire interactif où le client a demandé à recevoir des devis.",
+    "url": "https://www.codeur.com/projects/467938-creation-d-une-campagne-de-publicite-sur-instagram",
+    "status": "analysé - non pertinent",
+    "title": "Lancer campagne publicitaire Meta pour générer des ventes",
+    "description": "Le projet consiste à lancer une campagne publicitaire sur une plateforme Meta pour promouvoir un produit ou service. La page associée à cette campagne dispose de moins de 1000 abonnés. L'objectif principal est de générer des ventes à travers cette publicité. Les éléments visuels nécessaires, tels que les images ou vidéos, sont déjà disponibles ou seront créés par le responsable du projet. La publicité doit diriger les utilisateurs vers un site internet, et une landing page spécifique sera conçue pour cette campagne.\n\nLe compte publicitaire Meta est déjà en place, ce qui facilite le lancement de la campagne. Celle-ci est prévue pour une durée d'un mois, avec un budget alloué de moins de 500 euros. La modération des interactions sur la page pendant la campagne sera gérée en interne, sans recours à un Community Manager externe pour cette tâche. Aucun accompagnement stratégique supplémentaire n'est requis pour la création de la campagne, car le responsable a décidé de gérer cet aspect de manière autonome. Cependant, un Community Manager sera engagé spécifiquement pour la durée de cette campagne afin d'assurer son bon déroulement.\n\nProjet rédigé automatiquement à partir d'un formulaire interactif où le client a demandé à recevoir des devis.",
     "budget": "Demande de devis",
     "skills": [
-      "Développeur spécifique",
-      "Développeur Windows",
-      "Spécialiste maintenance informatique",
-      "Spécialiste ERP",
-      "Spécialiste de la sécurité informatique"
+      "Community manager",
+      "Publicitaire",
+      "Consultant marketing",
+      "Webdesigner"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467870-creer-et-lancer-plusieurs-applications-mobiles",
-    "status": "visité",
-    "title": "Créer et lancer plusieurs applications mobiles",
-    "description": "Détaillez votre besoin :\nJe recherche quelqu’un de sérieux et très compétent, capable de travailler sur le long terme. L’objectif est de créer plusieurs applications mobiles et web, et je souhaite une personne motivée, qui s’investisse pleinement, propose ses idées et son savoir-faire, et soit prête à travailler dur pour développer des projets solides et durables.\n\nDétails de votre projet :\nLe projet consiste à développer et lancer plusieurs applications innovantes dans différents domaines (luxe, rencontre, solutions digitales, etc.). Chaque application sera conçue pour être fonctionnelle, élégante et rentable, avec une vision à long terme pour faire grandir la structure et maximiser les résultats.",
-    "budget": "1 000 € à 10 000 €",
-    "skills": [
-      "Développeur web",
-      "Développeur spécifique",
-      "Développeur mobile",
-      "Développeur iOS",
-      "Développeur Android"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467869-recherche-developpeur-web",
-    "status": "visité",
-    "title": "Recherche développeur web",
-    "description": "Développeur php mysql pour ajout de fonctionnalités dans un logiciel existant (wamp php) et correction de bugs.",
-    "budget": "1 000 € à 10 000 €",
-    "skills": [
-      "Développeur spécifique",
-      "Développeur PHP",
-      "Développeur SQL"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467867-gestion-de-patrimoine-immobilier",
-    "status": "visité",
-    "title": "Gestion de patrimoine immobilier",
-    "description": "Je recherche un développeur pour une application permettant de suivre et de gérer ses investissements immobilier. De A à Z. Sur cette application, on peut y voir le bail en cours de chaque bien, les emprunts, charges et autres frais, les revenus,… on peut se recevoir une notification en cas de loyer payé ou lorsque le bail arrive bientôt à terme. \nSur cette application, on peut également investir via des partenaire sur par exemple des SCPI ou autre investissement de ce type.",
-    "budget": "1 000 € à 10 000 €",
-    "skills": [
-      "Développeur spécifique",
-      "Consultant SaaS",
-      "Développeur full-stack"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467868",
-    "status": "visité",
-    "title": "Relier suivi conversion Google Ads - Shopify",
-    "description": "Bonjour,\n\nJe cherche quelqu’un pour mettre en place le tracking des conversions Google Ads sur Shopify. Objectif : que les ventes et événements (achats, paniers, etc.) remontent correctement dans Google Ads.\n\nCompétences requises : Google Tag Manager, Google Ads, Shopify.\n\nMission rapide, à faire dès que possible. Je vous remercie.\nSarah",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Développeur e-commerce",
-      "Consultant Google Ads",
-      "Développeur Shopify"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467864-site-pour-un-dentiste",
-    "status": "visité",
-    "title": "Site pour un dentiste",
-    "description": "nous cherchons des Freelancer pour créer\n\n le site web de notre cabinet dentaire",
-    "budget": "10 000 € et plus",
-    "skills": [
-      "Développeur web"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467863-site-d-abonnement-sportif-en-ligne",
-    "status": "visité",
-    "title": "Site d'abonnement sportif en ligne",
-    "description": "Je cherche un freelance pouvant me recréer mon site qui se veut être un système d'abonnement mensuel pour des programmes sportifs j'aimerai reproduire un peu comme BETTERME  qui est déjà fait en changeant tout le design et le système de conversion que j'aurai déjà imaginé en amont.",
+    "url": "https://www.codeur.com/projects/467936-recherche-dev-unity-vr-meta-quest-2-3",
+    "status": "analysé - non pertinent",
+    "title": "Recherche dev Unity VR (Meta Quest 2/3)",
+    "description": "🎮 Recherche dev Unity VR (Meta Quest 2/3)\n\nJe cherche un développeur Unity expérimenté pour un projet immersif déjà bien avancé 👀\n\n🛠️ Mission :\n• Intégrer 4 environnements 3D (SketchUp → Unity)\n• Ajouter médias (sons, images, vidéos) & zones interactives\n• Créer transitions fluides entre les scènes\n• Optimiser pour Meta Quest 2/3\n• Builds finaux : .apk + .exe\n\n📅 Dispo souhaitée : nov → janv\n💰 Budget : 800–1000 €\n🎯 Livraison : janvier 2026\n\n👉 Si tu es dispo, envoie-moi :\n• une courte présentation,\n• une démo VR déjà réalisée,\n• ta dispo sur la période.\n\nProjet culturel & immersif, sérieux mais passionnant ✨",
     "budget": "500 € à 1 000 €",
     "skills": [
-      "Développeur web",
-      "Développeur spécifique",
-      "Développeur e-commerce",
+      "Développeur C#",
+      "Développeur XR, VR, AR, MR"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467933-projet-confidentiel",
+    "status": "analysé - pertinent",
+    "title": "Développeur symphony confirmé",
+    "description": "Nous recherchons un freelance confirmé sur symphony\nBelgique ou nord de la France",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Développeur Symfony",
+      "Développeur PHP"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467935-projet-confidentiel",
+    "status": "analysé - non pertinent",
+    "title": "Refonte et optimisation du site web IAB, intégration espace membres",
+    "description": "Nous cherchons un·e freelance WordPress pour la refonte du site de l’International Association for Bryologists (IAB) — une association scientifique internationale.\nL’objectif : moderniser le site (design + architecture WordPress), sans maintenance continue.n, insérer un espace membres, une gestion des adhésions en ligne etc.\nHébergement prévu : o2switch (migration depuis un hébergeur US).\nLe cahier des charges détaillé est disponible (en anglais).\n\nBien cordialement,",
+    "budget": "1 000 € à 10 000 €",
+    "skills": [
+      "Spécialiste refonte de site web",
+      "Développeur WordPress",
       "Web designer"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467862-reprise-sit-wordpress",
-    "status": "visité",
-    "title": "Reprise site wordpress",
-    "description": "Site wordpress cree depuis 2018 et suivi par \"professionnels\" que j'ai démissionné depuis 2 mois par faute de resultat. cherche reprise de site en maintenance.",
+    "url": "https://www.codeur.com/projects/467934-projet-confidentiel",
+    "status": "analysé - non pertinent",
+    "title": "Expert Prestashop 8",
+    "description": "Bonjour,\n\nJe cherche un développeur expert Prestashop 8 (thème custom non-classic) pour résoudre un problème précis :\n\n👉 le délai de livraison renseigné dans BO > Transporteurs n’apparaît pas sur la page checkout (\"choix du mode de livraison\") côté front.\nLe champ est bien rempli dans le transporteur, mais la variable $carrier.delay est vide dans le shipping.tpl.\n\nTests déjà effectués (merci de lire avant de répondre) :\n\n✅ Clear cache, recompile, mode dev activé — aucun impact\n✅ Test avec thème Classic Prestashop → même problème\n✅ Désactivation de tous les modules transporteurs personnalisés (Chronopost / Chronofresh / Point Relais etc.) → aucun changement\n✅ Le fichier shipping.tpl utilise bien {$carrier.delay} (identique à celui qui fonctionne sur un autre Prestashop 8)\n✅ ps_carrier contient bien la colonne delay, mais la table ps_carrier_lang est absente dans cette installation Prestashop\n✅ Comparaison avec un autre Prestashop 8 où l’affichage fonctionne → même structure côté template, donc le souci vient de la source des données avant rendu Smarty\n\nPiste logique à traiter :\n\n🛑 Soit Prestashop n’injecte plus delay dans l’objet carrier (modification dans DeliveryOptionsFinder)\n🛑 Soit un override ou hook masque ce champ avant rendu\n🛑 Vérifier si ps_carrier.delay doit être exploité à la place de ps_carrier_lang.delay sur Prestashop 8\n\nCompétence recherchée :\n✅ Expert PRESTASHOP 1.7 → 8.1/8.2 (pas débutant)\n✅ Capable de localiser rapidement la source (DeliveryOptionsFinder, Hook, override…)\n✅ Peut restaurer l’affichage propre du délai à côté du nom du transporteur comme attendu\n\nMission rapide, efficace, je réponds immédiatement aux questions techniques si besoin.\ndélai estimé & tarif\nPAS D’AGENCE, PAS DE BLABLA\nMerci de m’indiquer en réponse :",
     "budget": "Moins de 500 €",
     "skills": [
-      "Développeur WordPress",
+      "Développeur spécifique",
+      "Développeur Prestashop",
+      "Développeur PHP"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467932-integrer-stripe-a-mon-saas",
+    "status": "analysé - pertinent",
+    "title": "Intégrer stripe à mon saas",
+    "description": "Aperçu\nJe recherche un développeur pour intégrer un système complet d’abonnement et de facturation dans mon application SaaS.\nL’application est développée avec React, TypeScript et Supabase, et je souhaite y intégrer Stripe afin d’améliorer la gestion des comptes utilisateurs et des paiements.\n\nPérimètre du projet\n\nMettre en place un système de vérification des utilisateurs avec option d’authentification à deux facteurs (2FA) via SMS ou application d’authentification.\n\nIntégrer un système complet d’abonnement et de facturation basé sur Stripe pour le SaaS.\n\nImplémenter une période d’essai gratuite de 15 jours donnant accès à l’ensemble des fonctionnalités.\n\nDévelopper deux formules d’abonnement : Classique (accès limité) et Pro (accès complet).\n\nPermettre à chaque utilisateur d’acheter des services additionnels, tels qu’une solution marketing, facturés annuellement via Stripe (au total 6 produits Stripe).\n\nL’environnement Stripe est déjà configuré : tous les produits, tarifs et paramètres peuvent être fournis.\n\nSynchroniser toutes les données d’abonnement entre Stripe et Supabase en temps réel à l’aide des Stripe Webhooks.\n\nPermettre aux utilisateurs de mettre à niveau ou rétrograder leur abonnement avec un calcul de prorata.\n\nCréer un Customer Portal permettant aux utilisateurs de gérer leur facturation, leurs factures et les informations de leur compte.\n\nAfficher un résumé de l’abonnement incluant toutes les informations pertinentes et le statut actuel de l’utilisateur.",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Développeur spécifique",
+      "Intégrateur de systèmes de paiement en ligne",
+      "Consultant SaaS",
+      "Développeur API",
+      "Spécialiste Stripe"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467930-developpement-appli-pwa",
+    "status": "analysé - non pertinent",
+    "title": "Développement appli pwa",
+    "description": "Je souhaite reprendre un projet commencé il y a quelques mois concernant une appli sur le fitness",
+    "budget": "1 000 € à 10 000 €",
+    "skills": [
+      "Développeur spécifique",
+      "Développeur mobile"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467926-application-de-gestion-de-mon-activite",
+    "status": "analysé - non pertinent",
+    "title": "Application de gestion de mon activité",
+    "description": "Je souhaite faire développer une application web (et éventuellement mobile) permettant de centraliser et automatiser la gestion quotidienne de mon activité :\n\nSuivi des clients et des interventions\nPlanification des tâches / rendez-vous\nGénération de rapports PDF (devis, factures, bilans)\nAccès sécurisé avec rôles utilisateurs (admin, employés, etc.)\nL’application devra être simple d’utilisation, rapide, et fonctionner aussi bien sur ordinateur que sur smartphone.",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Développeur spécifique",
+      "Développeur mobile",
+      "Spécialiste ERP",
+      "Expert CRM",
+      "Développeur full-stack"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/465379-remise-en-forme-de-notre-site-intranet-et-le-maintenir-a-jours",
+    "status": "analysé - non pertinent",
+    "title": "Remise en forme de notre site intranet, et le maintenir à jours",
+    "description": "Nous recherchons un freelance pour modifier et mettre a jour nos sites developpés en internes.",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Spécialiste refonte de site web",
       "Webmaster",
       "Spécialiste maintenance informatique"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467861-vitrine",
-    "status": "visité",
-    "title": "Vitrine",
-    "description": "J'aimerai un site web vitrine pour la vente de saucisson avec un espace dedie a la vente",
+    "url": "https://www.codeur.com/projects/467929-monteur-video-et-ou-cameraman-reseaux-sociaux-france-ent",
+    "status": "analysé - non pertinent",
+    "title": "Monteur Vidéo ET/OU Caméraman – Réseaux Sociaux (France ent",
+    "description": "Omnifree, société spécialisée dans les énergies renouvelables (pompes à chaleur, photovoltaïque, etc.), recherche un monteur vidéo et/ou caméraman pour collaborer sur nos projets à travers la France.\n\n🎥 \nMissions :\nFilmer nos installations chez les particuliers et professionnels (PAC, panneaux solaires, etc.)\n\nRéaliser des montages dynamiques adaptés aux réseaux sociaux (Instagram, TikTok, Facebook, YouTube)\n\nCréer des capsules promotionnelles, témoignages clients, et vidéos corporate\n\nApporter un œil créatif et professionnel pour valoriser l’image d’Omnifree\n\n💡 \nProfil recherché :\nMaîtrise du montage vidéo (Premiere Pro, CapCut, DaVinci Resolve, etc.)\n\nSens de la mise en scène, cadrage et storytelling visuel\n\nAutonomie, créativité et réactivité\n\nExpérience dans la création de contenu pour les réseaux (un vrai plus)\n\n📍 \nLocalisation :\nPartout en France (missions ponctuelles selon les chantiers)\n\nPossibilité de collaboration à distance pour le montage\n\n💰 \nRémunération :\nSelon profil et projet (facturation à la vidéo ou au forfait mensuel)\n\n📩 Pour postuler :\n\nEnvoyez vos références, vidéos réalisées ou lien vers votre portfolio",
     "budget": "500 € à 1 000 €",
     "skills": [
-      "Développeur web",
-      "Développeur e-commerce"
+      "Monteur vidéo"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467859-recherche-developpeur-shopify-oh-merde",
-    "status": "visité",
-    "title": "Recherche développeur Shopify",
-    "description": "Je propose actuellement des pros sportifs que je vends à l'unité, et je voudrais passer un modèle de revenu récurrent comme un saas. Il faut donc modifier mon template.",
-    "budget": "Moins de 500 €",
+    "url": "https://www.codeur.com/projects/467927-un-catalogue-pdf-a-extraire-sous-excel-et-en-plusieurs-langues",
+    "status": "analysé - non pertinent",
+    "title": "Un catalogue PDF à extraire sous Excel et en plusieurs langues",
+    "description": "Je souhaite transférer les textes d'un catalogue PDF dans un fichier Excel, ce qui correspondra à une première langue, et importer la traduction de moins de 10 langues étrangères dans ce même fichier Excel. \nJe souhaite ensuite avoir des formules me permettant de répercuter les modifications apportées à la langue 1 via des formules dans les mêmes textes des autres langues... \n\nL'idée est d'avoir l'an prochain déjà toutes les modifications apporté à la langue 1 - le Master - identifiées dans les parties correspondantes des textes des autres langues pour pouvoir nous concentrer uniquement sur ces parties et gagner du temps pour sortir les catalogues dans les autres langues en suivant la catalogue Master.",
+    "budget": "1 000 € à 10 000 €",
     "skills": [
-      "Développeur spécifique",
-      "Consultant SaaS",
-      "Développeur Shopify"
+      "Traducteur",
+      "Spécialiste gestion des données"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467865-mise-en-place-d-un-jeu-de-la-roue-de-la-fortune-apres-avis-google",
-    "status": "visité",
-    "title": "Mise en place d'un jeu de la roue de la fortune après avis Google",
-    "description": "Je souhaite booster mes avis sur google. L'objectif est d'inciter mes clients à laisser un avis en échange de la participation à un jeu de la roue de la fortune. Je vous préciserai les lots à gagner. Attention, chaque avis ne doit permettre qu'une seule participation au jeu.\n\nAprès participation, je dois avoir un moyen de vérifier ce que le client à gagner. Il obtiendra son gain lors de sa prochaine visite en boutique.\n\nIl y a plusieurs façon de traiter le problème alors vous pouvez être créatif. Le grande contrainte est la participation conditionnée à un avis google.",
+    "url": "https://www.codeur.com/projects/467923-creation-de-contenu-video-instagram-linkedin",
+    "status": "analysé - non pertinent",
+    "title": "Création de contenu vidéo Instagram/LinkedIn",
+    "description": "Je suis naturopathe à Grenoble. Je souhaite déléguer une partie de ma création de contenus pour les réseaux sociaux (Instagram, Facebook, LinkedIn), en particulier la création de vidéos de recettes et conseils bien-être. \nJe cherche une personne qui se déplace à Grenoble pour filmer et réalise un montage vidéo simple pour du contenu court. \nIl est important de respecter mon style de communication authentique et naturel.",
+    "budget": "Moins de 200 €/jour",
+    "skills": [
+      "Monteur vidéo"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467925-nous-recherchons-un-e-televendeur-se-independant-e-motive-e-pour-v",
+    "status": "analysé - non pertinent",
+    "title": "Nous recherchons un(e) télévendeur(se) indépendant(e) motivé(e) pour v",
+    "description": "Nous recherchons un(e) télévendeur(se) indépendant(e) motivé(e) pour vendre nos produits par téléphone. Votre mission : contacter des prospects, présenter nos offres et conclure des ventes.\nDans un premier temps, vous serez rémunéré(e) uniquement à la performance, soit par pourcentage sur les ventes, soit par prime par vente conclue.\nProfil recherché : expérience en télévente, aisance relationnelle, autonomie. Envoyez CV et présentation. Démarrage immédiat.",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Téléconseiller",
+      "Commercial"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467921-recherche-developpeur",
+    "status": "analysé - non pertinent",
+    "title": "Recherche développeur",
+    "description": "Bonjour \nJe cherche un développeur pour installé mieux la balise Pinterest et L'API de conversion \nPour que je vois mieux les conversion et pour mieux aperçu des événements",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Intégrateur de script",
+      "Développeur API"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467919-parcours-d-outil-recto-verso-aspire-vectric-je-fournis-le-fichier",
+    "status": "analysé - non pertinent",
+    "title": "Parcours d'outil recto verso aspire vectric, je fournis le fichier",
+    "description": "Bonjour je souhaite avoir un parcours d'outil sur Aspire Vectric version 11.5 recto verso, je fournis le fichier avec les directives de conception, je précise que c'est un fichier acheté sue etsy, Je sais que les fraise utilisé sont une fraise en V de 6 mm et une fraise droite de 8 mm. Merci d'avance.",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Dessinateur CAO"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467913-application-mobile",
+    "status": "analysé - non pertinent",
+    "title": "Application mobile",
+    "description": "Nous recherchons un freelance pour créer une app gps pour les cyclistes routes intégrant leur parcourse, vitesse et autre data",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Développeur mobile"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467917-jeu-2d-mobile",
+    "status": "analysé - non pertinent",
+    "title": "Jeu 2D mobile",
+    "description": "Je cherche un développeur Unity mobile pour créer un jeu de cartes 1v1 style UNO, mais exclusif avec mes propres cartes et graphismes.\nLe développeur devra tout faire : code, design, UI, sons, animations.\nLe jeu sera mobile (Android, éventuellement iOS), pas en plein écran, mais avec une interface claire et moderne.\nSi tu es dispo et sérieux, envoie ton portfolio + tarif.",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Développeur mobile",
+      "Développeur iOS",
+      "Développeur Android",
+      "Développeur de jeux vidéo"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467916-correctifs-fonctionnels-sur-formulaire-affichage-des-prix-wordpress",
+    "status": "analysé - non pertinent",
+    "title": "Correctifs fonctionnels sur formulaire & affichage des prix WordPress",
+    "description": "Bonjour,\n\nNous recherchons un prestataire WordPress pour intervenir sur la partie fonctionnelle du site WebAutodémarches :\n\nRésolution d’un bug sur le formulaire de changement de titulaire (affichage correct des prix par département).\n\nVérification et ajustement des styles liés au formulaire si nécessaire.\n\nObjectif : fiabiliser le parcours utilisateur et assurer un calcul/affichage correct des tarifs.",
     "budget": "Moins de 500 €",
     "skills": [
       "Développeur spécifique",
-      "Webmaster",
-      "Développeur API",
+      "Intégrateur web",
+      "Développeur WordPress"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467915-ameliorations-graphiques-ergonomiques-wordpress",
+    "status": "analysé - non pertinent",
+    "title": "Améliorations graphiques & ergonomiques (WordPress)",
+    "description": "Bonjour,\n\nNous recherchons un prestataire WordPress pour effectuer plusieurs ajustements visuels et ergonomiques sur un site WebAutodémarches :\n\nChangement des bandeaux en haut des pages.\n\nChangement des bandeaux du côté droit des pages.\n\nRefonte et modernisation de la barre de navigation (header).\n\nRéajustement graphique d’un tableau comparatif d’avantages (alignement des “V” et “X”).\n\nDiverses modifications de styles et d’apparence (mise en page, cohérence visuelle).\n\nObjectif : améliorer l’expérience utilisateur et donner un rendu plus professionnel au site",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Intégrateur web",
+      "Développeur WordPress",
+      "UI/UX designer",
+      "Web designer"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467912-jeu-2d-mobile",
+    "status": "analysé - non pertinent",
+    "title": "Jeu 2d mobile",
+    "description": "Je cherche un développeur Unity mobile pour créer un jeu de cartes 1v1 style UNO, mais exclusif avec mes propres cartes et graphismes.\nLe développeur devra tout faire : code, design, UI, sons, animations.\nLe jeu sera mobile (Android, éventuellement iOS), pas en plein écran, mais avec une interface claire et moderne.\nSi tu es dispo et sérieux, envoie ton portfolio + tarif.",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Développeur C#",
+      "Développeur mobile",
+      "Développeur Android",
+      "Développeur de jeux vidéo"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467899-remise-en-forme-section-hero-page-accueil",
+    "status": "analysé - non pertinent",
+    "title": "Remise en forme section hero page accueil",
+    "description": "Bonjour,\n\nJe souhaite faire une remise en forme de ma page d'accueil sur mon site WordPress.",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Développeur WordPress",
       "Webdesigner",
       "Web designer"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467857-projet-web-mobile-pour-la-communaute-pokemon-tcg",
-    "status": "visité",
-    "title": "Projet web & mobile pour la communauté Pokémon TCG",
-    "description": "Nous souhaitons développer un site web et une application dédiée aux joueurs de Pokémon TCG.\n\nLe projet inclut :\n\t•\tUne boutique en ligne (cartes, decks, accessoires).\n\t•\tUn deck builder intelligent connecté à notre stock.\n\t•\tUn moteur de recherche Pokémon TCG relié à une base de données complète.\n\t•\tUne interface fluide et responsive, adaptée aux joueurs et collectionneurs.\n\nNous disposons déjà d’un cahier des charges complet, d’une identité visuelle (logos, charte graphique) et d’une estimation budgétaire détaillée.\n\nNous recherchons un développeur full-stack ou une petite équipe capable de livrer une version professionnelle, performante et évolutive, dans un esprit gaming / e-commerce.",
-    "budget": "10 000 € et plus",
+    "url": "https://www.codeur.com/projects/467901-site-web-pour-equipe-esport-un-site-de-presentation",
+    "status": "analysé - pertinent",
+    "title": "Site web pour equipe esport un site de presentation",
+    "description": "Nous recherchons un développeur pour faire un site web propre pour une équipe esport\nprésentation des roster ( 2 ) \nprésentation de l'organisation \ndes joueurs \nleurs palmarès ou équipe passer\nles évènement a venir et permettre une modification de notre part\nLes réseaux sociaux \nnotre DA",
+    "budget": "Moins de 200 €/jour",
     "skills": [
       "Développeur web",
-      "Développeur spécifique",
-      "Développeur e-commerce",
-      "Développeur mobile",
-      "Développeur full-stack"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467855-je-veux-un-fichier-excel-automatise-et-esthetique-pour-calculer-mes-pr",
-    "status": "visité",
-    "title": "Je veux un fichier Excel automatisé et esthétique pour calculer mes pr",
-    "description": "🧾 Projet : Grille tarifaire complète pour le pliage (Excel automatisé + PDF devis)\n\nJe veux que tu me crées un fichier Excel professionnel, automatisé et esthétique pour calculer mes prix de pliage et mes pertes matière.\nL’objectif est d’avoir un outil fiable, avec des menus déroulants, des formules protégées, une marge automatique, et la possibilité de générer un devis client en PDF.\n\n⚙️ Paramètres matière\nType de matière\tFormat\tPrix\nAluminium (tôle)\t1500 mm × 3000 mm\t16 €/m²\nAcier (tôle)\t1222 mm × 3000 mm\t8,5 €/m²\nZinc (bobine)\t500 mm × 400 m\t10 €/ml\nAluminium (bobine)\t500 mm × 500 m\t9,5 €/ml\n🧮 Autres paramètres à saisir dans une feuille \"Paramètres\"\n\nKerf (trait de coupe) : mm (ex : 3 mm)\n\nPrix du trait de coupe : €/m\n\nPrix du pli : €/pli\n\nMarge commerciale : %\n\n📋 Feuille \"Devis\" : ce que je veux saisir et obtenir\n🔹 Colonnes à remplir manuellement :\n\nRéférence\n\nMatière (menu déroulant : Alu_tole, Acier_tole, Zinc_bobine, Alu_bobine)\n\nLongueur (mm)\n\nLargeur (mm)\n\nQuantité\n\nLongueur de coupe par pièce (m)\n\nNombre de plis\n\n🔹 Calculs automatiques attendus :\n\nType d’unité (tôle / bobine)\n\nCalepinage automatique (pièces par tôle / mètre de bobine, avec orientation optimale)\n\nOrientation optimale (L / W inversés si plus rentable)\n\nNombre d’unités nécessaires (tôles ou mètres de bobine)\n\nSurface / longueur payée\n\nSurface utile\n\nPerte (%)\n\nCoût matière (€)\n\nCoût coupe (€)\n\nCoût pliage (€)\n\nCoût total HT (€)\n\nPrix de vente HT avec marge (€)\n\n🔹 Totaux automatiques :\n\nTotal matière, coupe, pliage, coût HT et prix de vente HT\n\nMoyenne des pertes (%)\n\nFormat conditionnel si perte > 20 % (fond coloré d’alerte)\n\n🧰 Fonctionnalités souhaitées\n\nMenus déroulants pour le choix de la matière\n\nProtection des formules (zones de saisie distinctes)\n\nMise en page claire, professionnelle et imprimable\n\nCellules de saisie colorées (ex. bleu clair)\n\nAucune erreur (#DIV/0!, etc.) si des cases sont vides\n\nFiltrage et tri possibles\n\nTitres figés et mise en forme automatique en €\n\nCalculs automatiques dès saisie des dimensions\n\n📄 Fonction bonus : Génération automatique d’un devis PDF\n\nUn bouton (ou script simple) permettant de générer un PDF à partir du tableau.\n\nLe PDF doit inclure :\n\nMon logo (que je pourrai ajouter moi-même),\n\nLe tableau récapitulatif des pièces,\n\nLes totaux (matière, coupe, pliage, total HT, prix de vente HT),\n\nLes informations de marge et de perte moyenne,\n\nUn encadré de signature / validation client,\n\nUne mise en page propre, centrée, prête à envoyer par e-mail.\n\n💡 Optionnel (si possible plus tard)\n\nTableau de bord avec statistiques globales (marge moyenne, perte moyenne, total mensuel)\n\nSimulation de marge variable (%)\n\nAjout dynamique de nouvelles matières\n\n🎯 Objectif final :\n\nObtenir un fichier Excel propre, ergonomique et sécurisé, qui me permet de saisir mes pièces et d’obtenir instantanément les coûts, pertes, prix de vente et un devis PDF client avec mise en page automatique.\n\n💬 Quand je collerai ce prompt dans un nouveau chat avec toi, tu devras me créer :\n\nLe fichier Excel complet et automatisé, avec formules et validations.\n\nLe système d’export PDF de devis client (modèle clair et pro).\n\nSi possible, un exemple rempli pour valider les calculs.\n\nSouhait :\n\nQue tout soit fiable, élégant et prêt à utiliser dès la livraison, pour que je puisse travailler sereinement sans risquer de casser les formules.",
-    "budget": "500 € à 1 000 €",
-    "skills": [
-      "Développeur spécifique",
-      "Développeur logiciel",
-      "Développeur no code"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467860-creation-d-un-ebook",
-    "status": "visité",
-    "title": "Création d'un e-book illustré avec site web dédié",
-    "description": "Le projet consiste à créer un e-book de moins de 200 pages, intégrant des illustrations déjà en possession ou provenant de banques d'images libres de droit. La rédaction ne nécessite pas de recherches approfondies sur le sujet, mais exige plusieurs relectures ainsi qu'un nettoyage typographique pour assurer la qualité du texte. Une table des matières cliquable doit être incluse pour faciliter la navigation dans le document. L'aide d'un expert SEO n'est pas requise pour le référencement du e-book. Cependant, la création d'un site web pour la diffusion de l'e-book est souhaitée, et un freelance sera chargé de cette tâche. L'objectif est de produire un e-book bien structuré, esthétiquement agréable, et facilement accessible au public cible par le biais d'un site dédié.\n\nProjet rédigé automatiquement à partir d'un formulaire interactif où le client a demandé à recevoir des devis.",
-    "budget": "Demande de devis",
-    "skills": [
-      "Développeur web",
-      "Rédacteur de eBook",
-      "Correcteur",
+      "Développeur WordPress",
       "Web designer"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467858",
-    "status": "visité",
-    "title": "Recherche free-lance Tiktokshop et ads",
-    "description": "Je recherche un(e) freelance expérimenté(e) pour paramétrer mon TikTok Shop et configurer mes campagnes publicitaires  Ads tiktok et Instagram une première fois.\nL’objectif est que tout soit bien mis en place, puis que je puisse être autonome par la suite (avec un petit accompagnement ou une session de formation pratique).\nÀ propos de ma marque :\nJe suis fondatrice d’une boutique de modest fashion (vêtements oversize, chics et confortables, adaptés à la femme musulmane moderne).\nJe vends déjà en ligne, et je souhaite développer mes ventes via TikTok Shop.\nCe que je cherche :\nMise en place complète du TikTok Shop (catalogue produits, intégration, configuration des options de livraison, etc.)\nInstallation du pixel TikTok et configuration du catalogue e-commerce\nCréation et paramétrage d’une première campagne publicitaire test (ads, ciblages, budget, etc.)\nFormation courte (1h-2h) pour me rendre autonome ensuite\nCiblage souhaité :\nFrance 🇫🇷\nAllemagne 🇩🇪\nPays-Bas 🇳🇱\nEspagne 🇪🇸\nPublic féminin (25-40ans), intéressé par la modest fashion, le hijab et les vêtements tendance mais pudiques.\nObjectif :\nAvoir un système prêt à l’emploi que je puisse ensuite réutiliser seule.\nMerci de m’envoyer vos références, vos tarifs et une estimation du temps nécessaire.",
-    "budget": "Moins de 500 €",
+    "url": "https://www.codeur.com/projects/467911-recherche-developpeur-mobile-pour-application-catalogue-de-produits",
+    "status": "analysé - non pertinent",
+    "title": "Recherche développeur mobile pour application catalogue de produits",
+    "description": "je recherche un développeur pour un nouveau projet d'application mobile, qui serait plus facile a explique de vive voix mais est une sorte de catalogue de produits en b2b avec certains accès sur cette applications a detaillé plus tard",
+    "budget": "500 € à 1 000 €",
     "skills": [
-      "Publicitaire",
-      "Formateur",
-      "Consultant marketplace"
+      "Développeur mobile"
     ]
   },
   {
-    "url": "https://www.codeur.com/projects/467853-saisie-prelevement-sepa-stripe",
-    "status": "visité",
-    "title": "Saisie prélèvement sepa stripe",
-    "description": "Bonjour, je souhaite être formée et accompagnée pour saisir des prélèvements SEPA via Stripe.",
-    "budget": "Moins de 500 €",
-    "skills": [
-      "Intégrateur de systèmes de paiement en ligne",
-      "Spécialiste Stripe"
-    ]
-  },
-  {
-    "url": "https://www.codeur.com/projects/467850-site-de-gestion-de-budget",
-    "status": "visité",
-    "title": "Site de gestion de budget",
-    "description": "Un projet de budget qui gère les entrées, les dépenses, les épargnes et les investissements. Avec la possibilité de gérer plusieurs portefeuilles",
-    "budget": "Moins de 500 €",
+    "url": "https://www.codeur.com/projects/467906-ecomerce",
+    "status": "analysé - non pertinent",
+    "title": "Ecomerce",
+    "description": "nous recherchons une application pour que sa soit plus faciles",
+    "budget": "500 € à 1 000 €",
     "skills": [
       "Développeur spécifique",
+      "Développeur e-commerce"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467905-saas-pour-gestion-de-contrat",
+    "status": "analysé - pertinent",
+    "title": "Saas pour gestion de contrat",
+    "description": "Nous cherchons un développeur web maitrisant Symfony pour l'amélioration d'un Saas pour la gestion des contrats de formation.",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Développeur spécifique",
+      "Développeur Symfony",
       "Consultant SaaS"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467903-creer-un-clone-ia-d-une-personne-reelle-pr-contenus-plateforme-prive",
+    "status": "analysé - non pertinent",
+    "title": "Créer un clone IA d’une personne réelle, pr contenus plateforme privé",
+    "description": "Je cherche une personne qui est capable de reproduire à l’identique l’image d’un homme réel en clone IA afin de générer des contenus vidéo + photo destinés à des plateformes privées. \nLa personne est évidemment d’accord puisqu’elle est à l’initiative de ce projet.\nMerci",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Développeur Machine Learning",
+      "Développeur IA",
+      "Artiste IA"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467902-creation-fivem-gta-rp-esx-ui-base-builder",
+    "status": "analysé - non pertinent",
+    "title": "Création Fivem GTA RP ESX/UI Base Builder",
+    "description": "J'ai besoin d'un développeur pour un projet gta rp ou tout tourne autour du menu admin je veux que ce soit le coeur du serveur. j'ai besoin que toute les interface soient en UI que ce soit l'inventaire les menu dans les différents Shop/métier et que tout soit interactif en jeux sans avoir besoin de reboot le serveur pour que les changement/ajout soient mis en place et que si je fait un changement sur le serveur ou un script j'ai pas besoin de reboot le serv si je reboot la ressource sa suffira. Coté illégal je veux que les drogues ai un système ou la récolte se fait par les gang qu'il donne la matière première aux organisation qui eux la traitent dans leurs labo et que une fois traiter les organisation fournissent la drogue traité au gang qui la mettent dans des pochons que les gang peuvent par la suite vendre aux pnj, je veux également un système de territoire ou les ventent générer par les ventent des gang. coté légal rien de spécial a part faire des systèmes ou pour les concess et les mécano/ems quand il n'y a aucun joueurs sur le serveur qui ont ce job ce dernier devient automatique les prix deviennent plus élever et le résultat des ventent réalisé va dans les caisses de l'entreprise directement. pour plus de détail appel a prévoir pour tout voir dans ce sens. comme serveur de référence coté UI je veux avoir un serveur très identique au serveur Visionv2 (https://www.youtube.com/watch?v=5SMThc7XC1M)",
+    "budget": "1 000 € à 10 000 €",
+    "skills": [
+      "Développeur spécifique",
+      "Développeur de jeux vidéo"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467898-creation-site-wordpress-premium-automatisations-beds24-stripe-za",
+    "status": "analysé - non pertinent",
+    "title": "Création site WordPress premium + automatisations Beds24 / Stripe / Za",
+    "description": "🌴 À propos du concept HOSSEA\n\nHOSSEA est un appart’hôtel haut de gamme et immersif, situé à 10 minutes de l’océan dans les Landes.\nChaque appartement offre une expérience sensorielle unique (Belharra, Indus, Oceania, Amazonia, etc.) mêlant design, lumière et sérénité.\n\nNotre mission : offrir un séjour premium, 100 % autonome et connecté, inspiré du lifestyle océanique.\nNotre vision : transformer HOSSEA en machine à cash automatisée — 90 % d’occupation annuelle et 5★ systématiques.\n\n🎯 Objectif du projet\n\nFinaliser l’écosystème digital HOSSEA via un site WordPress premium connecté à Beds24, Stripe, Zapier et un chatbot IA Concierge, pour automatiser tout le parcours client :\n\nRéservation → Paiement → Caution J-1 → Check-in → Ménage → Facture → Avis\n\nL’expérience doit être fluide, séduisante et autonome, tout en reflétant le style HOSSEA : haut de gamme, zen, océanique.\n\n⚙️ Outils à connecter\nFonction\tApplication\nRéservation / Channel Manager\tBeds24\nPaiement / Caution / Extras\tStripe\nAutomatisations\tZapier\nCommunication\tWhatsApp Business API\nGestion interne\tGoogle Sheets / Calendar\nSite Web\tWordPress\nSerrures connectées\tNuki / TTLock\nChatbot IA Concierge\tCrisp / GPT API\nGuide client\tNotion\nSauvegarde\tGoogle Drive\n🔧 Travaux à réaliser\n1️⃣ Automatisations\n\nConnexion Beds24 ↔ Stripe ↔ Zapier ↔ Sheets ↔ WhatsApp\n\nCaution automatique J-1 avant arrivée\n\nCréation automatique de mission ménage à chaque départ\n→ notification WhatsApp aux prestataires, verrouillage dès acceptation\n\nAlertes automatiques :\n\nménage non attribué J-1\n\npaiement échoué\n\nannulation réservation\n\nSauvegarde quotidienne sur Google Drive\n\nSynchronisation Google Calendar (conciergerie / staff)\n\n2️⃣ Paiements & Extras Stripe\n\nCréer un catalogue complet Stripe :\n🐶 Animal, 🕐 Early check-in, 🌅 Late check-out, 🥂 Champagne, 👶 Lit bébé\n\nChaque paiement doit :\n\nêtre automatisé via lien Stripe intégré (e-mails + chatbot)\n\nnotifier automatiquement la conciergerie (WhatsApp)\n\nmettre à jour Beds24 avec l’extra payé\n\n3️⃣ Facturation automatique\n\nGénération et envoi automatique à J+1 après le check-out\n\nCopie automatique à comptabilite@hossea.fr\n\nDesign HTML premium (charte HOSSEA)\n\nIntégration des extras Stripe + taxe de séjour\n\nSauvegarde Drive (classement automatique par logement)\n\n4️⃣ Site WordPress HOSSEA.FR\n\nDesign immersif, premium, mobile-first, bilingue FR/EN\n\nPages : Accueil / Appartements / Réservation / Expérience / Extras / Contact / Mentions\n\nIntégration moteur Beds24 (iframe ou API)\n\nChatbot IA intégré visible sur tout le site\n\nStripe relié aux paiements et extras\n\nLiens WhatsApp conciergerie\n\n5️⃣ Chatbot IA Concierge HOSSEA 🤖\n\nChatbot FR/EN (Crisp ou GPT API)\n\nRéponses automatiques : check-in/out, wifi, extras, horaires, animaux\n\nLien direct vers guide Notion & paiements Stripe\n\nConnexion Zapier pour déclencher actions\n\nPersonnalité :\n\n“Léa – Concierge Digitale HOSSEA 🌿”\nTon : chaleureux, premium, apaisant et efficace\n\n6️⃣ E-mails clients (Beds24)\n\nReprise des messages FR/EN existants\n\nDesign HTML uniforme (charte HOSSEA)\n\nSéquence complète :\n\nConfirmation\n\nPré-check-in\n\nPaiement caution J-1\n\nCodes serrure J-0\n\nBienvenue\n\nDépart + avis\n\nFacture automatique J+1\n\n💰 Budget & délai\nÉlément\tDétail\nBudget indicatif\t💰 Entre 2 500 € et 3 000 € TTC selon accompagnement et expérience\nDélai cible\t⏱️ 4 à 6 semaines maximum\n\n🎯 Nous privilégions les freelances expérimentés ayant déjà intégré Beds24, Stripe et Zapier sur des projets hôteliers.\n\n🧠 Compétences recherchées\n\nBeds24 / Stripe / Zapier / Google Sheets\n\nWordPress premium responsive\n\nAutomatisations API / webhooks\n\nChatbot / GPT API\n\nConnaissance hôtellerie / conciergerie digitale\n\nFiabilité, sens du détail, communication claire\n\n📎 Documents fournis\n\nCahier des charges complet (PDF)\n\nCharte graphique HOSSEA\n\nMessages clients FR/EN\n\nSchéma flux automatisé\n\nCatalogue Stripe existant\n\nAccès Beds24 test\n\n🔹 Projet : Site WordPress + automatisations Beds24/Stripe/Zapier + Chatbot IA Concierge\n🔹 Objectif : automatiser 100 % du parcours client\n🔹 Budget : 2 500 € – 3 000 € TTC\n🔹 Délai : 4–6 semaines\n🔹 Style : Premium, fluide, autonome, 100 % HOSSEA 🌿",
+    "budget": "1 000 € à 10 000 €",
+    "skills": [
+      "Développeur web",
+      "Développeur WordPress",
+      "Spécialiste Stripe",
+      "Développeur chatbot",
+      "Web designer"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467699-saas",
+    "status": "analysé - pertinent",
+    "title": "Saas",
+    "description": "Bonjour, \nJe recherche des dev front et back sur React JS et Symphonie pour travail sur mon Saas, pour ajout de fonctionnalité et amélioration. \nJ'aurais besoin de dév expérimentée sur quelques semaines",
+    "budget": "Moins de 200 €/jour",
+    "skills": [
+      "Développeur Symfony",
+      "Consultant SaaS",
+      "Développeur front-end",
+      "Développeur back-end",
+      "Développeur React"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467683-site-internet-relie-a-un-site-appli-de-gestion",
+    "status": "analysé - non pertinent",
+    "title": "Site internet relié à un site/appli de gestion",
+    "description": "Je recherche un free-lance pour :\n\nCréer un site de réservation/annulation de trajet \nCréer une appli interne de gestion des trajets proposés sur le site\nCréer une appli pour nos agences pour réservations et annulations",
+    "budget": "1 000 € à 10 000 €",
+    "skills": [
+      "Développeur web",
+      "Développeur spécifique",
+      "Développeur mobile"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467908-jeu-2d-mobile",
+    "status": "analysé - non pertinent",
+    "title": "Jeu 2d mobile",
+    "description": "Je cherche un développeur Unity mobile pour créer un jeu de cartes 1v1 style UNO, mais exclusif avec mes propres cartes et graphismes.\nLe développeur devra tout faire : code, design, UI, sons, animations.\nLe jeu sera mobile (Android, éventuellement iOS), pas en plein écran, mais avec une interface claire et moderne.\nSi tu es dispo et sérieux, envoie ton portfolio + tarif.",
+    "budget": "500 € à 1 000 €",
+    "skills": [
+      "Développeur C#",
+      "Développeur mobile",
+      "Développeur iOS",
+      "Développeur Android",
+      "Développeur de jeux vidéo"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467907-site-internet-sur-mesure",
+    "status": "analysé - non pertinent",
+    "title": "SITE INTERNET SUR MESURE",
+    "description": "Je suis à la recherche d'un prestataire pour faire \nAudit et stratégie digitale personnalisée (analyse visibilité, référencement, positionnement marché local)\t\nCréation d’un site web sur mesure (identité visuelle, contenus optimisés SEO, menus, réservation)\t\nOptimisation du référencement local (SEO, Google Business Profile, réseaux sociaux)\t\nFormation du personnel (utilisation plateforme, outils marketing, suivi statistiques )\n\npour mon restaurant. \nle site devra me permettre de faire des réservations et des commandes en clik and colect\n\nmerci de faire un devis par prestation",
+    "budget": "10 000 € et plus",
+    "skills": [
+      "Développeur web",
+      "Expert SEO",
+      "Développeur e-commerce",
+      "Formateur",
+      "Web designer"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467944-graphiste-motion-designer-polyvalent-e-print-video-contenu-ia",
+    "status": "analysé - non pertinent",
+    "title": "Graphiste / Motion Designer polyvalent(e) – Print, Vidéo & Contenu IA",
+    "description": "Collaboration long terme – univers décalé – secteur optique / retail\n\nNous recherchons un(e) graphiste freelance créatif(ve), réactif(ve) et disponible et avec une tarification à l'unité douce, pour une collaboration durable avec notre enseigne d’optique indépendante.\n\n🎯 Mission\nSous nos briefs précis, il/elle devra :\nCréer des supports print et digitaux : flyers, vitrophanies, affiches vitrines, PLV.\nProduire des contenus vidéo dynamiques (offres, campagnes, animations produits) pour les réseaux sociaux et écrans de diffusion en magasin.\nDécliner les visuels dans le respect de notre charte graphique et de notre politique commerciale.\nUtiliser des outils d’IA générative (image, texte, vidéo) pour accélérer la création et proposer des idées innovantes.\n\n💡 Style recherché\nNotre communication est décalée, punchy et moderne, loin des codes classiques de l’optique.\nNous aimons les visuels impactants, colorés et audacieux, avec une touche d’humour.\n\n🔧 Profil idéal\nÀ l’aise avec la création print + vidéo courte (Canva, Adobe, ou équivalent).\nConnaissance ou curiosité pour Midjourney, D-ID, Runway, ChatGPT, Sora, etc.\nEsprit créatif, flexible, disponible et force de proposition.\nTarif maîtrisé, car missions régulières et volumes importants sur la durée.\n\n📍 Infos pratiques\nCollaboration à distance.\nDémarrage rapide.\nPlusieurs visuels par mois (print + vidéo).\nObjectif : un vrai partenariat créatif à long terme.",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Graphiste spécialisé en charte graphique",
+      "Motion designer",
+      "Graphiste print",
+      "Développeur IA",
+      "Artiste IA"
+    ]
+  },
+  {
+    "url": "https://www.codeur.com/projects/467941-creation-d-etude-de-marche",
+    "status": "analysé - non pertinent",
+    "title": "Création d'étude de marché",
+    "description": "Je souhaite créer une micro entreprise concernant le métier de Community Manager. La gestion des réseaux sociaux et la création de sites Web.",
+    "budget": "Moins de 500 €",
+    "skills": [
+      "Développeur web",
+      "Community manager",
+      "Analyste marketing",
+      "Consultant marketing",
+      "Consultant en communication"
     ]
   }
 ]

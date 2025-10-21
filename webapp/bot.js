@@ -7,6 +7,7 @@ const fetch = require('node-fetch');
 const AUTH_FILE = path.join(__dirname, 'auth.json');
 const PROMPTS_FILE = path.join(__dirname, 'prompts.json');
 const PROJECTS_FILE = path.join(__dirname, 'projects.json');
+const OLLAMA_CONFIG_FILE = path.join(__dirname, 'ollama-config.json');
 const CODEUR_BASE_URL = 'https://www.codeur.com';
 const CODEUR_MESSAGES_URL = `${CODEUR_BASE_URL}/messages`;
 const CODEUR_PROJECTS_URL = `${CODEUR_BASE_URL}/projects`;
@@ -50,14 +51,14 @@ async function runBotLogic() {
                 const projectUrl = `${CODEUR_BASE_URL}${href}`;
                 if (!knownUrls.has(projectUrl)) {
                     console.log(`New project found: ${projectUrl}`);
-                    existingProjects.push({ url: projectUrl, status: 'pas visité' });
+                    existingProjects.push({ url: projectUrl, status: 'non traité' });
                     knownUrls.add(projectUrl); // Add to set to avoid duplicates in the same run
                 }
             }
         });
 
         // Process all projects that haven't been visited yet
-        const projectsToVisit = existingProjects.filter(p => p.status === 'pas visité');
+        const projectsToVisit = existingProjects.filter(p => p.status === 'non traité');
         if (projectsToVisit.length > 0) {
             console.log(`Visiting ${projectsToVisit.length} new project page(s)...`);
             for (const project of projectsToVisit) {
@@ -78,9 +79,25 @@ async function runBotLogic() {
                     project.budget = $detail('p:has(svg.fa-icon-euro-sign) span.font-semibold').text().trim();
                     project.skills = $detail('section.pt-0 a[href*="/users/c/"]').map((i, el) => $detail(el).text().trim()).get();
                     project.status = 'visité'; // Update status
-
                 } catch (pageError) {
                     console.error(`  - Error scraping page ${project.url}:`, pageError);
+                }
+            }
+        }
+
+        // Phase 3: Analyze all visited projects
+        const projectsToAnalyze = existingProjects.filter(p => p.status === 'visité');
+        if (projectsToAnalyze.length > 0) {
+            console.log(`Analyzing ${projectsToAnalyze.length} visited project(s) with Ollama...`);
+            for (const project of projectsToAnalyze) {
+                try {
+                    console.log(`  - Analyzing ${project.url}...`);
+                    const analysisStatus = await analyzeProjectWithOllama(project);
+                    project.status = analysisStatus;
+                    console.log(`  - Analysis complete. Status: ${analysisStatus}`);
+                } catch (ollamaError) {
+                    console.error(`  - Error analyzing project ${project.url} with Ollama:`, ollamaError);
+                    project.status = 'analyse échouée';
                 }
             }
         }
@@ -126,4 +143,67 @@ async function scrapeConversations(headers) {
     return conversations;
 }
 
-module.exports = { runBotLogic };
+async function analyzeProjectWithOllama(project) {
+    const OLLAMA_API_URL = 'http://localhost:11434/api/generate';
+    let ollamaModel = '';
+
+    try {
+        const ollamaConfigData = await fs.readFile(OLLAMA_CONFIG_FILE, 'utf8');
+        const ollamaConfig = JSON.parse(ollamaConfigData);
+        if (ollamaConfig.ollamaModel) {
+            ollamaModel = ollamaConfig.ollamaModel;
+        }
+    } catch (err) {
+        console.warn('ollama-config.json not found or invalid, using default Ollama model.', err);
+    }
+
+    // 1. Read the analysis prompt
+    const promptsData = await fs.readFile(PROMPTS_FILE, 'utf8');
+    const prompts = JSON.parse(promptsData);
+    const analysisPrompt = prompts.promptAnalysis;
+
+    if (!analysisPrompt) {
+        throw new Error('promptAnalysis not found in prompts.json');
+    }
+
+    // 2. Construct the full prompt for Ollama
+    const fullPrompt = `
+
+        Voici les détails du projet :
+        - Titre : ${project.title}
+        - Description : ${project.description}
+        - Budget : ${project.budget}
+
+        Répondez uniquement par "OUI" ou "NON" si le projet respecte un des critères suivants : ${analysisPrompt}.
+    `;
+
+    // 3. Call Ollama API
+    const response = await fetch(OLLAMA_API_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            model: ollamaModel,
+            prompt: fullPrompt,
+            stream: false, // We want the full response at once
+        }),
+    });
+
+    if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`Ollama API request failed: ${response.statusText} - ${errorBody}`);
+    }
+
+    const result = await response.json();
+    const ollamaResponse = result.response.trim().toUpperCase();
+
+    // 4. Interpret the response
+    if (ollamaResponse.includes('OUI')) {
+        return 'analysé - pertinent';
+    } else {
+        return 'analysé - non pertinent';
+    }
+}
+
+module.exports = { runBotLogic, analyzeProjectWithOllama };

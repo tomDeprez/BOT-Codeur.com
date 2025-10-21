@@ -1,6 +1,6 @@
 # Suivi de Projet - Bot Codeur.com
 
-**Date :** 20 octobre 2025
+**Date :** 21 octobre 2025
 
 ## Objectif du Projet
 
@@ -39,11 +39,11 @@ Créer un bot automatisé, testé et robuste pour le site `codeur.com`, contrôl
 
 La collecte de données est maintenant robuste et testée. Nous passons à l'intelligence artificielle.
 
-- [ ] **Phase 3 : Intégration avec Ollama**
-  - [ ] Modifier la logique du bot pour qu'il envoie les détails de chaque projet **visité** à l'API d'Ollama.
-  - [ ] Utiliser le **Prompt d'Analyse de Projet** pour demander à l'IA si le projet est pertinent (par exemple, en répondant OUI/NON).
-  - [ ] Mettre à jour le statut du projet dans `projects.json` avec le résultat de l'analyse de l'IA (ex: `status: 'analysé - pertinent'` ou `status: 'analysé - non pertinent'`).
-  - [ ] Afficher ce nouveau statut sur l'interface.
+- [x] **Phase 3 : Intégration avec Ollama**
+  - [x] Modifier la logique du bot pour qu'il envoie les détails de chaque projet **visité** à l'API d'Ollama.
+  - [x] Utiliser le **Prompt d'Analyse de Projet** pour demander à l'IA si le projet est pertinent (par exemple, en répondant OUI/NON).
+  - [x] Mettre à jour le statut du projet dans `projects.json` avec le résultat de l'analyse de l'IA (ex: `status: 'analysé - pertinent'` ou `status: 'analysé - non pertinent'`).
+  - [x] Afficher ce nouveau statut sur l'interface.
 
 - [ ] **Phase 4 : Action du Bot (Réponse)**
   - [ ] Pour les projets jugés pertinents, utiliser les autres prompts pour générer un devis et un message de réponse.

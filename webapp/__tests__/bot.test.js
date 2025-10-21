@@ -1,21 +1,20 @@
-const fs = require('fs').promises;
-const path = require('path');
-const { runBotLogic } = require('../bot');
-const fetch = require('node-fetch');
-
 // Mock the node-fetch module
 jest.mock('node-fetch', () => jest.fn());
 
+
+
+
+
 // Mock the fs.promises module
-jest.mock('fs', () => ({
-    ...jest.requireActual('fs'), // import and retain default behavior
-    promises: {
-        readFile: jest.fn(),
-        writeFile: jest.fn(),
-    },
-}));
+
 
 describe('runBotLogic', () => {
+    const { runBotLogic } = require('../bot');
+    const fetch = require('node-fetch');
+    const fs = require('fs');
+    const path = require('path');
+    // Mock the node-fetch module locally for this describe block
+    jest.mock('node-fetch', () => jest.fn());
     let mockAuthFileContent;
     let mockProjectListPageHtml;
     let mockProjectDetailPageHtml;
@@ -23,8 +22,6 @@ describe('runBotLogic', () => {
     beforeEach(() => {
         // Reset mocks before each test
         fetch.mockClear();
-        fs.readFile.mockClear();
-        fs.writeFile.mockClear();
 
         // --- Default Mock Implementations ---
         mockAuthFileContent = JSON.stringify({ sessionCookie: 'valid_cookie' });
@@ -71,8 +68,41 @@ describe('runBotLogic', () => {
             </html>
         `;
 
-        // Default fetch mock
-        fetch.mockImplementation((url) => {
+        // Mock specific fetch calls
+        fetch.mockResolvedValueOnce({ ok: true, text: () => Promise.resolve('<html></html>') }); // For /messages
+        fetch.mockResolvedValueOnce({ ok: true, text: () => Promise.resolve(mockProjectListPageHtml) }); // For /projects
+        fetch.mockResolvedValueOnce({ ok: true, text: () => Promise.resolve(mockProjectDetailPageHtml) }); // For /projects/1-new-project
+        fetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ response: 'OUI' }), text: () => Promise.resolve('OUI') }); // For Ollama API
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should scrape projects, visit details, analyze, and save them when run for the first time', async () => {
+        // Arrange
+        // Mock fs.promises.readFile and writeFile locally for this test
+        const readFileSpy = jest.spyOn(fs.promises, 'readFile');
+        const writeFileSpy = jest.spyOn(fs.promises, 'writeFile');
+
+        // 1. Simulate auth file exists (for Promise.all)
+        readFileSpy.mockResolvedValueOnce(mockAuthFileContent);
+        // 2. Simulate prompts.json exists (for Promise.all)
+        readFileSpy.mockResolvedValueOnce(JSON.stringify({ promptAnalysis: 'Is it good?' }));
+        // 3. Simulate ollama-config.json exists (for Promise.all)
+        readFileSpy.mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' }));
+        // 4. Simulate projects.json is empty
+        readFileSpy.mockResolvedValueOnce('[]');
+        // 5. Simulate ollama-config.json exists (inside analyzeProjectWithOllama)
+        readFileSpy.mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' }));
+        // 6. Simulate prompts.json exists (inside analyzeProjectWithOllama)
+        readFileSpy.mockResolvedValueOnce(JSON.stringify({ promptAnalysis: 'Is it good?' }));
+
+        // Mock Ollama fetch call
+        fetch.mockImplementation(url => {
+            if (url.includes('ollama')) {
+                return Promise.resolve({ ok: true, json: () => Promise.resolve({ response: 'OUI' }), text: () => Promise.resolve('OUI') });
+            }
             if (url.includes('/messages')) {
                 return Promise.resolve({ ok: true, text: () => Promise.resolve('<html></html>') });
             }
@@ -82,29 +112,23 @@ describe('runBotLogic', () => {
             if (url.includes('/projects')) {
                 return Promise.resolve({ ok: true, text: () => Promise.resolve(mockProjectListPageHtml) });
             }
-            return Promise.resolve({ ok: false, statusText: 'Not Found' });
+            // Default for any other URL not explicitly mocked
+            return Promise.resolve({ ok: false, statusText: 'Not Found', text: () => Promise.resolve('Not Found') });
         });
-    });
 
-    test('should scrape projects, visit details, and save them when run for the first time', async () => {
-        // Arrange
-        // 1. Simulate auth file exists
-        fs.readFile.mockResolvedValueOnce(mockAuthFileContent);
-        // 2. Simulate projects.json does not exist
-        fs.readFile.mockRejectedValueOnce(new Error('File not found'));
 
         // Act
         const result = await runBotLogic();
 
         // Assert
         // 1. Check that writeFile was called to save the new state
-        expect(fs.writeFile).toHaveBeenCalledTimes(1);
-        const savedData = JSON.parse(fs.writeFile.mock.calls[0][1]);
+        expect(writeFileSpy).toHaveBeenCalledTimes(1);
+        const savedData = JSON.parse(writeFileSpy.mock.calls[0][1]);
         
         // 2. Verify the content of the saved data
         expect(savedData).toHaveLength(1);
         const project = savedData[0];
-        expect(project.status).toBe('visité');
+        expect(project.status).toBe('analysé - pertinent');
         expect(project.title).toBe('Refonte page produit Shopify orientée conversion');
         expect(project.description).toBe('Je cherche un freelance Shopify...');
         expect(project.budget).toBe('Moins de 500 €');
@@ -113,5 +137,101 @@ describe('runBotLogic', () => {
         // 3. Verify the data returned by the function
         expect(result.success).toBe(true);
         expect(result.data.projects).toEqual(savedData);
+
+        // Restore original fs.promises functions
+        jest.restoreAllMocks();
+    });
+});
+
+describe('analyzeProjectWithOllama', () => {
+    const { analyzeProjectWithOllama } = require('../bot');
+    const fetch = require('node-fetch');
+    const fs = require('fs');
+    const path = require('path');
+    // Mock the node-fetch module locally for this describe block
+    jest.mock('node-fetch', () => jest.fn());
+
+
+
+
+    beforeEach(() => {
+        fetch.mockClear();
+        // Mock fs.promises.readFile locally for these tests
+        jest.spyOn(require('fs').promises, 'readFile').mockClear();
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should return "analysé - pertinent" when Ollama responds with OUI', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptAnalysis: 'Is this a good project?' };
+        const mockReadFileSpy = jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ response: 'OUI' }),
+        });
+
+        // Act
+        const result = await analyzeProjectWithOllama(project);
+
+        // Assert
+        expect(result).toBe('analysé - pertinent');
+        expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
+        expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
+    });
+
+    test('should return "analysé - non pertinent" when Ollama responds with NON', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptAnalysis: 'Is this a good project?' };
+        const mockReadFileSpy = jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ response: 'NON' }),
+        });
+
+        // Act
+        const result = await analyzeProjectWithOllama(project);
+
+        // Assert
+        expect(result).toBe('analysé - non pertinent');
+        expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
+        expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
+    });
+
+    test('should throw an error if the Ollama API request fails', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptAnalysis: 'Is this a good project?' };
+        const mockReadFileSpy = jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockRejectedValueOnce(new Error('Ollama API request failed'));
+
+        // Act & Assert
+        await expect(analyzeProjectWithOllama(project)).rejects.toThrow('Ollama API request failed: Internal Server Error - Error details');
+        expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
+        expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
+    });
+
+    test('should throw an error if promptAnalysis is not in prompts.json', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = {}; // Missing promptAnalysis
+        const mockReadFileSpy = jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+
+        // Act & Assert
+        await expect(analyzeProjectWithOllama(project)).rejects.toThrow('promptAnalysis not found in prompts.json');
+        expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
+        expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
     });
 });
