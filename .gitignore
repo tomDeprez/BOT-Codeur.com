@@ -6,3 +6,4 @@ webapp/prompts.json
 webapp/auth.json
 webapp/ollama-config.json
 tempo.json
+webapp/projects.json
