@@ -307,7 +307,7 @@ async function generateProposalWithOllama(project) {
 
     // 2. Construct the full prompt for Ollama
     const fullPrompt = `
-            Pour le message commence toujours par Bonjour, je veux pas de titre pas d'étoiles, fait Un message humain de proposition pour le projettu dois te faire passer pour ${promptPersonality}, et respecter cette logique ${quotationPrompt}
+            Pour le message, commence toujours par "Bonjour". Je ne veux pas de titre, ni d'étoiles que tu texte brute. Fais un message humain de proposition pour le projet ; tu dois te faire passer pour...${promptPersonality}, et respecter cette logique ${quotationPrompt}
             Voici le projet :
             - Titre : ${project.title}
             - Description : ${project.description}
