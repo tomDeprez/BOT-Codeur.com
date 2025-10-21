@@ -348,6 +348,42 @@ async function generateProposalWithOllama(project) {
     return proposal;
 }
 
+async function sendProposalContinuation(offerId, message, headers, csrfToken, projectId) {
+    const commentUrl = `${CODEUR_BASE_URL}/offer/${offerId}/comments`;
+    const boundary = `----WebKitFormBoundary${Math.random().toString(36).substring(2)}`;
+
+    const body = `------${boundary}\r\n` +
+        `Content-Disposition: form-data; name="comment[file]"; filename=""\r\nContent-Type: application/octet-stream\r\n\r\n\r\n` +
+        `------${boundary}\r\n` +
+        `Content-Disposition: form-data; name="comment[content]"\r\n\r\n${message}\r\n` +
+        `------${boundary}--\r\n`;
+
+    const sendHeaders = {
+        ...headers,
+        'Accept': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
+        'Content-Type': `multipart/form-data; boundary=----${boundary}`,
+        'Origin': CODEUR_BASE_URL,
+        'Referer': `${CODEUR_BASE_URL}/projects/${projectId}/offers/${offerId}`,
+        'X-CSRF-Token': csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+    };
+
+    const response = await fetch(commentUrl, {
+        method: 'POST',
+        headers: sendHeaders,
+        body: body,
+    });
+
+    if (response.ok) {
+        console.log(`  - Successfully sent proposal continuation for offer ${offerId}`);
+        return true;
+    } else {
+        const errorBody = await response.text();
+        console.error(`Failed to send proposal continuation for offer ${offerId}. Status: ${response.status}, Body: ${errorBody}`);
+        return false;
+    }
+}
+
 async function sendProposal(project, headers, csrfToken, projectId) {
     const offerUrl = `${CODEUR_BASE_URL}/projects/${projectId}/offers`;
     const boundary = `----WebKitFormBoundary${Math.random().toString(36).substring(2)}`;
@@ -396,6 +432,15 @@ async function sendProposal(project, headers, csrfToken, projectId) {
     });
 
     if (response.ok) {
+        const responseText = await response.text();
+        const offerIdMatch = responseText.match(/offer_(\d+)/);
+
+        if (offerIdMatch && project.proposal.messageSuite) {
+            const offerId = offerIdMatch[1];
+            console.log(`  - Extracted offer ID: ${offerId}. Sending proposal continuation...`);
+            const continuationSuccess = await sendProposalContinuation(offerId, project.proposal.messageSuite, headers, csrfToken, projectId);
+            return continuationSuccess;
+        }
         return true;
     } else {
         const errorBody = await response.text();
@@ -405,4 +450,4 @@ async function sendProposal(project, headers, csrfToken, projectId) {
 }
 
 
-module.exports = { runBotLogic, analyzeProjectWithOllama, generateProposalWithOllama, sendProposal };
+module.exports = { runBotLogic, analyzeProjectWithOllama, generateProposalWithOllama, sendProposal, sendProposalContinuation };

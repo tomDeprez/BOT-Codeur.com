@@ -1,9 +1,3 @@
-
-
-
-
-
-
 // Mock the fs.promises module
 
 
@@ -326,5 +320,136 @@ describe('generateProposalWithOllama', () => {
         expect(proposal.messageSuite).toBe(longMessage.substring(1000));
         expect(proposal.amount).toBe(100);
         expect(proposal.deadline).toBe(7);
+    });
+});
+
+describe('sendProposal and sendProposalContinuation', () => {
+    const { sendProposal, sendProposalContinuation } = require('../bot');
+    const fetch = require('node-fetch');
+    jest.mock('node-fetch', () => jest.fn());
+
+    beforeEach(() => {
+        fetch.mockClear();
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    describe('sendProposal', () => {
+        const project = {
+            url: 'https://www.codeur.com/projects/123-test-project',
+            proposal: {
+                amount: 150,
+                deadline: 5,
+                message: 'This is a short proposal.'
+            }
+        };
+        const headers = { 'Cookie': 'test_cookie' };
+        const csrfToken = 'test_csrf_token';
+        const projectId = '123';
+
+        test('should send a single part proposal successfully', async () => {
+            fetch.mockResolvedValue({
+                ok: true,
+                text: () => Promise.resolve('Success response with no offer_id')
+            });
+
+            const result = await sendProposal(project, headers, csrfToken, projectId);
+
+            expect(result).toBe(true);
+            expect(fetch).toHaveBeenCalledTimes(1);
+            expect(fetch).toHaveBeenCalledWith('https://www.codeur.com/projects/123/offers', expect.any(Object));
+        });
+
+        test('should send a multi-part proposal successfully', async () => {
+            const longProject = {
+                ...project,
+                proposal: {
+                    ...project.proposal,
+                    messageSuite: 'This is the second part.'
+                }
+            };
+
+            // Mock for the first call (sendProposal)
+            fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('... scrollTop: $("#offer_456").offset().top ...')
+            });
+            // Mock for the second call (sendProposalContinuation)
+            fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('Continuation success')
+            });
+
+            const result = await sendProposal(longProject, headers, csrfToken, projectId);
+
+            expect(result).toBe(true);
+            expect(fetch).toHaveBeenCalledTimes(2);
+            expect(fetch).toHaveBeenCalledWith('https://www.codeur.com/projects/123/offers', expect.any(Object));
+            expect(fetch).toHaveBeenCalledWith('https://www.codeur.com/offer/456/comments', expect.any(Object));
+        });
+
+        test('should return false if initial proposal fails', async () => {
+            fetch.mockResolvedValue({
+                ok: false,
+                status: 500,
+                text: () => Promise.resolve('Error')
+            });
+
+            const result = await sendProposal(project, headers, csrfToken, projectId);
+
+            expect(result).toBe(false);
+            expect(fetch).toHaveBeenCalledTimes(1);
+        });
+
+        test('should return false if continuation proposal fails', async () => {
+            const longProject = {
+                ...project,
+                proposal: {
+                    ...project.proposal,
+                    messageSuite: 'This is the second part.'
+                }
+            };
+            // Mock for the first call (sendProposal)
+            fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('... scrollTop: $("#offer_456").offset().top ...')
+            });
+            // Mock for the second call (sendProposalContinuation)
+            fetch.mockResolvedValueOnce({
+                ok: false,
+                status: 500,
+                text: () => Promise.resolve('Error')
+            });
+
+            const result = await sendProposal(longProject, headers, csrfToken, projectId);
+
+            expect(result).toBe(false);
+            expect(fetch).toHaveBeenCalledTimes(2);
+        });
+    });
+
+    describe('sendProposalContinuation', () => {
+        const offerId = '789';
+        const message = 'Continuation message';
+        const headers = { 'Cookie': 'test_cookie' };
+        const csrfToken = 'test_csrf_token';
+        const projectId = '123';
+
+        test('should send continuation successfully', async () => {
+            fetch.mockResolvedValue({
+                ok: true,
+                text: () => Promise.resolve('Success')
+            });
+
+            const result = await sendProposalContinuation(offerId, message, headers, csrfToken, projectId);
+
+            expect(result).toBe(true);
+            expect(fetch).toHaveBeenCalledTimes(1);
+            const fetchOptions = fetch.mock.calls[0][1];
+            expect(fetch.mock.calls[0][0]).toBe('https://www.codeur.com/offer/789/comments');
+            expect(fetchOptions.headers.Referer).toBe('https://www.codeur.com/projects/123/offers/789');
+        });
     });
 });
