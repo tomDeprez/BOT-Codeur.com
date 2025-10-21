@@ -8,3 +8,4 @@ webapp/ollama-config.json
 tempo.json
 webapp/projects.json
 webapp/bot.log
+webapp/auto-run.json
