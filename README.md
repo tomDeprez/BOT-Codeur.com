@@ -78,11 +78,16 @@ npm test
   - [x] **Mise en place de l'environnement de test avec Jest et Supertest.**
   - [x] **Rédaction de tests pour la sauvegarde de la configuration.**
 
-- [ ] **Phase 3 : Intégration avec Ollama**
-  - [ ] Envoyer les données extraites à l'API d'Ollama.
+- [x] **Phase 3 : Intégration avec Ollama (En cours)**
+  - [x] Modifier la logique du bot pour qu'il envoie les détails de chaque projet **visité** à l'API d'Ollama.
+  - [x] Utiliser le **Prompt d'Analyse de Projet** pour demander à l'IA si le projet est pertinent (par exemple, en répondant OUI/NON).
+  - [x] Mettre à jour le statut du projet dans `projects.json` avec le résultat de l'analyse de l'IA (ex: `status: 'analysé - pertinent'` ou `status: 'analysé - non pertinent'`).
+  - [x] Afficher ce nouveau statut sur l'interface.
+  - [x] **Rédaction de tests unitaires pour l'intégration Ollama (analyse et génération de proposition).**
 
 - [ ] **Phase 4 : Action du Bot (Réponse)**
-  - [ ] Implémenter l'envoi de réponses sur `codeur.com`.
+  - [ ] Pour les projets jugés pertinents, utiliser les autres prompts pour générer un devis et un message de réponse.
+  - [ ] Implémenter la logique pour poster cette réponse sur `codeur.com`.
 
 ---
 

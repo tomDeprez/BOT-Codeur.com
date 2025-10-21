@@ -10,7 +10,7 @@ Créer un bot automatisé, testé et robuste pour le site `codeur.com`, contrôl
 
 ## Principes de Développement
 
-- **La Qualité par les Tests :** Chaque nouvelle fonctionnalité doit être accompagnée de tests (unitaires ou d'intégration). La suite de tests complète (`npm test`) doit impérativement passer avec succès avant que le développement de la fonctionnalité soit considéré comme achevé.
+- **La Qualité par les Tests :** Chaque nouvelle fonctionnalité doit être accompagnée de tests (unitaires ou d'intégration). La suite de tests complète (`npm test`) doit impérativement passer avec succès avant que le développement de la fonctionnalité soit considéré comme achevé. Après chaque modification, il est crucial de lancer les tests unitaires pour vérifier la non-régression et s'assurer que les changements n'ont pas introduit de nouveaux bugs.
 
 ---
 
@@ -44,6 +44,7 @@ La collecte de données est maintenant robuste et testée. Nous passons à l'int
   - [x] Utiliser le **Prompt d'Analyse de Projet** pour demander à l'IA si le projet est pertinent (par exemple, en répondant OUI/NON).
   - [x] Mettre à jour le statut du projet dans `projects.json` avec le résultat de l'analyse de l'IA (ex: `status: 'analysé - pertinent'` ou `status: 'analysé - non pertinent'`).
   - [x] Afficher ce nouveau statut sur l'interface.
+  - [x] Rédaction de tests unitaires pour l'intégration Ollama (analyse et génération de proposition).
 
 - [ ] **Phase 4 : Action du Bot (Réponse)**
   - [ ] Pour les projets jugés pertinents, utiliser les autres prompts pour générer un devis et un message de réponse.

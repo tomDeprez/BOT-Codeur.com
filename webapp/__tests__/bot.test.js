@@ -1,5 +1,4 @@
-// Mock the node-fetch module
-jest.mock('node-fetch', () => jest.fn());
+
 
 
 
@@ -85,18 +84,14 @@ describe('runBotLogic', () => {
         const readFileSpy = jest.spyOn(fs.promises, 'readFile');
         const writeFileSpy = jest.spyOn(fs.promises, 'writeFile');
 
-        // 1. Simulate auth file exists (for Promise.all)
-        readFileSpy.mockResolvedValueOnce(mockAuthFileContent);
-        // 2. Simulate prompts.json exists (for Promise.all)
-        readFileSpy.mockResolvedValueOnce(JSON.stringify({ promptAnalysis: 'Is it good?' }));
-        // 3. Simulate ollama-config.json exists (for Promise.all)
-        readFileSpy.mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' }));
-        // 4. Simulate projects.json is empty
-        readFileSpy.mockResolvedValueOnce('[]');
-        // 5. Simulate ollama-config.json exists (inside analyzeProjectWithOllama)
-        readFileSpy.mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' }));
-        // 6. Simulate prompts.json exists (inside analyzeProjectWithOllama)
-        readFileSpy.mockResolvedValueOnce(JSON.stringify({ promptAnalysis: 'Is it good?' }));
+        // Mock specific readFile calls based on file path
+        readFileSpy.mockImplementation((file, encoding) => {
+            if (file.includes('auth.json')) return Promise.resolve(mockAuthFileContent);
+            if (file.includes('prompts.json')) return Promise.resolve(JSON.stringify({ promptAnalysis: 'Is it good?', promptQuotation: 'Generate a JSON proposal.' }));
+            if (file.includes('ollama-config.json')) return Promise.resolve(JSON.stringify({ ollamaModel: 'test-model' }));
+            if (file.includes('projects.json')) return Promise.resolve('[]'); // Ensure it returns an empty array string
+            return Promise.reject(new Error(`Unknown file: ${file}`));
+        });
 
         // Mock Ollama fetch call
         fetch.mockImplementation(url => {
@@ -128,7 +123,7 @@ describe('runBotLogic', () => {
         // 2. Verify the content of the saved data
         expect(savedData).toHaveLength(1);
         const project = savedData[0];
-        expect(project.status).toBe('analysé - pertinent');
+        expect(project.statusProjet).toBe('pertinent');
         expect(project.title).toBe('Refonte page produit Shopify orientée conversion');
         expect(project.description).toBe('Je cherche un freelance Shopify...');
         expect(project.budget).toBe('Moins de 500 €');
@@ -180,7 +175,7 @@ describe('analyzeProjectWithOllama', () => {
         const result = await analyzeProjectWithOllama(project);
 
         // Assert
-        expect(result).toBe('analysé - pertinent');
+        expect(result).toBe('pertinent');
         expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
         expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
     });
@@ -201,7 +196,7 @@ describe('analyzeProjectWithOllama', () => {
         const result = await analyzeProjectWithOllama(project);
 
         // Assert
-        expect(result).toBe('analysé - non pertinent');
+        expect(result).toBe('non pertinent');
         expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
         expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
     });
@@ -216,7 +211,7 @@ describe('analyzeProjectWithOllama', () => {
         fetch.mockRejectedValueOnce(new Error('Ollama API request failed'));
 
         // Act & Assert
-        await expect(analyzeProjectWithOllama(project)).rejects.toThrow('Ollama API request failed: Internal Server Error - Error details');
+        await expect(analyzeProjectWithOllama(project)).rejects.toThrow('Ollama API request failed');
         expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
         expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
     });
@@ -233,5 +228,113 @@ describe('analyzeProjectWithOllama', () => {
         await expect(analyzeProjectWithOllama(project)).rejects.toThrow('promptAnalysis not found in prompts.json');
         expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
         expect(mockReadFileSpy).toHaveBeenCalledWith(path.join(__dirname, '..', 'prompts.json'), 'utf8');
+    });
+});
+
+describe('generateProposalWithOllama', () => {
+    const { generateProposalWithOllama } = require('../bot');
+    const fetch = require('node-fetch');
+    const fs = require('fs');
+    const path = require('path');
+
+    beforeEach(() => {
+        fetch.mockClear();
+        jest.spyOn(fs.promises, 'readFile').mockClear();
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('should generate a proposal successfully', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptQuotation: 'Generate a JSON proposal.' };
+        const mockOllamaResponse = {
+            amount: 500,
+            deadline: 7,
+            message: 'This is a test proposal message.'
+        };
+        jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ response: JSON.stringify(mockOllamaResponse) }),
+        });
+
+        // Act
+        const proposal = await generateProposalWithOllama(project);
+
+        // Assert
+        expect(proposal).toEqual(mockOllamaResponse);
+        expect(fetch).toHaveBeenCalledWith('http://localhost:11434/api/generate', expect.any(Object));
+    });
+
+    test('should throw an error if Ollama API request fails', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptQuotation: 'Generate a JSON proposal.' };
+        jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockRejectedValueOnce(new Error('Ollama API request failed'));
+
+        // Act & Assert
+        await expect(generateProposalWithOllama(project)).rejects.toThrow('Ollama API request failed');
+    });
+
+    test('should throw an error if promptQuotation is not in prompts.json', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = {}; // Missing promptQuotation
+        jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+
+        // Act & Assert
+        await expect(generateProposalWithOllama(project)).rejects.toThrow('promptQuotation not found in prompts.json');
+    });
+
+    test('should throw an error if Ollama returns invalid JSON', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptQuotation: 'Generate a JSON proposal.' };
+        jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ response: 'NOT JSON' }),
+        });
+
+        // Act & Assert
+        await expect(generateProposalWithOllama(project)).rejects.toThrow('Failed to parse Ollama proposal response.');
+    });
+
+    test('should truncate message if it is longer than 1000 characters', async () => {
+        // Arrange
+        const project = { title: 'Test Project', description: 'Test Desc', budget: '100' };
+        const mockPrompts = { promptQuotation: 'Generate a JSON proposal.' };
+        const longMessage = 'a'.repeat(1500);
+        const mockOllamaResponse = {
+            amount: 500,
+            deadline: 7,
+            message: longMessage
+        };
+        jest.spyOn(fs.promises, 'readFile')
+            .mockResolvedValueOnce(JSON.stringify({ ollamaModel: 'test-model' })) // For ollama-config.json
+            .mockResolvedValueOnce(JSON.stringify(mockPrompts)); // For prompts.json
+        fetch.mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ response: JSON.stringify(mockOllamaResponse) }),
+        });
+
+        // Act
+        const proposal = await generateProposalWithOllama(project);
+
+        // Assert
+        expect(proposal.message.length).toBe(1000);
+        expect(proposal.message).toBe(longMessage.substring(0, 1000));
     });
 });

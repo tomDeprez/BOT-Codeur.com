@@ -150,6 +150,35 @@ app.post('/api/clear-projects', async (req, res) => {
     }
 });
 
+// API endpoint to manually update project status
+app.post('/api/project-status', async (req, res) => {
+    const { url, status } = req.body;
+
+    if (!url || !status) {
+        return res.status(400).json({ success: false, message: 'URL and status are required.' });
+    }
+
+    try {
+        const projectsData = await fs.readFile(PROJECTS_FILE, 'utf8');
+        const projects = JSON.parse(projectsData);
+
+        const projectIndex = projects.findIndex(p => p.url === url);
+
+        if (projectIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Project not found.' });
+        }
+
+        projects[projectIndex].status = status;
+
+        await fs.writeFile(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+
+        res.json({ success: true, message: 'Project status updated successfully.' });
+    } catch (err) {
+        console.error('Error updating project status:', err);
+        res.status(500).json({ success: false, message: 'Error updating project status.' });
+    }
+});
+
 // Only start the server if this file is run directly
 if (require.main === module) {
     app.listen(port, () => {

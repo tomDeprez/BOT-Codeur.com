@@ -117,287 +117,395 @@
             </div>
         </div>
 
-        <div class="card mt-4">
-            <div class="card-header d-flex align-items-center">
-                <i class="bi bi-activity me-2"></i>
-                <h2 class="h5 mb-0">Statut & Résultats</h2>
-            </div>
-            <div class="card-body">
-                <div id="bot-status" class="alert alert-secondary">En attente...</div>
-                <div id="bot-results-container" class="mt-3" style="display: none;">
-                    <h5>Conversations</h5>
-                    <ul id="conversations-list" class="list-group"></ul>
-                    <h5 class="mt-4">Projets Trouvés</h5>
-                    <ul id="projects-list" class="list-group"></ul>
+            <div class="card mt-4">
+                <div class="card-header d-flex align-items-center">
+                    <i class="bi bi-activity me-2"></i>
+                    <h2 class="h5 mb-0">Statut & Résultats</h2>
+                </div>
+                <div class="card-body">
+                    <div id="bot-status" class="alert alert-secondary">En attente...</div>
+                    <div id="bot-results-container" class="mt-3" style="display: none;">
+                        <h5>Conversations</h5>
+                        <ul id="conversations-list" class="list-group"></ul>
+                        <h5 class="mt-4">Projets Trouvés</h5>
+                        <ul id="projects-list" class="list-group"></ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <script>
-        // --- DOM Elements ---
-        const configForm = document.getElementById('config-form');
-        const checkConnectionBtn = document.getElementById('check-connection-btn');
-        const sessionCookieInput = document.getElementById('session-cookie');
-        const connectionStatusDiv = document.getElementById('connection-status');
-        const saveConfigBtn = document.getElementById('save-config-btn');
-        const runBotBtn = document.getElementById('run-bot-btn');
-        const botStatusDiv = document.getElementById('bot-status');
-        const resultsContainer = document.getElementById('bot-results-container');
-        const conversationsList = document.getElementById('conversations-list');
-        const projectsList = document.getElementById('projects-list');
-        const clearCacheBtn = document.getElementById('clear-cache-btn');
-
-        // Ollama elements
-        const ollamaModelSelect = document.getElementById('ollama-model-select');
-        const fetchOllamaModelsBtn = document.getElementById('fetch-ollama-models-btn');
-        const saveOllamaConfigBtn = document.getElementById('save-ollama-config-btn');
-        const ollamaModelStatusDiv = document.getElementById('ollama-model-status');
-
-        // --- Clear Cache ---
-        clearCacheBtn.addEventListener('click', () => {
-            if (confirm('Êtes-vous sûr de vouloir supprimer l\'historique des projets ? Cette action est irréversible.')) {
-                botStatusDiv.className = 'alert alert-info';
-                botStatusDiv.textContent = 'Suppression du cache en cours...';
-
-                fetch('/api/clear-projects', { method: 'POST' })
+        
+        <!-- Project Details Modal -->
+        <div class="modal fade" id="project-details-modal" tabindex="-1" aria-labelledby="project-details-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="project-details-modal-label">Détails du Projet</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 id="project-modal-title"></h6>
+                        <p><strong>Budget:</strong> <span id="project-modal-budget"></span></p>
+                        <p><strong>Description:</strong></p>
+                        <p id="project-modal-description"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // --- DOM Elements ---
+            const configForm = document.getElementById('config-form');
+            const checkConnectionBtn = document.getElementById('check-connection-btn');
+            const sessionCookieInput = document.getElementById('session-cookie');
+            const connectionStatusDiv = document.getElementById('connection-status');
+            const saveConfigBtn = document.getElementById('save-config-btn');
+            const runBotBtn = document.getElementById('run-bot-btn');
+            const botStatusDiv = document.getElementById('bot-status');
+            const resultsContainer = document.getElementById('bot-results-container');
+            const conversationsList = document.getElementById('conversations-list');
+            const projectsList = document.getElementById('projects-list');
+            const clearCacheBtn = document.getElementById('clear-cache-btn');
+        
+            // Ollama elements
+            const ollamaModelSelect = document.getElementById('ollama-model-select');
+            const fetchOllamaModelsBtn = document.getElementById('fetch-ollama-models-btn');
+            const saveOllamaConfigBtn = document.getElementById('save-ollama-config-btn');
+            const ollamaModelStatusDiv = document.getElementById('ollama-model-status');
+        
+            // Modal elements
+            const projectDetailsModal = new bootstrap.Modal(document.getElementById('project-details-modal'));
+            const projectModalTitle = document.getElementById('project-modal-title');
+            const projectModalBudget = document.getElementById('project-modal-budget');
+            const projectModalDescription = document.getElementById('project-modal-description');
+        
+            // --- Clear Cache ---
+            clearCacheBtn.addEventListener('click', () => {
+                if (confirm('Êtes-vous sûr de vouloir supprimer l\'historique des projets ? Cette action est irréversible.')) {
+                    botStatusDiv.className = 'alert alert-info';
+                    botStatusDiv.textContent = 'Suppression du cache en cours...';
+        
+                    fetch('/api/clear-projects', { method: 'POST' })
+                        .then(response => response.json())
+                        .then(result => {
+                            botStatusDiv.className = 'alert alert-success';
+                            botStatusDiv.textContent = result.message;
+                        })
+                        .catch(error => {
+                            console.error('Error clearing cache:', error);
+                            botStatusDiv.className = 'alert alert-danger';
+                            botStatusDiv.textContent = 'Erreur lors de la suppression du cache.';
+                        });
+                }
+            });
+        
+            // --- Load Config on Page Start ---
+            document.addEventListener('DOMContentLoaded', () => {
+                fetch('/api/config')
+                    .then(response => response.json())
+                    .then(config => {
+                        if (config.sessionCookie) sessionCookieInput.value = config.sessionCookie;
+                        if (config.promptPersonality) document.getElementById('prompt-personality').value = config.promptPersonality;
+                        if (config.promptAnalysis) document.getElementById('prompt-analysis').value = config.promptAnalysis;
+                        if (config.promptQuotation) document.getElementById('prompt-quotation').value = config.promptQuotation;
+                        if (config.promptMessage) document.getElementById('prompt-message').value = config.promptMessage;
+                        if (config.ollamaModel) {
+                            const option = document.createElement('option');
+                            option.value = config.ollamaModel;
+                            option.textContent = config.ollamaModel;
+                            ollamaModelSelect.appendChild(option);
+                            ollamaModelSelect.value = config.ollamaModel;
+                        }
+                    })
+                    .catch(error => console.error('Could not load configuration:', error));
+            });
+        
+            // --- Check Connection ---
+            checkConnectionBtn.addEventListener('click', () => {
+                const cookie = sessionCookieInput.value;
+                if (!cookie) { alert('Veuillez d\'abord entrer un cookie de session.'); return; }
+                connectionStatusDiv.style.display = 'block';
+                connectionStatusDiv.className = 'alert alert-info';
+                connectionStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Vérification en cours...';
+                fetch('/api/check-connection', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionCookie: cookie }) })
                     .then(response => response.json())
                     .then(result => {
-                        botStatusDiv.className = 'alert alert-success';
-                        botStatusDiv.textContent = result.message;
+                        connectionStatusDiv.className = result.success ? 'alert alert-success' : 'alert alert-danger';
+                        connectionStatusDiv.innerHTML = `<i class="bi ${result.success ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i> ${result.message}`;
                     })
                     .catch(error => {
-                        console.error('Error clearing cache:', error);
-                        botStatusDiv.className = 'alert alert-danger';
-                        botStatusDiv.textContent = 'Erreur lors de la suppression du cache.';
+                        console.error('Error:', error);
+                        connectionStatusDiv.className = 'alert alert-danger';
+                        connectionStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur.';
                     });
-            }
-        });
-
-        // --- Load Config on Page Start ---
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('/api/config')
-                .then(response => response.json())
-                .then(config => {
-                    if (config.sessionCookie) sessionCookieInput.value = config.sessionCookie;
-                    if (config.promptPersonality) document.getElementById('prompt-personality').value = config.promptPersonality;
-                    if (config.promptAnalysis) document.getElementById('prompt-analysis').value = config.promptAnalysis;
-                    if (config.promptQuotation) document.getElementById('prompt-quotation').value = config.promptQuotation;
-                    if (config.promptMessage) document.getElementById('prompt-message').value = config.promptMessage;
-                    if (config.ollamaModel) {
-                        const option = document.createElement('option');
-                        option.value = config.ollamaModel;
-                        option.textContent = config.ollamaModel;
-                        ollamaModelSelect.appendChild(option);
-                        ollamaModelSelect.value = config.ollamaModel;
-                    }
-                })
-                .catch(error => console.error('Could not load configuration:', error));
-        });
-
-        // --- Check Connection ---
-        checkConnectionBtn.addEventListener('click', () => {
-            const cookie = sessionCookieInput.value;
-            if (!cookie) { alert('Veuillez d\'abord entrer un cookie de session.'); return; }
-            connectionStatusDiv.style.display = 'block';
-            connectionStatusDiv.className = 'alert alert-info';
-            connectionStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Vérification en cours...';
-            fetch('/api/check-connection', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionCookie: cookie }) })
-                .then(response => response.json())
-                .then(result => {
-                    connectionStatusDiv.className = result.success ? 'alert alert-success' : 'alert alert-danger';
-                    connectionStatusDiv.innerHTML = `<i class="bi ${result.success ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i> ${result.message}`;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    connectionStatusDiv.className = 'alert alert-danger';
-                    connectionStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur.';
-                });
-        });
-
-        // --- Save Configuration ---
-        configForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const originalButtonHTML = saveConfigBtn.innerHTML;
-            saveConfigBtn.disabled = true;
-            saveConfigBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sauvegarde en cours...';
-            const data = {
-                sessionCookie: sessionCookieInput.value,
-                promptPersonality: document.getElementById('prompt-personality').value,
-                promptAnalysis: document.getElementById('prompt-analysis').value,
-                promptQuotation: document.getElementById('prompt-quotation').value,
-                promptMessage: document.getElementById('prompt-message').value,
-                ollamaModel: ollamaModelSelect.value
-            };
-            fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.message) {
+            });
+        
+            // --- Save Configuration ---
+            configForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const originalButtonHTML = saveConfigBtn.innerHTML;
+                saveConfigBtn.disabled = true;
+                saveConfigBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sauvegarde en cours...';
+                const data = {
+                    sessionCookie: sessionCookieInput.value,
+                    promptPersonality: document.getElementById('prompt-personality').value,
+                    promptAnalysis: document.getElementById('prompt-analysis').value,
+                    promptQuotation: document.getElementById('prompt-quotation').value,
+                    promptMessage: document.getElementById('prompt-message').value,
+                    ollamaModel: ollamaModelSelect.value
+                };
+                fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            saveConfigBtn.classList.remove('btn-primary');
+                            saveConfigBtn.classList.add('btn-success');
+                            saveConfigBtn.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${result.message}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                         saveConfigBtn.classList.remove('btn-primary');
-                        saveConfigBtn.classList.add('btn-success');
-                        saveConfigBtn.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${result.message}`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    saveConfigBtn.classList.remove('btn-primary');
-                    saveConfigBtn.classList.add('btn-danger');
-                    saveConfigBtn.innerHTML = 'Erreur lors de la sauvegarde';
-                })
-                .finally(() => {
-                    setTimeout(() => {
-                        saveConfigBtn.disabled = false;
-                        saveConfigBtn.classList.remove('btn-success', 'btn-danger');
-                        saveConfigBtn.classList.add('btn-primary');
-                        saveConfigBtn.innerHTML = originalButtonHTML;
-                    }, 3000);
-                });
-        });
-
-        // --- Fetch Ollama Models ---
-        fetchOllamaModelsBtn.addEventListener('click', () => {
-            ollamaModelStatusDiv.style.display = 'block';
-            ollamaModelStatusDiv.className = 'alert alert-info';
-            ollamaModelStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Récupération des modèles...';
-            fetch('/api/ollama-models')
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        ollamaModelSelect.innerHTML = '<option value="">-- Sélectionner un modèle --</option>'; // Clear existing options
-                        result.models.forEach(model => {
-                            const option = document.createElement('option');
-                            option.value = model;
-                            option.textContent = model;
-                            ollamaModelSelect.appendChild(option);
-                        });
-                        // Try to re-select the previously configured model if it exists
-                        fetch('/api/config')
-                            .then(response => response.json())
-                            .then(config => {
-                                if (config.ollamaModel) {
-                                    ollamaModelSelect.value = config.ollamaModel;
-                                }
+                        saveConfigBtn.classList.add('btn-danger');
+                        saveConfigBtn.innerHTML = 'Erreur lors de la sauvegarde';
+                    })
+                    .finally(() => {
+                        setTimeout(() => {
+                            saveConfigBtn.disabled = false;
+                            saveConfigBtn.classList.remove('btn-success', 'btn-danger');
+                            saveConfigBtn.classList.add('btn-primary');
+                            saveConfigBtn.innerHTML = originalButtonHTML;
+                        }, 3000);
+                    });
+            });
+        
+            // --- Fetch Ollama Models ---
+            fetchOllamaModelsBtn.addEventListener('click', () => {
+                ollamaModelStatusDiv.style.display = 'block';
+                ollamaModelStatusDiv.className = 'alert alert-info';
+                ollamaModelStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Récupération des modèles...';
+                fetch('/api/ollama-models')
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            ollamaModelSelect.innerHTML = '<option value="">-- Sélectionner un modèle --</option>'; // Clear existing options
+                            result.models.forEach(model => {
+                                const option = document.createElement('option');
+                                option.value = model;
+                                option.textContent = model;
+                                ollamaModelSelect.appendChild(option);
                             });
-                        ollamaModelStatusDiv.className = 'alert alert-success';
-                        ollamaModelStatusDiv.innerHTML = '<i class="bi bi-check-circle-fill"></i> Modèles récupérés avec succès.';
-                    } else {
+                            // Try to re-select the previously configured model if it exists
+                            fetch('/api/config')
+                                .then(response => response.json())
+                                .then(config => {
+                                    if (config.ollamaModel) {
+                                        ollamaModelSelect.value = config.ollamaModel;
+                                    }
+                                });
+                            ollamaModelStatusDiv.className = 'alert alert-success';
+                            ollamaModelStatusDiv.innerHTML = '<i class="bi bi-check-circle-fill"></i> Modèles récupérés avec succès.';
+                        } else {
+                            ollamaModelStatusDiv.className = 'alert alert-danger';
+                            ollamaModelStatusDiv.innerHTML = `<i class="bi bi-x-circle-fill"></i> Erreur: ${result.message}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching Ollama models:', error);
                         ollamaModelStatusDiv.className = 'alert alert-danger';
-                        ollamaModelStatusDiv.innerHTML = `<i class="bi bi-x-circle-fill"></i> Erreur: ${result.message}`;
-                    }
+                        ollamaModelStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur Ollama.';
+                    });
+            });
+        
+            // --- Save Ollama Config ---
+            saveOllamaConfigBtn.addEventListener('click', () => {
+                const selectedModel = ollamaModelSelect.value;
+                if (!selectedModel) {
+                    alert('Veuillez sélectionner un modèle Ollama.');
+                    return;
+                }
+                ollamaModelStatusDiv.style.display = 'block';
+                ollamaModelStatusDiv.className = 'alert alert-info';
+                ollamaModelStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Sauvegarde du modèle Ollama...';
+                fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ollamaModel: selectedModel })
                 })
-                .catch(error => {
-                    console.error('Error fetching Ollama models:', error);
-                    ollamaModelStatusDiv.className = 'alert alert-danger';
-                    ollamaModelStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur Ollama.';
-                });
-        });
-
-        // --- Save Ollama Config ---
-        saveOllamaConfigBtn.addEventListener('click', () => {
-            const selectedModel = ollamaModelSelect.value;
-            if (!selectedModel) {
-                alert('Veuillez sélectionner un modèle Ollama.');
-                return;
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message) {
+                            ollamaModelStatusDiv.className = 'alert alert-success';
+                            ollamaModelStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${result.message}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error saving Ollama config:', error);
+                        ollamaModelStatusDiv.className = 'alert alert-danger';
+                        ollamaModelStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur lors de la sauvegarde du modèle Ollama.';
+                    });
+            });
+        
+            // --- Run Bot ---
+            runBotBtn.addEventListener('click', () => {
+                botStatusDiv.className = 'alert alert-info';
+                botStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Exécution du bot en cours...';
+                resultsContainer.style.display = 'none';
+                conversationsList.innerHTML = '';
+                projectsList.innerHTML = '';
+                fetch('/api/run-bot', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            const convoCount = result.data.conversations.length;
+                            const projectCount = result.data.projects.length;
+                            botStatusDiv.className = 'alert alert-success';
+                            botStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> Bot terminé. ${convoCount} conversation(s) et ${projectCount} projet(s) trouvés.`;
+                            console.log(JSON.stringify(result.data, null, 2)); // DEBUGGING LINE
+                            if (convoCount > 0 || projectCount > 0) displayResults(result.data);
+                        } else {
+                            botStatusDiv.className = 'alert alert-danger';
+                            botStatusDiv.innerHTML = `<i class="bi bi-x-circle-fill"></i> Erreur: ${result.message}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error running bot:', error);
+                        botStatusDiv.className = 'alert alert-danger';
+                        botStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur.';
+                    });
+            });
+        
+            function getProjectStatusBadge(statusProjet) {
+                switch (statusProjet) {
+                    case 'non analysé':
+                        return '<span class="badge bg-secondary">Non Analysé</span>';
+                    case 'pertinent':
+                        return '<span class="badge bg-success">Pertinent</span>';
+                    case 'non pertinent':
+                        return '<span class="badge bg-info">Non Pertinent</span>';
+                    default:
+                        return '<span class="badge bg-secondary">Inconnu</span>';
+                }
             }
-            ollamaModelStatusDiv.style.display = 'block';
-            ollamaModelStatusDiv.className = 'alert alert-info';
-            ollamaModelStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Sauvegarde du modèle Ollama...';
-            fetch('/api/config', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ollamaModel: selectedModel })
-            })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.message) {
-                        ollamaModelStatusDiv.className = 'alert alert-success';
-                        ollamaModelStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> ${result.message}`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error saving Ollama config:', error);
-                    ollamaModelStatusDiv.className = 'alert alert-danger';
-                    ollamaModelStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur lors de la sauvegarde du modèle Ollama.';
-                });
-        });
 
-        // --- Run Bot ---
-        runBotBtn.addEventListener('click', () => {
-            botStatusDiv.className = 'alert alert-info';
-            botStatusDiv.innerHTML = '<i class="bi bi-hourglass-split"></i> Exécution du bot en cours...';
-            resultsContainer.style.display = 'none';
-            conversationsList.innerHTML = '';
-            projectsList.innerHTML = '';
-            fetch('/api/run-bot', { method: 'POST' })
+            function getTreatmentStatusBadge(statusTraitement) {
+                switch (statusTraitement) {
+                    case 'à scraper':
+                        return '<span class="badge bg-warning">À Scraper</span>';
+                    case 'à analyser':
+                        return '<span class="badge bg-primary">À Analyser</span>';
+                    case 'à proposer':
+                        return '<span class="badge bg-info">À Proposer</span>';
+                    case 'terminé':
+                        return '<span class="badge bg-success">Terminé</span>';
+                    case 'erreur scraping':
+                        return '<span class="badge bg-danger">Erreur Scraping</span>';
+                    case 'erreur analyse':
+                        return '<span class="badge bg-danger">Erreur Analyse</span>';
+                    case 'erreur proposition':
+                        return '<span class="badge bg-danger">Erreur Proposition</span>';
+                    default:
+                        return '<span class="badge bg-secondary">Inconnu</span>';
+                }
+            }
+        
+            function displayResults(data) {
+                resultsContainer.style.display = 'block';
+        
+                // Display conversations
+                if (data.conversations && data.conversations.length > 0) {
+                    data.conversations.forEach(convo => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item d-flex justify-content-between align-items-start';
+                        if (convo.isUnread) li.classList.add('unread-conversation');
+                        li.innerHTML = `<div class="ms-2 me-auto"><div class="fw-bold">${convo.userName}</div>${convo.messageSnippet}</div>${convo.isUnread ? '<span class="badge bg-warning rounded-pill">Non lu</span>' : ''}`;
+                        conversationsList.appendChild(li);
+                    });
+                } else { conversationsList.innerHTML = '<li class="list-group-item">Aucune conversation trouvée.</li>'; }
+        
+                            // Display projects
+                            if (data.projects && data.projects.length > 0) {
+                                projectsList.innerHTML = ''; // Clear previous results
+                                // Sort projects by a timestamp or simply reverse if new projects are appended
+                                const sortedProjects = [...data.projects].reverse();
+                
+                                sortedProjects.forEach(project => {
+                                    const li = document.createElement('li');
+                                    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                                    li.dataset.url = project.url;
+                
+                                    li.innerHTML = `
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold"><a href="${project.url}" target="_blank">${project.title || 'Projet sans titre'}</a></div>
+                                            <div class="d-flex gap-2 mt-1">
+                                                <div id="status-projet-${project.url.replace(/[^a-zA-Z0-9]/g, '' )}">${getProjectStatusBadge(project.statusProjet)}</div>
+                                                <div id="status-traitement-${project.url.replace(/[^a-zA-Z0-9]/g, '' )}">${getTreatmentStatusBadge(project.statusTraitement)}</div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary details-btn">Détails</button>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Action
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" onclick="updateProjectStatus('${project.url}', 'pertinent')">Marquer Pertinent</a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateProjectStatus('${project.url}', 'non pertinent')">Marquer Non Pertinent</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    `;
+                
+                                    li.querySelector('.details-btn').addEventListener('click', () => {
+                                        projectModalTitle.textContent = project.title || 'Projet sans titre';
+                                        projectModalBudget.textContent = project.budget || 'N/A';
+                                        projectModalDescription.textContent = project.description || 'Aucune description disponible.';
+                                        projectDetailsModal.show();
+                                    });
+                
+                                    projectsList.appendChild(li);
+                                });
+                            } else { projectsList.innerHTML = '<li class="list-group-item">Aucun projet trouvé.</li>'; }
+                        }        
+            function updateProjectStatus(projectUrl, newProjectStatus) {
+                let newTreatmentStatus;
+                if (newProjectStatus === 'pertinent') {
+                    newTreatmentStatus = 'à proposer';
+                } else if (newProjectStatus === 'non pertinent') {
+                    newTreatmentStatus = 'terminé';
+                } else {
+                    // Default or error case, should not happen with current dropdown
+                    newTreatmentStatus = 'erreur'; 
+                }
+
+                fetch('/api/project-status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: projectUrl, statusProjet: newProjectStatus, statusTraitement: newTreatmentStatus })
+                })
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
-                        const convoCount = result.data.conversations.length;
-                        const projectCount = result.data.projects.length;
-                        botStatusDiv.className = 'alert alert-success';
-                        botStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> Bot terminé. ${convoCount} conversation(s) et ${projectCount} projet(s) trouvés.`;
-                        console.log(JSON.stringify(result.data, null, 2)); // DEBUGGING LINE
-                        if (convoCount > 0 || projectCount > 0) displayResults(result.data);
+                        const projectStatusElement = document.getElementById(`status-projet-${projectUrl.replace(/[^a-zA-Z0-9]/g, '' )}`);
+                        const treatmentStatusElement = document.getElementById(`status-traitement-${projectUrl.replace(/[^a-zA-Z0-9]/g, '' )}`);
+                        if (projectStatusElement) {
+                            projectStatusElement.innerHTML = getProjectStatusBadge(newProjectStatus);
+                        }
+                        if (treatmentStatusElement) {
+                            treatmentStatusElement.innerHTML = getTreatmentStatusBadge(newTreatmentStatus);
+                        }
                     } else {
-                        botStatusDiv.className = 'alert alert-danger';
-                        botStatusDiv.innerHTML = `<i class="bi bi-x-circle-fill"></i> Erreur: ${result.message}`;
+                        alert(`Erreur lors de la mise à jour du statut: ${result.message}`);
                     }
                 })
                 .catch(error => {
-                    console.error('Error running bot:', error);
-                    botStatusDiv.className = 'alert alert-danger';
-                    botStatusDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Erreur de communication avec le serveur.';
+                    console.error('Error updating status:', error);
+                    alert('Erreur de communication avec le serveur.');
                 });
-        });
-
-        function getStatusBadge(status) {
-            switch (status) {
-                case 'visité':
-                    return '<span class="badge bg-info">Visité</span>';
-                case 'analysé - pertinent':
-                    return '<span class="badge bg-success">Analysé - Pertinent</span>';
-                case 'analysé - non pertinent':
-                    return '<span class="badge bg-secondary">Analysé - Non Pertinent</span>';
-                case 'analyse échouée':
-                    return '<span class="badge bg-danger">Analyse Échouée</span>';
-                case 'posté':
-                    return '<span class="badge bg-success">Posté</span>';
-                case 'pas visité':
-                default:
-                    return '<span class="badge bg-secondary">Pas visité</span>';
             }
-        }
-
-        function displayResults(data) {
-            resultsContainer.style.display = 'block';
-
-            // Display conversations
-            if (data.conversations && data.conversations.length > 0) {
-                data.conversations.forEach(convo => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between align-items-start';
-                    if (convo.isUnread) li.classList.add('unread-conversation');
-                    li.innerHTML = `<div class="ms-2 me-auto"><div class="fw-bold">${convo.userName}</div>${convo.messageSnippet}</div>${convo.isUnread ? '<span class="badge bg-warning rounded-pill">Non lu</span>' : ''}`;
-                    conversationsList.appendChild(li);
-                });
-            } else { conversationsList.innerHTML = '<li class="list-group-item">Aucune conversation trouvée.</li>'; }
-
-            // Display projects
-            if (data.projects && data.projects.length > 0) {
-                data.projects.forEach(project => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between align-items-start';
-                    li.innerHTML = `
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold"><a href="${project.url}" target="_blank">${project.title || 'Projet sans titre'}</a></div>
-                            <span>Budget: ${project.budget || 'N/A'}</span>
-                        </div>
-                        ${getStatusBadge(project.status)}
-                    `;
-                    projectsList.appendChild(li);
-                });
-            } else { projectsList.innerHTML = '<li class="list-group-item">Aucun projet trouvé.</li>'; }
-        }
-    </script>
-</body>
-</html>
+        </script>
+        </body>
+        </html>
