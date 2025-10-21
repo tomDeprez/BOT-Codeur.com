@@ -1,51 +1,27 @@
-# Suivi de Projet - Bot Codeur.com
+# Gemini - Journal des Modifications
 
-**Date :** 21 octobre 2025
+Ce document suit les modifications et les fonctionnalités ajoutées au projet BOT-Codeur.com.
 
-## Objectif du Projet
+## Session de Développement
 
-Créer un bot automatisé, testé et robuste pour le site `codeur.com`, contrôlable via une interface web.
+### Fonctionnalités Implémentées
 
----
+1.  **Planificateur d'Exécution Automatique Intelligent:**
+    *   Ajout d'une section sur l'interface utilisateur pour configurer et activer une exécution automatique du bot à un intervalle défini en minutes.
+    *   Le planificateur attend la fin de chaque cycle avant de programmer le suivant pour éviter les exécutions superposées. Le temps d'attente est ajusté dynamiquement : si un cycle est plus long que l'intervalle, le suivant démarre immédiatement ; s'il est plus court, le planificateur attend le temps restant.
 
-## Principes de Développement
+2.  **Journalisation (Logging) en Fichier et Affichage en Direct :**
+    *   Toutes les sorties de la console du bot sont désormais automatiquement enregistrées dans un fichier `bot.log`.
+    *   Une nouvelle section sur l'interface web affiche en temps réel les 30 dernières lignes de ce fichier, avec une actualisation toutes les 3 secondes pour un suivi en direct.
 
-- **La Qualité par les Tests :** Chaque nouvelle fonctionnalité doit être accompagnée de tests (unitaires ou d'intégration). La suite de tests complète (`npm test`) doit impérativement passer avec succès avant que le développement de la fonctionnalité soit considéré comme achevé. Après chaque modification, il est crucial de lancer les tests unitaires pour vérifier la non-régression et s'assurer que les changements n'ont pas introduit de nouveaux bugs.
+3.  **Gestion des Propositions Longues (>1000 caractères) :**
+    *   La logique d'envoi de proposition a été améliorée pour gérer les messages longs.
+    *   Si un message dépasse 1000 caractères, le bot envoie la première partie dans l'offre initiale, puis envoie automatiquement le reste du message en tant que commentaire sur cette même offre.
 
----
+4.  **Sauvegarde d'État par Étape :**
+    *   Pour améliorer la résilience, l'état des projets (`projects.json`) est maintenant sauvegardé après chaque phase majeure du processus (scraping, analyse, génération de proposition, et envoi).
+    *   Ceci permet de relancer le bot et de reprendre le travail à partir de la dernière étape réussie en cas d'erreur ou d'interruption.
 
-## Où nous en sommes
+### Corrections de Bugs
 
-### Phase 1 : Infrastructure et Configuration (Terminée)
-
-- [x] **Infrastructure et Configuration de Base :** Docker, UI V1, Config V1.
-- [x] **Améliorations de l'Interface (V2) :** Refonte visuelle, vérification de connexion.
-- [x] **Refactorisation de la Configuration (V3) :** 4 prompts, `auth.json`, `prompts.json`.
-
-### Phase 2 : Analyse des Données et Tests (Terminée)
-
-- [x] **Mise en Place des Tests :** Installation et configuration de Jest/Supertest. Tests pour l'API de configuration (`/api/config`).
-- [x] **Analyse des Données :**
-  - [x] Extraction des conversations.
-  - [x] Extraction des projets avec gestion d'état (statuts "pas visité", "visité").
-  - [x] Le bot scrape les détails (titre, budget, etc.) des nouveaux projets.
-  - [x] La base de données des projets (`projects.json`) est mise à jour de manière persistante.
-- [x] **Tests de la Logique Bot :** Rédaction de tests pour `runBotLogic`, simulant les appels réseau et la gestion des fichiers pour valider le cycle de vie des projets.
-- [x] **Interface Utilisateur :** Affichage des conversations et de la liste détaillée des projets avec leur statut. Ajout d'un bouton pour vider le cache des projets.
-
----
-
-## Prochaines Étapes
-
-La collecte de données est maintenant robuste et testée. Nous passons à l'intelligence artificielle.
-
-- [x] **Phase 3 : Intégration avec Ollama**
-  - [x] Modifier la logique du bot pour qu'il envoie les détails de chaque projet **visité** à l'API d'Ollama.
-  - [x] Utiliser le **Prompt d'Analyse de Projet** pour demander à l'IA si le projet est pertinent (par exemple, en répondant OUI/NON).
-  - [x] Mettre à jour le statut du projet dans `projects.json` avec le résultat de l'analyse de l'IA (ex: `status: 'analysé - pertinent'` ou `status: 'analysé - non pertinent'`).
-  - [x] Afficher ce nouveau statut sur l'interface.
-  - [x] Rédaction de tests unitaires pour l'intégration Ollama (analyse et génération de proposition).
-
-- [ ] **Phase 4 : Action du Bot (Réponse)**
-  - [ ] Pour les projets jugés pertinents, utiliser les autres prompts pour générer un devis et un message de réponse.
-  - [ ] Implémenter la logique pour poster cette réponse sur `codeur.com`.
+*   **Correction du Minuteur de Cycle :** Le calcul de la durée d'exécution du bot pour le planificateur était incorrect. Le problème a été résolu en s'assurant que le minuteur attend la résolution complète de la promesse de la fonction `runBotLogic`, garantissant une mesure de temps précise.

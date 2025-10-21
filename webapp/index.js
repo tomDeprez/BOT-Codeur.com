@@ -44,20 +44,43 @@ console.error = (...args) => logAndWrite('ERROR', originalConsoleError, ...args)
 console.warn = (...args) => logAndWrite('WARN', originalConsoleWarn, ...args);
 
 const { runBotLogic } = require('./bot.js');
-let botInterval;
+
+// --- Auto-run State ---
+let isAutoRunEnabled = false;
+let autoRunIntervalMinutes = 10;
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 // --- Auto-run Functions ---
-function startBotInterval(intervalMinutes) {
-    if (botInterval) {
-        clearInterval(botInterval);
+async function runBotLoop() {
+    if (!isAutoRunEnabled) {
+        console.log('Auto-run is disabled. Stopping the loop.');
+        return;
     }
-    if (intervalMinutes > 0) {
-        console.log(`Starting bot to run every ${intervalMinutes} minutes.`);
-        botInterval = setInterval(runBotLogic, intervalMinutes * 60 * 1000);
+
+    console.log('Starting bot execution cycle...');
+    const startTime = Date.now();
+
+    try {
+        await runBotLogic();
+    } catch (error) {
+        console.error('An error occurred during bot execution cycle:', error);
+    }
+
+    const endTime = Date.now();
+    const executionDurationMs = endTime - startTime;
+    const executionDurationMinutes = executionDurationMs / (60 * 1000);
+    console.log(`Bot cycle finished in ${executionDurationMinutes.toFixed(2)} minutes.`);
+
+    // If auto-run is still enabled after the run, schedule the next one.
+    if (isAutoRunEnabled) {
+        const intervalMs = autoRunIntervalMinutes * 60 * 1000;
+        const delayMs = Math.max(0, intervalMs - executionDurationMs);
+        
+        console.log(`Next bot run scheduled in ${(delayMs / (60 * 1000)).toFixed(2)} minutes.`);
+        setTimeout(runBotLoop, delayMs);
     }
 }
 
@@ -79,15 +102,17 @@ app.post('/api/interval-config', async (req, res) => {
         };
         await fs.writeFile(AUTO_RUN_CONFIG_FILE, JSON.stringify(config, null, 2));
 
-        if (config.enabled) {
-            startBotInterval(config.interval);
-        } else {
-            if (botInterval) {
-                clearInterval(botInterval);
-                botInterval = null;
-                console.log('Stopped automatic bot execution.');
-            }
+        const wasEnabled = isAutoRunEnabled;
+        isAutoRunEnabled = config.enabled;
+        autoRunIntervalMinutes = config.interval;
+
+        if (isAutoRunEnabled && !wasEnabled) {
+            console.log('Auto-run enabled. Starting bot loop.');
+            runBotLoop(); 
+        } else if (!isAutoRunEnabled && wasEnabled) {
+            console.log('Auto-run disabled by user. The loop will stop after the current cycle.');
         }
+
         res.json({ message: 'Configuration de l\'intervalle sauvegardée.' });
     } catch (error) {
         console.error('Error saving interval config:', error);
@@ -247,10 +272,10 @@ app.post('/api/clear-projects', async (req, res) => {
 
 // API endpoint to manually update project status
 app.post('/api/project-status', async (req, res) => {
-    const { url, status } = req.body;
+    const { url, statusProjet, statusTraitement } = req.body;
 
-    if (!url || !status) {
-        return res.status(400).json({ success: false, message: 'URL and status are required.' });
+    if (!url || !statusProjet || !statusTraitement) {
+        return res.status(400).json({ success: false, message: 'URL, statusProjet, and statusTraitement are required.' });
     }
 
     try {
@@ -263,7 +288,8 @@ app.post('/api/project-status', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Project not found.' });
         }
 
-        projects[projectIndex].status = status;
+        projects[projectIndex].statusProjet = statusProjet;
+        projects[projectIndex].statusTraitement = statusTraitement;
 
         await fs.writeFile(PROJECTS_FILE, JSON.stringify(projects, null, 2));
 
@@ -283,9 +309,10 @@ if (require.main === module) {
             .then(JSON.parse)
             .then(config => {
                 if (config.enabled && config.interval > 0) {
+                    isAutoRunEnabled = true;
+                    autoRunIntervalMinutes = config.interval;
                     console.log('Initial auto-run is enabled.');
-                    runBotLogic(); // Run once on start
-                    startBotInterval(config.interval);
+                    runBotLoop(); // Start the loop
                 }
             })
             .catch(() => {

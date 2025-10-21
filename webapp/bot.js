@@ -12,185 +12,187 @@ const CODEUR_BASE_URL = 'https://www.codeur.com';
 const CODEUR_MESSAGES_URL = `${CODEUR_BASE_URL}/messages`;
 const CODEUR_PROJECTS_URL = `${CODEUR_BASE_URL}/projects`;
 
-async function runBotLogic() {
-    console.log('Running bot logic...');
+function runBotLogic() {
+    return new Promise(async (resolve, reject) => {
+        console.log('Running bot logic...');
 
-    try {
-        // 1. Read configuration and prepare headers
-        const authData = await fs.readFile(AUTH_FILE, 'utf8').catch(() => null);
-        if (!authData) throw new Error('auth.json not found. Please save configuration first.');
+        try {
+            // 1. Read configuration and prepare headers
+            const authData = await fs.readFile(AUTH_FILE, 'utf8').catch(() => null);
+            if (!authData) throw new Error('auth.json not found. Please save configuration first.');
 
-        const config = JSON.parse(authData);
-        if (!config.sessionCookie) throw new Error('Session cookie not found in auth.json.');
+            const config = JSON.parse(authData);
+            if (!config.sessionCookie) throw new Error('Session cookie not found in auth.json.');
 
-        const headers = {
-            'Cookie': `__codeur_session_production=${config.sessionCookie}`,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
-        };
+            const headers = {
+                'Cookie': `__codeur_session_production=${config.sessionCookie}`,
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+            };
 
-        // == PART 1: MESSAGES ==
-        const conversations = await scrapeConversations(headers);
+            // == PART 1: MESSAGES ==
+            const conversations = await scrapeConversations(headers);
 
-        // == PART 2: PROJECTS ==
-        // Load existing projects from our JSON database
-        let existingProjects = await fs.readFile(PROJECTS_FILE, 'utf8').then(JSON.parse).catch(() => []);
-        const knownUrls = new Set(existingProjects.map(p => p.url));
+            // == PART 2: PROJECTS ==
+            // Load existing projects from our JSON database
+            let existingProjects = await fs.readFile(PROJECTS_FILE, 'utf8').then(JSON.parse).catch(() => []);
+            const knownUrls = new Set(existingProjects.map(p => p.url));
 
-        // Scrape the main project list page to find current projects
-        console.log(`Fetching ${CODEUR_PROJECTS_URL}...`);
-        const projectsPageResponse = await fetch(CODEUR_PROJECTS_URL, { headers });
-        if (!projectsPageResponse.ok) throw new Error(`Error fetching projects page: ${projectsPageResponse.statusText}`);
+            // Scrape the main project list page to find current projects
+            console.log(`Fetching ${CODEUR_PROJECTS_URL}...`);
+            const projectsPageResponse = await fetch(CODEUR_PROJECTS_URL, { headers });
+            if (!projectsPageResponse.ok) throw new Error(`Error fetching projects page: ${projectsPageResponse.statusText}`);
 
-        const projectsPageHtml = await projectsPageResponse.text();
-        const $projectList = cheerio.load(projectsPageHtml);
+            const projectsPageHtml = await projectsPageResponse.text();
+            const $projectList = cheerio.load(projectsPageHtml);
 
-        // Add new projects to our list
-        $projectList('h3.mb-0 > a.no-underline').each((i, el) => {
-            const href = $projectList(el).attr('href');
-            if (href) {
-                const projectUrl = `${CODEUR_BASE_URL}${href}`;
-                if (!knownUrls.has(projectUrl)) {
-                    console.log(`New project found: ${projectUrl}`);
-                    existingProjects.push({
-                        url: projectUrl,
-                        statusProjet: 'non analysé',
-                        statusTraitement: 'à scraper'
-                    });
-                    knownUrls.add(projectUrl); // Add to set to avoid duplicates in the same run
+            // Add new projects to our list
+            $projectList('h3.mb-0 > a.no-underline').each((i, el) => {
+                const href = $projectList(el).attr('href');
+                if (href) {
+                    const projectUrl = `${CODEUR_BASE_URL}${href}`;
+                    if (!knownUrls.has(projectUrl)) {
+                        console.log(`New project found: ${projectUrl}`);
+                        existingProjects.push({
+                            url: projectUrl,
+                            statusProjet: 'non analysé',
+                            statusTraitement: 'à scraper'
+                        });
+                        knownUrls.add(projectUrl); // Add to set to avoid duplicates in the same run
+                    }
                 }
-            }
-        });
+            });
 
-        // --- Phase 1: Scraping projects ---
-        const projectsToScrape = existingProjects.filter(p => p.statusTraitement === 'à scraper');
-        if (projectsToScrape.length > 0) {
-            console.log(`Scraping ${projectsToScrape.length} project(s)...`);
-            for (const project of projectsToScrape) {
-                try {
-                    console.log(` - Scraping ${project.url}`);
-                    const projectPageResponse = await fetch(project.url, { headers });
-                    if (!projectPageResponse.ok) {
-                        console.warn(`  - Could not fetch ${project.url}, skipping.`);
+            // --- Phase 1: Scraping projects ---
+            const projectsToScrape = existingProjects.filter(p => p.statusTraitement === 'à scraper');
+            if (projectsToScrape.length > 0) {
+                console.log(`Scraping ${projectsToScrape.length} project(s)...`);
+                for (const project of projectsToScrape) {
+                    try {
+                        console.log(` - Scraping ${project.url}`);
+                        const projectPageResponse = await fetch(project.url, { headers });
+                        if (!projectPageResponse.ok) {
+                            console.warn(`  - Could not fetch ${project.url}, skipping.`);
+                            project.statusTraitement = 'erreur scraping';
+                            continue;
+                        }
+                        const projectHtml = await projectPageResponse.text();
+                        const $detail = cheerio.load(projectHtml);
+
+                        project.title = $detail('h1.text-darker').text().trim();
+                        project.description = $detail('div.project-description div.content').text().trim();
+                        project.budget = $detail('p:has(svg.fa-icon-euro-sign) span.font-semibold').text().trim();
+                        project.skills = $detail('section.pt-0 a[href*="/users/c/"]').map((i, el) => $detail(el).text().trim()).get();
+                        project.statusTraitement = 'à analyser';
+                    } catch (error) {
+                        console.error(`  - Error scraping project ${project.url}:`, error);
                         project.statusTraitement = 'erreur scraping';
-                        continue;
                     }
-                    const projectHtml = await projectPageResponse.text();
-                    const $detail = cheerio.load(projectHtml);
-
-                    project.title = $detail('h1.text-darker').text().trim();
-                    project.description = $detail('div.project-description div.content').text().trim();
-                    project.budget = $detail('p:has(svg.fa-icon-euro-sign) span.font-semibold').text().trim();
-                    project.skills = $detail('section.pt-0 a[href*="/users/c/"]').map((i, el) => $detail(el).text().trim()).get();
-                    project.statusTraitement = 'à analyser';
-                } catch (error) {
-                    console.error(`  - Error scraping project ${project.url}:`, error);
-                    project.statusTraitement = 'erreur scraping';
                 }
             }
-        }
-        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
-        console.log('Projects data saved after scraping phase.');
+            await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+            console.log('Projects data saved after scraping phase.');
 
-        // --- Phase 2: Analyzing projects with Ollama ---
-        const projectsToAnalyze = existingProjects.filter(p => p.statusTraitement === 'à analyser');
-        if (projectsToAnalyze.length > 0) {
-            console.log(`Analyzing ${projectsToAnalyze.length} project(s) with Ollama...`);
-            for (const project of projectsToAnalyze) {
-                try {
-                    console.log(`  - Analyzing ${project.url}...`);
-                    const analysisResult = await analyzeProjectWithOllama(project); // Returns 'pertinent' or 'non pertinent'
-                    project.statusProjet = analysisResult;
-                    if (analysisResult === 'pertinent') {
-                        project.statusTraitement = 'à proposer';
-                    } else {
-                        project.statusTraitement = 'terminé'; // Non-pertinent projects are done
+            // --- Phase 2: Analyzing projects with Ollama ---
+            const projectsToAnalyze = existingProjects.filter(p => p.statusTraitement === 'à analyser');
+            if (projectsToAnalyze.length > 0) {
+                console.log(`Analyzing ${projectsToAnalyze.length} project(s) with Ollama...`);
+                for (const project of projectsToAnalyze) {
+                    try {
+                        console.log(`  - Analyzing ${project.url}...`);
+                        const analysisResult = await analyzeProjectWithOllama(project); // Returns 'pertinent' or 'non pertinent'
+                        project.statusProjet = analysisResult;
+                        if (analysisResult === 'pertinent') {
+                            project.statusTraitement = 'à proposer';
+                        } else {
+                            project.statusTraitement = 'terminé'; // Non-pertinent projects are done
+                        }
+                        console.log(`  - Analysis complete. Project status: ${project.statusProjet}, Treatment status: ${project.statusTraitement}`);
+                    } catch (error) {
+                        console.error(`  - Error analyzing project ${project.url} with Ollama:`, error);
+                        project.statusTraitement = 'erreur analyse';
                     }
-                    console.log(`  - Analysis complete. Project status: ${project.statusProjet}, Treatment status: ${project.statusTraitement}`);
-                } catch (error) {
-                    console.error(`  - Error analyzing project ${project.url} with Ollama:`, error);
-                    project.statusTraitement = 'erreur analyse';
                 }
             }
-        }
-        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
-        console.log('Projects data saved after analysis phase.');
+            await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+            console.log('Projects data saved after analysis phase.');
 
-        // --- Phase 3: Generating proposals for pertinent projects ---
-        const projectsToPropose = existingProjects.filter(p => p.statusTraitement === 'à proposer');
-        if (projectsToPropose.length > 0) {
-            console.log(`Generating proposals for ${projectsToPropose.length} pertinent project(s)...`);
-            for (const project of projectsToPropose) {
-                try {
-                    console.log(`  - Generating proposal for ${project.url}...`);
-                    const proposal = await generateProposalWithOllama(project);
-                    project.proposal = proposal; // Store the generated proposal
-                    project.statusTraitement = 'à envoyer'; // Proposal generated, ready to be sent
-                    console.log(`  - Proposal generated for ${project.url}, ready to send.`);
-                } catch (error) {
-                    console.error(`  - Error generating proposal for ${project.url}:`, error);
-                    project.statusTraitement = 'erreur proposition';
+            // --- Phase 3: Generating proposals for pertinent projects ---
+            const projectsToPropose = existingProjects.filter(p => p.statusTraitement === 'à proposer');
+            if (projectsToPropose.length > 0) {
+                console.log(`Generating proposals for ${projectsToPropose.length} pertinent project(s)...`);
+                for (const project of projectsToPropose) {
+                    try {
+                        console.log(`  - Generating proposal for ${project.url}...`);
+                        const proposal = await generateProposalWithOllama(project);
+                        project.proposal = proposal; // Store the generated proposal
+                        project.statusTraitement = 'à envoyer'; // Proposal generated, ready to be sent
+                        console.log(`  - Proposal generated for ${project.url}, ready to send.`);
+                    } catch (error) {
+                        console.error(`  - Error generating proposal for ${project.url}:`, error);
+                        project.statusTraitement = 'erreur proposition';
+                    }
                 }
             }
-        }
-        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
-        console.log('Projects data saved after proposal generation phase.');
+            await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+            console.log('Projects data saved after proposal generation phase.');
 
-        // --- Phase 4: Sending proposals ---
-        const projectsToSend = existingProjects.filter(p => p.statusTraitement === 'à envoyer');
-        if (projectsToSend.length > 0) {
-            console.log(`Sending ${projectsToSend.length} proposal(s)...`);
-            for (const project of projectsToSend) {
-                try {
-                    console.log(`  - Sending proposal for ${project.url}...`);
-                    // Extract project ID from URL
-                    const projectIdMatch = project.url.match(/\/projects\/(\d+)-/);
-                    if (!projectIdMatch) {
-                        console.error(`  - Could not extract project ID from URL: ${project.url}`);
-                        project.statusTraitement = 'erreur envoi';
-                        continue;
-                    }
-                    const projectId = projectIdMatch[1];
+            // --- Phase 4: Sending proposals ---
+            const projectsToSend = existingProjects.filter(p => p.statusTraitement === 'à envoyer');
+            if (projectsToSend.length > 0) {
+                console.log(`Sending ${projectsToSend.length} proposal(s)...`);
+                for (const project of projectsToSend) {
+                    try {
+                        console.log(`  - Sending proposal for ${project.url}...`);
+                        // Extract project ID from URL
+                        const projectIdMatch = project.url.match(/\/projects\/(\d+)-/);
+                        if (!projectIdMatch) {
+                            console.error(`  - Could not extract project ID from URL: ${project.url}`);
+                            project.statusTraitement = 'erreur envoi';
+                            continue;
+                        }
+                        const projectId = projectIdMatch[1];
 
-                    // Fetch project page to get CSRF token
-                    const projectPageResponse = await fetch(project.url, { headers });
-                    if (!projectPageResponse.ok) {
-                        console.warn(`  - Could not fetch project page for CSRF token: ${project.url}, skipping.`);
-                        project.statusTraitement = 'erreur envoi';
-                        continue;
-                    }
-                    const projectPageHtml = await projectPageResponse.text();
-                    const $projectPage = cheerio.load(projectPageHtml);
-                    const csrfToken = $projectPage('meta[name="csrf-token"]').attr('content');
+                        // Fetch project page to get CSRF token
+                        const projectPageResponse = await fetch(project.url, { headers });
+                        if (!projectPageResponse.ok) {
+                            console.warn(`  - Could not fetch project page for CSRF token: ${project.url}, skipping.`);
+                            project.statusTraitement = 'erreur envoi';
+                            continue;
+                        }
+                        const projectPageHtml = await projectPageResponse.text();
+                        const $projectPage = cheerio.load(projectPageHtml);
+                        const csrfToken = $projectPage('meta[name="csrf-token"]').attr('content');
 
-                    if (!csrfToken) {
-                        console.error(`  - CSRF token not found on page: ${project.url}`);
-                        project.statusTraitement = 'erreur envoi';
-                        continue;
-                    }
+                        if (!csrfToken) {
+                            console.error(`  - CSRF token not found on page: ${project.url}`);
+                            project.statusTraitement = 'erreur envoi';
+                            continue;
+                        }
 
-                    const sendSuccess = await sendProposal(project, headers, csrfToken, projectId);
-                    if (sendSuccess) {
-                        project.statusTraitement = 'terminé';
-                        console.log(`  - Proposal sent successfully for ${project.url}`);
-                    } else {
+                        const sendSuccess = await sendProposal(project, headers, csrfToken, projectId);
+                        if (sendSuccess) {
+                            project.statusTraitement = 'terminé';
+                            console.log(`  - Proposal sent successfully for ${project.url}`);
+                        } else {
+                            project.statusTraitement = 'erreur envoi';
+                            console.log(`  - Failed to send proposal for ${project.url}`);
+                        }
+                    } catch (error) {
+                        console.error(`  - Error sending proposal for ${project.url}:`, error);
                         project.statusTraitement = 'erreur envoi';
-                        console.log(`  - Failed to send proposal for ${project.url}`);
                     }
-                } catch (error) {
-                    console.error(`  - Error sending proposal for ${project.url}:`, error);
-                    project.statusTraitement = 'erreur envoi';
                 }
             }
-        }
-        // Save updated projects to JSON database
-        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
-        console.log('Projects data saved after sending proposals phase.');
+            // Save updated projects to JSON database
+            await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+            console.log('Projects data saved after sending proposals phase.');
 
-        return { success: true, data: { conversations, projects: existingProjects } };
-    } catch (error) {
-        console.error('Error in bot logic:', error);
-        return { success: false, message: error.message };
-    }
+            resolve({ success: true, data: { conversations, projects: existingProjects } });
+        } catch (error) {
+            console.error('Error in bot logic:', error);
+            resolve({ success: false, message: error.message });
+        }
+    });
 }
 
 async function scrapeConversations(headers) {
@@ -433,7 +435,7 @@ async function sendProposal(project, headers, csrfToken, projectId) {
 
     if (response.ok) {
         const responseText = await response.text();
-        const offerIdMatch = responseText.match(/offer_(\d+)/);
+        const offerIdMatch = responseText.match(/#offer_(\d+)/);
 
         if (offerIdMatch && project.proposal.messageSuite) {
             const offerId = offerIdMatch[1];

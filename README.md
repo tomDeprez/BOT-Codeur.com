@@ -18,17 +18,15 @@ Le bot est entièrement configurable et contrôlable via une interface web moder
 
 ## ✨ Features
 
-- **Interface de Configuration Web :** Une page web au design moderne pour configurer le bot.
+- **Interface de Configuration Web :** Une page web pour configurer et piloter le bot.
+- **Exécution Automatique Intelligente :** Configurez le bot pour qu'il s'exécute à un intervalle de temps défini. Le planificateur attend la fin de chaque cycle pour éviter les blocages.
+- **Journalisation en Temps Réel :** Suivez l'activité du bot en direct depuis l'interface web grâce à un fichier de log.
 - **Analyse des Données :**
-  - Extraction des conversations depuis la messagerie.
-  - Extraction des projets et de leurs détails (titre, budget, statut...).
+  - Extraction des conversations et des projets.
   - Gestion d'état pour ne traiter chaque projet qu'une seule fois.
-- **Contrôle Manuel :**
-  - Démarrez le bot quand vous le souhaitez grâce à un bouton sur l'interface.
-  - Videz le cache des projets pour forcer une nouvelle analyse complète.
-- **Visualisation des Résultats :** Les données extraites sont affichées directement sur la page.
-- **Configuration Modulaire :** Fichiers `auth.json` et `prompts.json` pour une gestion claire.
-- **IA Personnalisable (4 Prompts) :** Définissez la personnalité, la logique d'analyse, le format des devis et le style de réponse du bot.
+- **Sauvegarde d'État par Étape :** Le fichier `projects.json` est sauvegardé après chaque phase (scraping, analyse, etc.) pour une meilleure résilience.
+- **Envoi de Propositions en Plusieurs Parties :** Gère automatiquement les messages de plus de 1000 caractères en les envoyant en tant que commentaire.
+- **IA Personnalisable :** Définissez la personnalité du bot et sa logique d'analyse et de réponse via des prompts.
 - **Tests Unitaires :** Une suite de tests avec Jest pour garantir la stabilité et éviter les régressions.
 - **Containerisation :** Le projet est entièrement dockerisé pour un déploiement facile.
 
@@ -55,7 +53,7 @@ Avant de commencer, assurez-vous d'avoir installé [Docker](https://www.docker.c
 
 1.  **Accédez à l'interface :** `http://localhost:3000`.
 2.  **Configurez le bot :** Remplissez le cookie, les prompts, et sauvegardez.
-3.  **Lancez le Bot :** Cliquez sur **"Démarrer le Bot"** pour lancer l'analyse. Les résultats s'afficheront sur la page.
+3.  **Lancez le Bot :** Cliquez sur **"Démarrer le Bot"** pour une exécution manuelle ou configurez l'exécution automatique.
 
 ## 🧪 Tests
 
@@ -68,26 +66,16 @@ npm test
 ## 📈 Statut du Projet
 
 - [x] **Phase 1 : Infrastructure et Configuration (Terminée)**
-  - [x] Infrastructure Docker, UI V1, Config V1.
-  - [x] Amélioration UI (V2) et refactorisation de la config (V3).
-
 - [x] **Phase 2 : Analyse des Données et Tests (Terminée)**
-  - [x] Ajout de `cheerio` pour le parsing HTML.
-  - [x] Extraction des conversations et des URLs de projets.
-  - [x] Déclenchement manuel et affichage des résultats sur l'UI.
-  - [x] **Mise en place de l'environnement de test avec Jest et Supertest.**
-  - [x] **Rédaction de tests pour la sauvegarde de la configuration.**
-
-- [x] **Phase 3 : Intégration avec Ollama (En cours)**
-  - [x] Modifier la logique du bot pour qu'il envoie les détails de chaque projet **visité** à l'API d'Ollama.
-  - [x] Utiliser le **Prompt d'Analyse de Projet** pour demander à l'IA si le projet est pertinent (par exemple, en répondant OUI/NON).
-  - [x] Mettre à jour le statut du projet dans `projects.json` avec le résultat de l'analyse de l'IA (ex: `status: 'analysé - pertinent'` ou `status: 'analysé - non pertinent'`).
-  - [x] Afficher ce nouveau statut sur l'interface.
-  - [x] **Rédaction de tests unitaires pour l'intégration Ollama (analyse et génération de proposition).**
-
-- [ ] **Phase 4 : Action du Bot (Réponse)**
-  - [ ] Pour les projets jugés pertinents, utiliser les autres prompts pour générer un devis et un message de réponse.
-  - [ ] Implémenter la logique pour poster cette réponse sur `codeur.com`.
+- [x] **Phase 3 : Intégration avec Ollama (Terminée)**
+- [x] **Phase 4 : Action du Bot (Réponse) (Terminée)**
+  - [x] Génération de devis et message de réponse pour les projets pertinents.
+  - [x] Implémentation de la logique pour poster la réponse sur `codeur.com`.
+  - [x] Gestion des réponses en plusieurs parties (si > 1000 caractères).
+- [x] **Phase 5 : Améliorations et Fiabilité (Terminée)**
+  - [x] Ajout de la journalisation (logging) en direct.
+  - [x] Ajout d'un planificateur intelligent pour l'exécution automatique.
+  - [x] Amélioration de la résilience avec la sauvegarde par étape.
 
 ---
 
