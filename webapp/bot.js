@@ -88,6 +88,8 @@ async function runBotLogic() {
                 }
             }
         }
+        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+        console.log('Projects data saved after scraping phase.');
 
         // --- Phase 2: Analyzing projects with Ollama ---
         const projectsToAnalyze = existingProjects.filter(p => p.statusTraitement === 'à analyser');
@@ -110,6 +112,8 @@ async function runBotLogic() {
                 }
             }
         }
+        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+        console.log('Projects data saved after analysis phase.');
 
         // --- Phase 3: Generating proposals for pertinent projects ---
         const projectsToPropose = existingProjects.filter(p => p.statusTraitement === 'à proposer');
@@ -128,6 +132,8 @@ async function runBotLogic() {
                 }
             }
         }
+        await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
+        console.log('Projects data saved after proposal generation phase.');
 
         // --- Phase 4: Sending proposals ---
         const projectsToSend = existingProjects.filter(p => p.statusTraitement === 'à envoyer');
@@ -178,7 +184,7 @@ async function runBotLogic() {
         }
         // Save updated projects to JSON database
         await fs.writeFile(PROJECTS_FILE, JSON.stringify(existingProjects, null, 2));
-        console.log('Projects data saved.');
+        console.log('Projects data saved after sending proposals phase.');
 
         return { success: true, data: { conversations, projects: existingProjects } };
     } catch (error) {
@@ -299,26 +305,11 @@ async function generateProposalWithOllama(project) {
 
     // 2. Construct the full prompt for Ollama
     const fullPrompt = `
-            En tant qu'expert, générez une proposition pour le projet suivant en format JSON.
-            Voici les détails du projet :
+            Pour le message commence toujours par Bonjour, je veux pas de titre pas d'étoiles, fait Un message humain de proposition pour le projettu dois te faire passer pour ${promptPersonality}, et respecter cette logique ${quotationPrompt}
+            Voici le projet :
             - Titre : ${project.title}
             - Description : ${project.description}
             - Budget : ${project.budget}
-
-            Votre proposition doit inclure les champs suivants :
-            - "amount": Le montant de l'offre en euros (nombre entier).
-            - "deadline": Le délai de livraison en jours (nombre entier).
-            - "message": Pour le message commence toujours par Bonjour, fait Un message humain de proposition tu dois te faire passer pour ${promptPersonality}, et respecter cette logique ${quotationPrompt}.
-
-            Exemple de réponse JSON attendue :
-            {
-                "amount": 0,
-                "deadline": 0,
-                "message": ""
-            }
-
-        
-            Répondez uniquement avec le JSON, sans texte additionnel.
             `;
 
     // 3. Call Ollama API
@@ -342,29 +333,19 @@ async function generateProposalWithOllama(project) {
     const result = await response.json();
     const ollamaResponse = result.response.trim();
 
-    try {
-        // Robust JSON parsing: find the first { and last } to extract the JSON object
-        const jsonStartIndex = ollamaResponse.indexOf('{');
-        const jsonEndIndex = ollamaResponse.lastIndexOf('}');
+    const proposal = {
+        amount: 100, // Default budget
+        deadline: 7, // Default deadline in days
+    };
 
-        if (jsonStartIndex === -1 || jsonEndIndex === -1) {
-            throw new Error('No JSON object found in Ollama response.');
-        }
-
-        const jsonString = ollamaResponse.substring(jsonStartIndex, jsonEndIndex + 1);
-        const proposal = JSON.parse(jsonString);
-
-        if (typeof proposal.amount !== 'number' || typeof proposal.deadline !== 'number' || typeof proposal.message !== 'string') {
-            throw new Error('Invalid JSON format from Ollama API.');
-        }
-        if (proposal.message.length > 1000) {
-            proposal.message = proposal.message.substring(0, 1000); // Truncate if too long
-        }
-        return proposal;
-    } catch (jsonError) {
-        console.error('Error parsing Ollama response as JSON:', ollamaResponse, jsonError);
-        throw new Error('Failed to parse Ollama proposal response.');
+    if (ollamaResponse.length > 1000) {
+        proposal.message = ollamaResponse.substring(0, 1000);
+        proposal.messageSuite = ollamaResponse.substring(1000);
+    } else {
+        proposal.message = ollamaResponse;
     }
+
+    return proposal;
 }
 
 async function sendProposal(project, headers, csrfToken, projectId) {
