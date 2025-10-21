@@ -561,8 +561,8 @@
                                                     Action
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#" onclick="updateProjectStatus('${project.url}', 'pertinent')">Marquer Pertinent</a></li>
-                                                    <li><a class="dropdown-item" href="#" onclick="updateProjectStatus('${project.url}', 'non pertinent')">Marquer Non Pertinent</a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateProjectStatus(event, '${project.url}', 'pertinent')">Marquer Pertinent</a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateProjectStatus(event, '${project.url}', 'non pertinent')">Marquer Non Pertinent</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -579,7 +579,8 @@
                                 });
                             } else { projectsList.innerHTML = '<li class="list-group-item">Aucun projet trouvé.</li>'; }
                         }
-            function updateProjectStatus(projectUrl, newProjectStatus) {
+            function updateProjectStatus(event, projectUrl, newProjectStatus) {
+                event.preventDefault();
                 let newTreatmentStatus;
                 if (newProjectStatus === 'pertinent') {
                     newTreatmentStatus = 'à proposer';
@@ -606,6 +607,16 @@
                         if (treatmentStatusElement) {
                             treatmentStatusElement.innerHTML = getTreatmentStatusBadge(newTreatmentStatus);
                         }
+                        const botStatusDiv = document.getElementById('bot-status');
+                        botStatusDiv.className = 'alert alert-success';
+                        botStatusDiv.innerHTML = `<i class="bi bi-check-circle-fill"></i> Statut du projet mis à jour avec succès.`;
+                        setTimeout(() => {
+                            // Restore only if it hasn't been changed by another process
+                            if (botStatusDiv.innerHTML.includes('Statut du projet mis à jour')) {
+                                botStatusDiv.className = 'alert alert-secondary';
+                                botStatusDiv.innerHTML = 'En attente...';
+                            }
+                        }, 3000);
                     } else {
                         alert(`Erreur lors de la mise à jour du statut: ${result.message}`);
                     }
