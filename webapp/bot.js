@@ -109,7 +109,7 @@ function runBotLogic() {
                         console.log(`  - Analysis complete. Project status: ${project.statusProjet}, Treatment status: ${project.statusTraitement}`);
                     } catch (error) {
                         console.error(`  - Error analyzing project ${project.url} with Ollama:`, error);
-                        project.statusTraitement = 'erreur analyse';
+                        project.statusTraitement = 'à analyser';
                     }
                 }
             }
@@ -333,7 +333,8 @@ async function generateProposalWithOllama(project) {
     }
 
     const result = await response.json();
-    const ollamaResponse = result.response.trim();
+    const ollamaResponse = result.response.trim().replace(/\*/g, '');
+
 
     const proposal = {
         amount: 100, // Default budget
